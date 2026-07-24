@@ -784,6 +784,7 @@ function renderNav(){
       <button class="section-tab ${state.section === 'upgrade' ? 'active' : ''}" data-section="upgrade">Upgrading</button>
       <button class="section-tab ${state.section === 'bosses' ? 'active' : ''}" data-section="bosses">Bosses</button>
       <button class="section-tab ${state.section === 'deviants' ? 'active' : ''}" data-section="deviants">Deviants</button>
+      <button class="section-tab ${state.section === 'utilities' ? 'active' : ''}" data-section="utilities">Utilities</button>
       <button class="section-tab ${state.section === 'more' ? 'active' : ''}" data-section="more">More soon</button>
     </div>`;
 
@@ -1009,6 +1010,30 @@ function renderUpgradeGuide(){
   `;
 }
 
+function renderUtilitiesGuide(){
+  const el = document.getElementById("content");
+
+  el.innerHTML = `
+    <div class="view-title">Item Frame Lock</div>
+    <div class="guide-lead">A per-frame password lock for item frames — protects a specific frame's item and the block it's mounted on from anyone who doesn't know the password. Toggled server-wide via <strong>/featuretoggle → Item Frame Lock</strong>; if it's off, item frames behave like vanilla.</div>
+
+    <div class="guide-h2">1. Locking a frame</div>
+    <div class="guide-p">Rename a <strong>Stick</strong> in an anvil to <code>lock &lt;password&gt;</code> (e.g. <code>lock hunter2</code>), then right-click the item frame you want to protect. The frame locks to that password, you get action-bar confirmation, and the stick itself is untouched — reuse it, or make more sticks with the same password to share access.</div>
+
+    <div class="guide-h2">2. Unlocking a frame</div>
+    <div class="guide-p">Rename a Stick to <code>unlock &lt;password&gt;</code> and right-click the locked frame. The correct password clears the lock; a wrong one is rejected with an "Incorrect password" message and the frame stays locked.</div>
+
+    <div class="guide-h2">3. What locking protects</div>
+    <div class="step-list">
+      <div class="step"><span class="num">1</span><span class="txt"><strong>The held item</strong> — right-clicking a locked frame with anything other than the correct unlock stick does nothing: no rotating, no swapping, no removing, no placing a new item in.</span></div>
+      <div class="step"><span class="num">2</span><span class="txt"><strong>The frame itself</strong> — attacking a locked frame to break it is blocked, including damage from lava or fire.</span></div>
+      <div class="step"><span class="num">3</span><span class="txt"><strong>The block it's mounted on</strong> — breaking the block behind a locked frame is blocked, so you can't pop the frame off by removing its support.</span></div>
+    </div>
+
+    <div class="callout"><strong>This is a griefing deterrent, not encryption.</strong> The password is stored as plain text on the frame — it stops casual right-clicks and opportunistic breaking, not a determined attacker with server access. Staff holding the <code>itemframelock.bypass</code> permission can always break, attack, or unlock a locked frame without the password.</div>
+  `;
+}
+
 // ── Deviants (deviant/Deviant.java, DeviantType.java, DeviantGenerator.java,
 //    DeviantStatCalculator.java, DeviantLevelingService.java, DeviantSkillManager.java,
 //    DeviantSummonService.java, DeviantSummonCooldown.java, DeviantGuiManager.java) ──
@@ -1135,6 +1160,7 @@ function renderContent(){
   const el = document.getElementById("content");
 
   if (state.section === "upgrade") { renderUpgradeGuide(); return; }
+  if (state.section === "utilities") { renderUtilitiesGuide(); return; }
   if (state.section === "deviants") { renderDeviantsGuide(); return; }
   if (state.section === "bosses") {
     if (state.view.type === "wbdetail") renderBossDetail(state.view.id);
