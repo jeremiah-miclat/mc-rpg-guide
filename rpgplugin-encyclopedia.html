@@ -58,7 +58,7 @@
 
   a, button { font-family: inherit; }
 
-  .app { display: grid; grid-template-columns: 260px 1fr; grid-template-rows: auto 1fr; min-height: 100vh; }
+  .app { display: grid; grid-template-columns: 260px minmax(0, 1fr); grid-template-rows: auto 1fr; min-height: 100vh; }
 
   header.top {
     grid-column: 1 / -1;
@@ -130,7 +130,7 @@
   .nav-btn .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
   .nav-btn .count { margin-left: auto; color: var(--text-dim); font-variant-numeric: tabular-nums; font-size: 11.5px; }
 
-  main.content { padding: 22px 28px 60px; overflow-y: auto; }
+  main.content { padding: 22px 28px 60px; overflow-y: auto; overflow-x: hidden; min-width: 0; }
   .view-title { font-family: Cambria, "Iowan Old Style", Georgia, serif; font-size: 20px; margin: 2px 0 3px; text-wrap: balance; }
   .view-desc { color: var(--text-dim); font-size: 13px; margin-bottom: 18px; max-width: 70ch; }
 
