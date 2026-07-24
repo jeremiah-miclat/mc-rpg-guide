@@ -533,7 +533,7 @@ const BOSS_GUIDE = {
       { name:"Molten Manacle", cd:"80s", lines:[
         "Mark: every player and Deviant within <strong>100 blocks</strong> gets shackled at once, each resolving independently and in parallel.",
         "Escape: kite past 10 blocks from the boss during the 1.5s windup to melt the shackle off; Deviants can't act on this, so they're always seized once marked.",
-        "Seize: still shackled when the windup ends gets teleport-locked in place (Slowness IV + Mining Fatigue III) through 4 lava eruptions, ~0.5s apart, each an instant <strong>1× melee stat</strong> hit in a 3-block splash (catches bystanders too)." ] }
+        "Seize: still shackled when the windup ends gets teleport-locked in place (Slowness IV + Mining Fatigue III) through 4 lava eruptions, ~0.5s apart, each an instant <strong>1.5× melee stat</strong> hit in a 3-block splash (catches bystanders too)." ] }
     ],
     strategy: "Track its facing and step off the Magma Cleave line, and clear the Ground Slam ring in time. During Molten Rage, either move off your marked tile or help burst 15% of its HP to interrupt the channel. If shackled by Molten Manacle, sprint away from the boss during the windup before it locks in."
   },
@@ -560,7 +560,7 @@ const BOSS_GUIDE = {
         "Mark: every player and Deviant within <strong>100 blocks</strong> gets swarmed at once, each resolving independently and in parallel.",
         "Effect: 3 mobile \"Reveler\" decoys converge and circle you — one of them (not visibly marked) is the real anchor.",
         "Escape: kill the anchor decoy within the 1.5s windup to scatter the horde; Deviants can't act on this, so they're always seized once marked.",
-        "Seize: still swarmed when the windup ends gets teleport-locked in place (Slowness IV) while the decoys orbit you, through 4 hits, ~0.4s apart, each an instant <strong>1× melee stat</strong> hit in a 2-block splash (catches bystanders too)." ] }
+        "Seize: still swarmed when the windup ends gets teleport-locked in place (Slowness IV) while the decoys orbit you, through 4 hits, ~0.4s apart, each an instant <strong>1.5× melee stat</strong> hit in a 2-block splash (catches bystanders too)." ] }
     ],
     strategy: "Spread out your kills on the horde instead of clustering — a chain detonation hurts a group far more than one player. If branded, run or break line of sight fast, and track the Chaos Rush blinks so you're never standing in the final patch. If swarmed by Feeding Frenzy, find and kill the anchor Reveler before the horde closes in."
   },
@@ -582,7 +582,7 @@ const BOSS_GUIDE = {
       { name:"Resonant Grasp", cd:"90s", lines:[
         "Mark: every player and Deviant within <strong>100 blocks</strong> gets marked at once, each resolving independently and in parallel — works through walls, since the Warden hunts by vibration, not sight.",
         "Escape: sneak (go still) within the 4s tracking window to shake the mark off; Deviants can't act on this, so they're always seized once marked.",
-        "Seize: still marked when the window ends gets teleport-locked in place (Slowness IV + Mining Fatigue III) through 3 sonic pulses, ~0.7s apart, each an instant <strong>1× melee stat</strong> hit in a 3.5-block splash (catches bystanders too)." ] }
+        "Seize: still marked when the window ends gets teleport-locked in place (Slowness IV + Mining Fatigue III) through 3 sonic pulses, ~0.7s apart, each an instant <strong>1.5× melee stat</strong> hit in a 3.5-block splash (catches bystanders too)." ] }
     ],
     strategy: "Break line of sight or spread out before the 5s scream charge finishes — the shockwave only reaches 4 blocks, so back off early rather than tanking it. If marked by Resonant Grasp, stop moving (sneak) before the 4s window ends — it hunts by vibration, so hiding behind a wall won't help."
   },
@@ -622,7 +622,7 @@ const BOSS_GUIDE = {
       { name:"Tectonic Impale", cd:"78s", lines:[
         "Mark: every player and Deviant within <strong>100 blocks</strong> gets marked at once, each resolving independently and in parallel.",
         "Escape: be airborne (jump) at the exact instant the 1s rumble telegraph resolves to dodge the spikes entirely; Deviants can't act on this, so they're always seized once marked.",
-        "Seize: still grounded when it resolves gets teleport-locked in place (Slowness IV) through 3 spike impalements, ~0.6s apart, each an instant <strong>1× melee stat</strong> hit in a 3-block splash (catches bystanders too)." ] }
+        "Seize: still grounded when it resolves gets teleport-locked in place (Slowness IV) through 3 spike impalements, ~0.6s apart, each an instant <strong>1.5× melee stat</strong> hit in a 3-block splash (catches bystanders too)." ] }
     ],
     strategy: "Never melee it during its 5s freeze — the hit deals it no damage and comes right back at you. Once the freeze ends, watch for and sidestep the incoming boulder arcs. If marked by Tectonic Impale, time a jump for the moment the rumble telegraph finishes."
   },
@@ -645,7 +645,7 @@ const BOSS_GUIDE = {
       { name:"Glacial Ascension", cd:"75s", lines:[
         "Telegraph: marks every player and Deviant within <strong>100 blocks</strong> that currently has line of sight to it, each for its own 5s live tether — a given target's mark fizzles instantly (independent of the others) if their line of sight breaks, they leave the 100-block radius, or (players only) they go down.",
         "Effect: each target still marked when its own 5s ends is hoisted 5 blocks up from where it stands (capped by any ceiling overhead) and locked in place there — position pinned every tick, though they can still look around — while it disables its own AI and stares for 2s. Multiple targets can be seized and pinned at once, each at their own location; its AI stays disabled the whole time at least one target is still being held.",
-        "Then throws 5 icicles per pinned target in quick succession (~0.4s apart) at that target's hover point, each an instant <strong>1× splash stat</strong> hit in a 3-block splash radius (catches bystanders too, not just the marked target).",
+        "Then throws 5 icicles per pinned target in quick succession (~0.4s apart) at that target's hover point, each an instant <strong>1.5× splash stat</strong> hit in a 3-block splash radius (catches bystanders too, not just the marked target).",
         "Release: Levitation ends and each target falls normally (fall damage applies), landing with <strong>5s Slowness II</strong>.",
         "Not interruptible — unlike Ritual of Unmaking, there's no damage threshold that breaks the sequence early once a mark holds. Every valid target resolves independently and in parallel." ] },
       { name:"Ritual of Unmaking", cd:"100s", raid:true, lines:[
