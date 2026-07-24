@@ -1,0 +1,1243 @@
+<title>RPG Plugin Encyclopedia</title>
+<style>
+  :root {
+    --bg: #eef1ee;
+    --surface: #ffffff;
+    --surface-2: #e2e7e0;
+    --border: rgba(20,30,25,0.13);
+    --text: #1b201c;
+    --text-dim: #5c655f;
+    --accent: #a1791f;
+    --accent-2: #7d4fc4;
+    --vanilla: #6b7280;
+    --rpg: #2f8f4e;
+    --deviant: #93701a;
+    --chip-bg: rgba(0,0,0,0.045);
+    --shadow: 0 1px 2px rgba(20,20,10,.05), 0 6px 16px rgba(20,20,10,.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151a;
+      --surface: #1a1e25;
+      --surface-2: #0f1114;
+      --border: rgba(255,255,255,.09);
+      --text: #e8e6df;
+      --text-dim: #9aa1a6;
+      --accent: #d9a94a;
+      --accent-2: #b895ec;
+      --vanilla: #9aa0a6;
+      --rpg: #74c67c;
+      --deviant: #e0c368;
+      --chip-bg: rgba(255,255,255,.05);
+      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 10px 24px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #12151a; --surface: #1a1e25; --surface-2: #0f1114; --border: rgba(255,255,255,.09);
+    --text: #e8e6df; --text-dim: #9aa1a6; --accent: #d9a94a; --accent-2: #b895ec;
+    --vanilla: #9aa0a6; --rpg: #74c67c; --deviant: #e0c368; --chip-bg: rgba(255,255,255,.05);
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 10px 24px rgba(0,0,0,.4);
+  }
+  :root[data-theme="light"] {
+    --bg: #eef1ee; --surface: #ffffff; --surface-2: #e2e7e0; --border: rgba(20,30,25,0.13);
+    --text: #1b201c; --text-dim: #5c655f; --accent: #a1791f; --accent-2: #7d4fc4;
+    --vanilla: #6b7280; --rpg: #2f8f4e; --deviant: #93701a; --chip-bg: rgba(0,0,0,0.045);
+    --shadow: 0 1px 2px rgba(20,20,10,.05), 0 6px 16px rgba(20,20,10,.05);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+  ::selection { background: var(--accent); color: #1b201c; }
+
+  a, button { font-family: inherit; }
+
+  .app { display: grid; grid-template-columns: 260px 1fr; grid-template-rows: auto 1fr; min-height: 100vh; }
+
+  header.top {
+    grid-column: 1 / -1;
+    display: flex; align-items: baseline; gap: 14px;
+    padding: 22px 28px 16px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  header.top h1 {
+    font-family: Cambria, "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: .2px;
+    color: var(--accent);
+    margin: 0;
+    text-wrap: balance;
+  }
+  header.top .sub { color: var(--text-dim); font-size: 12.5px; max-width: 50ch; }
+  header.top .search-wrap { margin-left: auto; min-width: 240px; }
+  #search {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 13.5px;
+    outline: none;
+  }
+  #search:focus { border-color: var(--accent); }
+
+  nav.side {
+    border-right: 1px solid var(--border);
+    padding: 14px 12px 40px;
+    overflow-y: auto;
+  }
+
+  .section-tabs { display: flex; gap: 6px; padding: 2px 2px 14px; border-bottom: 1px solid var(--border); margin-bottom: 6px; }
+  .section-tab {
+    flex: 1; text-align: center; padding: 7px 6px;
+    border-radius: 7px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text);
+    font-size: 12px; font-weight: 650; cursor: pointer;
+  }
+  .section-tab.active { background: var(--accent); color: #1c1608; border-color: var(--accent); }
+  .section-tab.disabled { color: var(--text-dim); cursor: default; opacity: .65; }
+  .section-tab.disabled:hover { background: var(--surface); }
+
+  .nav-heading {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: var(--text-dim);
+    padding: 14px 10px 6px;
+  }
+  .nav-heading:first-child { padding-top: 2px; }
+  .nav-btn {
+    display: flex; align-items: center; gap: 9px;
+    width: 100%;
+    background: none; border: none; text-align: left;
+    color: var(--text);
+    padding: 7px 10px;
+    border-radius: 7px;
+    font-size: 13.5px;
+    cursor: pointer;
+  }
+  .nav-btn:hover { background: var(--chip-bg); }
+  .nav-btn.active { background: var(--surface-2); font-weight: 600; }
+  .nav-btn .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .nav-btn .count { margin-left: auto; color: var(--text-dim); font-variant-numeric: tabular-nums; font-size: 11.5px; }
+
+  main.content { padding: 22px 28px 60px; overflow-y: auto; }
+  .view-title { font-family: Cambria, "Iowan Old Style", Georgia, serif; font-size: 20px; margin: 2px 0 3px; text-wrap: balance; }
+  .view-desc { color: var(--text-dim); font-size: 13px; margin-bottom: 18px; max-width: 70ch; }
+
+  .set-block {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 16px 18px;
+    margin-bottom: 22px;
+    background: linear-gradient(180deg, var(--chip-bg), transparent 40%);
+  }
+  .set-block-head {
+    display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; flex-wrap: wrap;
+  }
+  .set-block-head h3 { margin: 0; font-size: 16px; font-family: Cambria, Georgia, serif; }
+  .boss-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; color: var(--text-dim);
+    background: var(--chip-bg); border-radius: 999px; padding: 2px 9px 2px 6px;
+  }
+  .boss-pill .dot { width: 7px; height: 7px; border-radius: 50%; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+  .grid.tight { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+
+  .card {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 13px 14px 14px;
+    box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 8px;
+    min-width: 0;
+  }
+  .card.bonus { border-top: 2.5px solid var(--accent-2); }
+  .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .card-head .name { font-weight: 650; font-size: 14.5px; text-wrap: balance; }
+  .card-head .slot-tag { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .06em; }
+  .cd-badge {
+    flex: none;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 11px;
+    background: var(--chip-bg);
+    border-radius: 6px;
+    padding: 3px 7px;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .cd-badge.na { color: var(--text-dim); }
+
+  .skill-name { color: var(--accent-2); font-weight: 600; font-size: 13px; }
+  .activation { color: var(--text-dim); font-size: 12px; }
+
+  .rows { display: flex; flex-direction: column; gap: 5px; margin-top: 2px; border-top: 1px solid var(--border); padding-top: 8px; }
+  .row { display: flex; gap: 7px; font-size: 12.5px; }
+  .row .tag { flex: none; width: 58px; font-size: 10px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700; padding-top: 1px; }
+  .row.vanilla .tag { color: var(--vanilla); }
+  .row.rpg .tag { color: var(--rpg); }
+  .row.deviant .tag { color: var(--deviant); }
+  .row .val { color: var(--text); }
+
+  .drop-line { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+  .drop-line .dot { display:inline-block; width:6px; height:6px; border-radius:50%; margin-right:5px; vertical-align:1px; }
+
+  .placeholder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 6px; }
+  .placeholder-card {
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+  .placeholder-card .name { color: var(--text); font-weight: 650; font-size: 14px; margin-bottom: 4px; }
+
+  .guide-lead { color: var(--text-dim); font-size: 13.5px; max-width: 74ch; margin-bottom: 18px; }
+  .guide-h2 { font-family: Cambria, "Iowan Old Style", Georgia, serif; font-size: 16.5px; margin: 26px 0 4px; }
+  .guide-h2:first-of-type { margin-top: 0; }
+  .guide-p { color: var(--text-dim); font-size: 13px; max-width: 74ch; margin: 0 0 12px; }
+  .guide-p strong { color: var(--text); font-weight: 650; }
+
+  .mode-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin: 10px 0 6px; }
+  .mode-card {
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-2);
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 13px 14px 14px;
+    box-shadow: var(--shadow);
+  }
+  .mode-card h4 { margin: 0 0 6px; font-size: 13.5px; color: var(--accent-2); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .mode-card ul { margin: 0; padding-left: 18px; color: var(--text-dim); font-size: 12.5px; line-height: 1.55; }
+  .mode-card li { margin-bottom: 3px; }
+  .mode-card li strong { color: var(--text); font-weight: 600; }
+
+  .callout {
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    background: var(--chip-bg);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 12.5px;
+    color: var(--text-dim);
+    max-width: 74ch;
+    margin: 10px 0 20px;
+  }
+  .callout strong { color: var(--text); }
+
+  .stat-pool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; margin: 10px 0 6px; }
+  .stat-pill {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+  .stat-pill .stat-name { color: var(--text); font-weight: 600; }
+  .stat-pill .stat-target { color: var(--text-dim); float: right; font-variant-numeric: tabular-nums; }
+
+  .step-list { display: flex; flex-direction: column; gap: 10px; margin: 10px 0 20px; max-width: 74ch; }
+  .step { display: flex; gap: 10px; }
+  .step .num {
+    flex: none;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #1c1608;
+    font-size: 11.5px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step .txt { font-size: 13px; color: var(--text-dim); padding-top: 1px; }
+  .step .txt strong { color: var(--text); font-weight: 600; }
+
+  .jump-link {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 6px;
+    padding: 6px 12px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--chip-bg); color: var(--accent);
+    font-size: 12.5px; font-weight: 650; cursor: pointer;
+  }
+  .jump-link:hover { background: var(--surface-2); }
+  .wb-epithet { color: var(--text-dim); font-size: 13px; margin: -8px 0 14px; }
+
+  footer.credit {
+    grid-column: 1 / -1;
+    padding: 14px 28px 24px;
+    color: var(--text-dim);
+    font-size: 11px;
+    border-top: 1px solid var(--border);
+  }
+
+  .empty { color: var(--text-dim); font-size: 13px; padding: 30px 4px; }
+
+  @media (max-width: 760px) {
+    .app { grid-template-columns: 1fr; }
+    nav.side { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+</style>
+
+<div class="app">
+  <header class="top">
+    <div>
+      <h1>RPG Plugin Encyclopedia</h1>
+      <div class="sub">A living reference for every system in the plugin. Gear, Upgrading, World Bosses, and Deviants are fully documented below; more sections land here as they're written up.</div>
+    </div>
+    <div class="search-wrap">
+      <input id="search" type="text" placeholder="Search a name, skill, or effect…" autocomplete="off">
+    </div>
+  </header>
+
+  <nav class="side" id="nav"></nav>
+
+  <main class="content" id="content"></main>
+
+  <footer class="credit">
+    Gear section compiled from ItemUtils.java (item &amp; armor definitions), GearSkillListener.java (skill logic, cooldowns, activation triggers), GearInfoGui.java (in‑game /gearinfo lore text) and WorldBossGearDropTable.java (drop pools) — reflects what's implemented, not aspirational text. "RPG" rows are the bonus added on top of the flat vanilla effect, scaled by the stat named (Intelligence, Strength, Vitality share, etc.); "Flat‑only" means the vanilla effect doesn't scale with stats at all.
+    <br>Upgrading section compiled from RollableStat.java (stat pool &amp; per-level values), GearLevelSystem.java (Level/lore rendering), GearRegistry.java (Gear Level &amp; socket PDC), AscendingGUI.java/AscendingGUIListener.java (Combine Forge modes) and GearSkillListener.java's vBase/vSetBase/vAmplifier tiering helpers.
+    <br>World Bosses section compiled directly from WorldBossSummonListener.java (ritual recipes &amp; summoning), the per-boss skill managers (PiglinBruteSkillManager.java, ZombifiedPiglinSkillManager.java, RavagerSkillManager.java, EvokerSkillManager.java, WardenSkillManager.java/WardenChargeTask.java, WitherFlightController.java), WorldBossTraversalManager.java (shared traversal ability &amp; anti-cheese combat lock), MonsterInitializer.java (level/HP/damage scaling) and DeadMobListener.java (drop chances). The in-game /worldbossguide GUI text was resynced alongside this page — both now cover each boss's full current skill kit, including the four "mass seize" abilities (Molten Manacle, Feeding Frenzy, Resonant Grasp, Tectonic Impale) added since the previous pass.
+    <br>Deviants section compiled from Deviant.java/DeviantType.java (data model &amp; weapon restrictions), DeviantGenerator.java (stat/skill/element/trait rolls), DeviantStatCalculator.java (every derived-stat formula), DeviantLevelingService.java/AbyssAutoConverter.java (Abyss XP &amp; Level curve), DeviantSkillManager.java (skill effects &amp; cooldowns), DeviantSummonService.java/DeviantSummonCooldown.java (summon limits &amp; cooldowns) and DeviantGuiManager.java (buy/equip GUIs &amp; arena targeting).
+  </footer>
+</div>
+
+<script>
+const DEV = {
+  STD: "Fires the same way on a Deviant wielder, scaled off the Deviant's own stats (not its owner's).",
+  SUB: "A Deviant can't sneak/jump/charge, so this fires on-attack instead, cooldown-gated — same numbers/FX, different trigger.",
+  NA:  "Can't be equipped on a Deviant — offhand items are reserved for arrows (archer Deviants) or left empty.",
+  NA_ALCH: "Can't be equipped on a Deviant — offhand items are reserved for arrows (archer Deviants) or left empty. (No Alchemist Deviant class exists.)",
+  ARCHER: "Fires the same way on a Deviant wielder, scaled off the Deviant's own stats (not its owner's). Deviant archer types (Skeleton/Stray) can wield this.",
+  SET: "Applies to a Deviant the same way, checked against its own equipped set."
+};
+
+const BOSSES = {
+  piglin_brute:      { name: "Piglin Brute",      color: "#c96a2e" },
+  zombified_piglin:  { name: "Zombified Piglin",  color: "#8a7a3a" },
+  warden:            { name: "Warden",            color: "#4f9a92" },
+  wither:            { name: "Wither",            color: "#6f5f86" },
+  ravager:           { name: "Ravager",           color: "#a2503f" },
+  evoker:            { name: "Evoker",            color: "#5c72c4" }
+};
+
+// Standalone weapons / ranged / shields+books / tools (21 items)
+const ITEMS = [
+  // Swords
+  { name:"Dark Blade", slot:"Sword", boss:"wither", skill:"Umbral Reap", act:"Right-click, either hand (20s cooldown after the 10s buff ends)", cd:"20s",
+    van:"Hits add 2 damage + 2s Blindness while active. (Gear Level 100: x2, Level 200: x3.)", rpg:"+16 bonus damage per 100 Intelligence.", dev:DEV.SUB+" (Auto-activates off cooldown instead of right-click.)" },
+  { name:"Dragon Slaying Blade", slot:"Sword", boss:"piglin_brute", skill:"Dragon's Wrath", act:"Right-click, either hand (10s cooldown)", cd:"10s",
+    van:"+8 bonus damage to everyone in the slash. (Gear Level 100: x2, Level 200: x3.)", rpg:"+15 dmg per 100 Intelligence, +8 dmg per 100 Dexterity.", dev:DEV.SUB },
+  { name:"Mythic Blade", slot:"Sword", boss:"warden", skill:"Arcane Surge", act:"Charge while walking (not sneaking) for 3s, then land a hit. No cooldown.", cd:"None",
+    van:"10 true damage + knockback. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Melee Damage.", dev:DEV.SUB+" (Charge requirement skipped, always ready.)" },
+  { name:"Toxic Long Sword", slot:"Sword", boss:"wither", skill:"Venom Cascade", act:"Hit the ground, left-click a block (20s cooldown)", cd:"20s",
+    van:"2 damage per tick, 15-block radius, lingers 10s. (Gear Level 100: x2, Level 200: x3.)", rpg:"+5 bonus damage per tick per 100 Intelligence.", dev:DEV.SUB },
+  { name:"Creation Splitter", slot:"Sword", boss:"warden", skill:"Reality Cleave", act:"Right-click, either hand (10s cooldown)", cd:"10s",
+    van:"+8 bonus damage to everyone in a wide 6-block, 140-degree arc in front of you. (Gear Level 100: x2, Level 200: x3.)", rpg:"+15 dmg per 100 Intelligence, +8 dmg per 100 Dexterity.", dev:DEV.SUB },
+  { name:"Creation Weaver", slot:"Sword", boss:"ravager", skill:"Life Weave", act:"Charge while walking (not sneaking) for 3s, then land a hit. No cooldown.", cd:"None",
+    van:"+4 damage + Regeneration I (10s) on hit. (Gear Level 100: x2, Level 200: x3.)", rpg:"+15 dmg per 100 Strength, +10 dmg per 100 Intelligence.", dev:DEV.SUB+" (Charge requirement skipped, always ready.)" },
+  { name:"Cyber Katana", slot:"Sword", boss:"evoker", skill:"Neon Slash", act:"Right-click, either hand, dash up to 10 blocks (10s cooldown)", cd:"10s",
+    van:"+6 bonus damage to everyone struck along the dash. (Gear Level 100: x2, Level 200: x3.)", rpg:"+15 dmg per 100 Agility, +10 dmg per 100 Luck.", dev:DEV.SUB+" (Dashes toward its current melee target instead.)" },
+  { name:"Flamatic Katana", slot:"Sword", boss:"evoker", skill:"Cinder Combo", act:"Charge while sneaking for 8s (persists after you stop sneaking), then land a hit. Own stack-window tracking — no fixed cooldown.", cd:"—",
+    van:"2 absorption on every hit and on charge; charged hit: 3s root + 10 rapid slashes. (Gear Level 100: x2, Level 200: x3.)", rpg:"+1 bonus absorption per 50 Strength.", dev:DEV.SUB+" (Auto-procs the full combo periodically instead of sneak-charging.)" },
+
+  // Ranged
+  { name:"Composite Bow", slot:"Bow", boss:"piglin_brute", skill:"Piercing Volley", act:"Any hit while off cooldown (10s cooldown)", cd:"10s",
+    van:"4 damage per pierced enemy (up to 3). (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your Ranged Damage bonus per pierce.", dev:DEV.ARCHER },
+  { name:"Thundering Pulse", slot:"Bow", boss:"wither", skill:"Thunderclap Arrow", act:"Any hit while off cooldown (14s cooldown)", cd:"14s",
+    van:"10 damage, 3-block radius (visual/sound thunder only). (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Ranged Damage.", dev:DEV.STD },
+  { name:"Assassination", slot:"Bow", boss:"ravager", skill:"Mark for Death", act:"1st hit marks the target; a 2nd hit within 6s executes (20s cooldown)", cd:"20s",
+    van:"15 bonus execute damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Ranged Damage.", dev:DEV.STD },
+  { name:"Netherite Crossbow", slot:"Crossbow", boss:"zombified_piglin", skill:"Molten Bolt", act:"Any hit while off cooldown (8s cooldown)", cd:"8s",
+    van:"6 fire damage, 2-block radius, knockup/knockback on nearby entities. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Ranged Damage.", dev:DEV.STD },
+  { name:"Riesling Crossbow", slot:"Crossbow", boss:"wither", skill:"Frost Lock", act:"Any hit while off cooldown (8s cooldown)", cd:"8s",
+    van:"Slowness II + Mining Fatigue I, 2s. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Ranged Damage ÷ 5, added seconds.", dev:DEV.STD },
+
+  // Shields & books
+  { name:"Mirror Shield", slot:"Shield", boss:"zombified_piglin", skill:"Reflective Ward", act:"Block an attack (10s cooldown)", cd:"10s",
+    van:"Reflects 15% of blocked damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your Vitality damage-reduction bonus.", dev:DEV.NA },
+  { name:"Cyber Shield", slot:"Shield", boss:"evoker", skill:"Kinetic Barrier", act:"Block 3 attacks within 8s of each other. Own stack-window tracking — no fixed cooldown.", cd:"—",
+    van:"8 damage + knockback shockwave, 3-block radius. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Melee Damage.", dev:DEV.NA },
+  { name:"Soul Bound", slot:"Book", boss:"evoker", skill:"Soul Mark", act:"Splash-potion hit (Alchemist class)", cd:"None",
+    van:"Marks target; drops 1 bonus orb on death; never lost on player death. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your Splash Damage bonus ÷ 10, added orbs.", dev:DEV.NA_ALCH },
+  { name:"Ruby Fire", slot:"Book", boss:"evoker", skill:"Cinderbrew", act:"Splash-potion hit (Alchemist class)", cd:"None",
+    van:"Ignites target 3s + 2s Fire Resistance for you. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Splash Damage ÷ 5, added ignite seconds.", dev:DEV.NA_ALCH },
+
+  // Tools — reskinned, no active skill, but carry the Telekinesis enchant innately
+  { name:"Kalam0n's Pickaxe", slot:"Pickaxe", boss:"piglin_brute", skill:null, act:"No activation — passive stat item",
+    van:"Normal vanilla mining + Telekinesis (blocks go straight to your inventory instead of dropping).", rpg:"None — just the standard random stat roll on drop.", dev:"Works identically on a Deviant (no skill to trigger)." },
+  { name:"Kalam0n's Axe", slot:"Axe", boss:"piglin_brute", skill:null, act:"No activation — passive stat item",
+    van:"Normal vanilla chopping/combat + Telekinesis (blocks go straight to your inventory instead of dropping).", rpg:"None — just the standard random stat roll on drop.", dev:"Works identically on a Deviant (no skill to trigger)." },
+  { name:"Kalam0n's Hoe", slot:"Hoe", boss:"piglin_brute", skill:null, act:"No activation — passive stat item",
+    van:"Normal vanilla tilling + Telekinesis (blocks go straight to your inventory instead of dropping).", rpg:"None — just the standard random stat roll on drop.", dev:"Works identically on a Deviant (no skill to trigger)." },
+  { name:"Kalam0n's Shovel", slot:"Shovel", boss:"piglin_brute", skill:null, act:"No activation — passive stat item",
+    van:"Normal vanilla digging + Telekinesis (blocks go straight to your inventory instead of dropping).", rpg:"None — just the standard random stat roll on drop.", dev:"Works identically on a Deviant (no skill to trigger)." }
+];
+
+// Armor sets — 4 pieces + a full-set bonus (14 sets, 56 pieces + 14 bonuses = 70 entries)
+const SETS = [
+  { name:"Dragonsbane", boss:"piglin_brute", pieces:[
+      { slot:"Helmet",     itemName:"Dragonsbane Helmet",     skill:"Keen Eye",         act:"Passive: always active while worn (melee + ranged)", van:"5% chance per hit to crit (1.5× damage). (Gear Level 100: x2, Level 200: x3.)", rpg:"+up to 45% chance, scaling with Luck (full bonus at a full-Luck build).", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Dragonsbane Chestplate", skill:"Dragonhide Ward",  act:"Automatic pulse every 20s while worn", van:"Absorption II pulse every 20s. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.2× Health-from-Vitality bonus ÷ 10, added hearts.", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Dragonsbane Leggings",   skill:"Steady Footing",   act:"Passive: always active while worn", van:"20% knockback resistance. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your Dmg-Reduction bonus.", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Dragonsbane Boots",      skill:"Hunter's Stride",  act:"Passive: always active while worn", van:"Speed I, 4s, vs. marked/low-HP targets. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your Flee bonus, added seconds.", dev:DEV.STD }
+    ],
+    bonus:{ name:"Set: Dragonsbane", act:"Dmg bonus on melee-hitting a boss; Fire Resistance on taking fire damage", van:"+15% damage vs. bosses (RPG World Bosses, vanilla Ender Dragon/Wither/Warden/Elder Guardian, and other high-HP mobs incl. third-party boss-bar mobs) + 10s Fire Resistance after taking fire damage (10s cooldown). (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Melee Damage, added to the %." } },
+
+  { name:"Champion Petra", boss:"piglin_brute", pieces:[
+      { slot:"Helmet",     itemName:"Champion Petra Helmet",     skill:"Warlord's Focus",  act:"Passive: always active while worn", van:"-10% chance to be crit. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.3× your Crit chance.", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Champion Petra Chestplate", skill:"Petravein Regen",  act:"Automatic pulse every 15s while below 50% HP", van:"Regeneration I every 15s while below 50% HP. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.2× Health bonus ÷ 10, added seconds.", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Champion Petra Leggings",   skill:"Bulwark Stance",   act:"Triggers on taking damage while sneaking", van:"20% damage reduction while sneaking. (Gear Level 100: 40%, Level 200: 60%.)", rpg:"+0.5× Dmg-Reduction bonus (total capped at 60%).", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Champion Petra Boots",      skill:"Earthshaker Step", act:"Passive: always active while worn", van:"Fall-landing AoE knockback + 4 damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Flee bonus, added radius.", dev:DEV.STD }
+    ],
+    bonus:{ name:"Set: Champion's Resolve", act:"Triggers on kill", van:"Absorption I on kill. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus, added points." } },
+
+  { name:"Fox", boss:"zombified_piglin", pieces:[
+      { slot:"Helmet",     itemName:"Fox Helmet",     skill:"Fox Sense",   act:"Automatic pulse every 15s while worn", van:"Pings hostile mobs (Glowing) every 15s, 10-block range. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Crit bonus, added range.", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Fox Chestplate", skill:"Nimble Core", act:"Triggers on taking damage (chance-based)", van:"5% chance to dodge a hit entirely. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 20, added chance.", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Fox Leggings",   skill:"Swift Legs",  act:"Passive: always active while worn", van:"Permanent Speed I. (Gear Level 100: x2, Level 200: x3.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Fox Boots",      skill:"Silent Paws", act:"Triggers on fall damage (40% chance)", van:"40% chance to negate fall damage; halved mob aggro radius. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD }
+    ],
+    bonus:{ name:"Set: Fox's Fortune", act:"Triggers on taking damage (chance-based)", van:"5% independent chance to fully evade an attack. (Gear Level 100: x2, Level 200: x3.)", rpg:"+Agility share of your build ÷ 4, added chance." } },
+
+  { name:"Grimdark Gold", boss:"zombified_piglin", pieces:[
+      { slot:"Helmet",     itemName:"Grimdark Gold Helmet",     skill:"Gilded Greed",    act:"Triggers on kill", van:"10% chance for bonus currency on kill. (Gear Level 100: x2, Level 200: x3.)", rpg:"+Luck share of your build ÷ 4, added chance.", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Grimdark Gold Chestplate", skill:"Golden Bulwark",  act:"Automatic pulse every 20s while worn", van:"Absorption I when hit for 6+ damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 10, added points.", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Grimdark Gold Leggings",   skill:"Molten Legguards",act:"Passive: always active while worn", van:"Permanent Fire Resistance. (Gear Level 100: x2, Level 200: x3.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Grimdark Gold Boots",      skill:"Heavy Steps",     act:"Passive: always active while worn", van:"15% knockback resistance. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Flee bonus.", dev:DEV.STD }
+    ],
+    bonus:{ name:"Set: Piglin's Fortune", act:"Triggers on killing a Piglin-type mob (chance-based)", van:"10% chance nether-mob kills drop bonus gold. (Gear Level 100: x2, Level 200: x3.)", rpg:"+Luck share of your build ÷ 4, added chance." } },
+
+  { name:"Grimdark Dark", altName:"a.k.a. “Grimdark Netherite” in drop-pool/GUI naming", boss:"zombified_piglin", pieces:[
+      { slot:"Helmet",     itemName:"Grimdark Dark Helmet",     skill:"Iron Will",      act:"Triggers when Blindness would apply (40% chance to resist)", van:"40% chance to resist Blindness + 20% knockback resistance. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Grimdark Dark Chestplate", skill:"Netherite Core", act:"Passive — reduces every hit taken", van:"10% flat damage reduction on every hit. (Gear Level 100: x2, Level 200: x3.)", rpg:"+Vitality share of your build ÷ 4, added % (total capped at 60%).", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Grimdark Dark Leggings",   skill:"Grim Stability", act:"Triggers when Slowness would apply (40% chance to resist)", van:"40% chance to resist Slowness. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Grimdark Dark Boots",      skill:"Grounded",       act:"Passive: always active while worn", van:"25% reduced knockback near ledges. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Flee bonus.", dev:DEV.STD }
+    ],
+    bonus:{ name:"Set: Grim Bulwark", act:"Automatic pulse every 60s while below 30% HP", van:"Resistance I, 5s, while below 30% HP (60s cooldown). (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus, added seconds." } },
+
+  { name:"Halo", boss:"warden", pieces:[
+      { slot:"Helmet",     itemName:"Halo Helmet",     skill:"Halo Sight",     act:"Passive: always active while worn", van:"Permanent Night Vision. (Gear Level 100: x2, Level 200: x3.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Halo Chestplate", skill:"Sanctified Core",act:"Automatic pulse every 10s while in combat", van:"Heals 1 heart every 10s while in combat. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.2× Health bonus ÷ 20, added healing.", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Halo Leggings",   skill:"Blessed Guard",  act:"Triggers when Poison/Wither would apply (40% chance to resist)", van:"40% chance to resist Poison and Wither. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Halo Boots",      skill:"Grace Step",     act:"Triggers on fall damage (40% chance)", van:"40% chance to negate fall damage + Slow Falling while sneak-falling. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD }
+    ],
+    bonus:{ name:"Set: Halo's Grace", act:"Automatic pulse every 20s while worn", van:"Cleanses a negative effect every 20s + Regeneration I. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus, added regen seconds." } },
+
+  { name:"Ellegaard", boss:"warden", pieces:[
+      { slot:"Helmet",     itemName:"Ellegaard Helmet",     skill:"Tinker's Sight",     act:"Automatic pulse every 20s while worn", van:"Highlights nearby ores/mobs every 20s, 8-block range. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Crit bonus, added range.", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Ellegaard Chestplate", skill:"Reinforced Plating",act:"Passive: always active while worn", van:"Absorption I when hit below 50% HP. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 10, added points.", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Ellegaard Leggings",   skill:"Servo Legs",        act:"Passive while sprinting", van:"Instant full sprint speed. (Gear Level 100: x2, Level 200: x3.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Ellegaard Boots",      skill:"Piston Step",       act:"Triggers when you jump", van:"+0.3 block jump height. (Gear Level 100: x2, Level 200: x3.)", rpg:"+Vitality share of your build ÷ 4 × 0.2, added height (up to 5 blocks total).", dev:DEV.STD }
+    ],
+    bonus:{ name:"Set: Ellegaard's Ingenuity", act:"Passive — applies to every worn gear skill's cooldown", van:"+10% cooldown reduction to all worn gear skills. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your CDR bonus, added %." } },
+
+  { name:"Black Ninja", boss:"wither", pieces:[
+      { slot:"Helmet",     itemName:"Black Ninja Helmet",     skill:"Shadow Veil", act:"Triggers when you start sneaking (8s cooldown)", cd:"8s", van:"Sneaking for 1s grants Invisibility for 3s. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Crit bonus, added seconds.", dev:DEV.SUB },
+      { slot:"Chestplate", itemName:"Black Ninja Chestplate", skill:"Umbral Guard", act:"Triggers on taking damage while sneaking", van:"15% damage reduction while sneaking. (Gear Level 100: 30%, Level 200: 45%.)", rpg:"+0.5× Dmg-Reduction bonus (total capped at 60%).", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Black Ninja Leggings",   skill:"Silent Step",  act:"Passive: always active while worn", van:"No sprint sound/particles. (Gear Level 100: x2, Level 200: x3.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Black Ninja Boots",      skill:"Shadow Dash",  act:"Triggers when you stop sneaking (6s cooldown)", cd:"6s", van:"Speed II burst on exiting sneak. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Flee bonus, added seconds.", dev:DEV.SUB }
+    ],
+    bonus:{ name:"Set: Night's Embrace", act:"Triggers on your next hit after Shadow Veil's stealth window", van:"+6 damage on the first hit right after Shadow Veil. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Melee Damage, added." } },
+
+  { name:"White Ninja", boss:"wither", pieces:[
+      { slot:"Helmet",     itemName:"White Ninja Helmet",     skill:"Clear Mind",  act:"Triggers when Blindness/Nausea would apply (40% chance to resist)", van:"40% chance to resist Blindness and Nausea. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"White Ninja Chestplate", skill:"Light Guard", act:"Triggers when you take a critical hit (5s cooldown)", van:"Absorption I when hit by a crit. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 10, added points.", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"White Ninja Leggings",   skill:"Swift Steps", act:"Passive: always active while worn", van:"Permanent Speed I. (Gear Level 100: x2, Level 200: x3.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Boots",      itemName:"White Ninja Boots",      skill:"Featherfall", act:"Triggers on fall damage (40% chance)", van:"40% chance to negate fall damage. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD }
+    ],
+    bonus:{ name:"Set: Moonlit Focus", act:"Passive bonus during Minecraft night", van:"+8% crit chance during Minecraft night. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Crit bonus, added %." } },
+
+  { name:"Green Ninja", boss:"ravager", pieces:[
+      { slot:"Helmet",     itemName:"Green Ninja Helmet",     skill:"Poison Ward",  act:"Triggers when Poison would apply (40% chance to resist)", van:"40% chance to resist Poison. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Green Ninja Chestplate", skill:"Verdant Core", act:"Automatic pulse every 8s while worn", van:"Regeneration I after 5+ consecutive seconds in combat. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.2× Health bonus ÷ 10, added seconds.", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Green Ninja Leggings",   skill:"Thicket Legs", act:"Passive: always active while worn", van:"Immune to thorns/cactus/berry damage + 10% knockback resist. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Dmg-Reduction bonus.", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Green Ninja Boots",      skill:"Leaf Step",    act:"Triggers on fall damage while over grass/leaves (40% chance)", van:"40% chance to negate fall damage landing on grass/foliage. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD }
+    ],
+    bonus:{ name:"Set: Nature's Blessing", act:"Triggers on melee hit", van:"Melee hits apply Poison I for 3s. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Melee Damage, added poison duration/tick." } },
+
+  { name:"Blue Ninja", boss:"ravager", pieces:[
+      { slot:"Helmet",     itemName:"Blue Ninja Helmet",     skill:"Tidal Sight", act:"Passive: always active while worn", van:"Water Breathing + Night Vision underwater. (Gear Level 100: x2, Level 200: x3.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Blue Ninja Chestplate", skill:"Frost Core",  act:"Triggers on taking damage (chance-based)", van:"10% chance to apply Slowness I to your attacker. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 20, added chance.", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Blue Ninja Leggings",   skill:"Tide Legs",   act:"Passive while in water", van:"+30% swim speed. (Gear Level 100: x2, Level 200: x3.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Blue Ninja Boots",      skill:"Glide Step",  act:"Passive: always active while worn", van:"Depth Strider III enchantment (a real vanilla enchant). (Gear Level 100: x2, Level 200: x3.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD }
+    ],
+    bonus:{ name:"Set: Tidal Focus", act:"Automatic pulse every 20s while worn", van:"Frost nova every 20s: Slowness II, 4-block radius. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your Splash Damage bonus, added radius/duration." } },
+
+  { name:"Red Ninja", boss:"evoker", pieces:[
+      { slot:"Helmet",     itemName:"Red Ninja Helmet",     skill:"Blood Focus",  act:"Passive while below 50% HP", van:"+10% damage while below 50% HP. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Crit bonus, added %.", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Red Ninja Chestplate", skill:"Ember Core",   act:"Passive: always active while worn", van:"Permanent Fire Resistance. (Gear Level 100: x2, Level 200: x3.)", rpg:"No RPG bonus — flat effect only.", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Red Ninja Leggings",   skill:"Scarlet Legs", act:"Passive while below 50% HP", van:"Speed I while below 50% HP. (Gear Level 100: x2, Level 200: x3.)", rpg:"No RPG bonus — flat effect only.", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Red Ninja Boots",      skill:"Cinder Step",  act:"Passive: always active while worn", van:"Damaging fire trail while sprinting below 50% HP. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Flee bonus, added seconds.", dev:DEV.STD }
+    ],
+    bonus:{ name:"Set: Crimson Fury", act:"Triggers on melee hit while below 50% HP", van:"+10% melee lifesteal while below 50% HP. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Melee Damage, added lifesteal %." } },
+
+  { name:"Adamantium", boss:"ravager", pieces:[
+      { slot:"Helmet",     itemName:"Adamantium Helmet",     skill:"Adamant Will", act:"Passive: always active while worn", van:"Cannot be stunned. (Gear Level 100: x2, Level 200: x3.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Adamantium Chestplate", skill:"Adamant Core", act:"Automatic pulse every 10s while worn", van:"Regenerating Absorption pool, 4 points max. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 10, added max pool.", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Adamantium Leggings",   skill:"Adamant Legs", act:"Passive: always active while worn", van:"Full knockback immunity. (Gear Level 100: x2, Level 200: x3.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Adamantium Boots",      skill:"Adamant Step", act:"Triggers when attacked (40% chance to negate)", van:"40% chance to negate mob stomp/trample damage. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD }
+    ],
+    bonus:{ name:"Set: Adamantine Fortress", act:"Automatic pulse every 25s while worn", van:"Resistance I every 25s. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Dmg-Reduction bonus, added seconds." } },
+
+  { name:"Grimdark Diamond", boss:"evoker", pieces:[
+      { slot:"Helmet",     itemName:"Grimdark Diamond Helmet",     skill:"Mind Ward",    act:"Triggers when Levitation/Wither would apply (40% chance to resist)", van:"40% chance to resist Levitation and Wither. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"Flat-only — nothing to scale.", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Grimdark Diamond Chestplate", skill:"Spectral Core",act:"Triggers on taking projectile damage (chance-based)", van:"10% chance to negate incoming projectile damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 20, added chance.", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Grimdark Diamond Leggings",   skill:"Arcane Legs",  act:"Passive: always active while worn", van:"+10% cooldown reduction. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your CDR bonus, added %.", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Grimdark Diamond Boots",      skill:"Phase Step",   act:"Triggers on taking damage (chance-based)", van:"5% chance per hit to gain 1s of debuff immunity. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Flee bonus, added chance.", dev:DEV.STD }
+    ],
+    bonus:{ name:"Set: Spectral Diamond Aura", act:"Automatic pulse every 20s while worn", van:"Absorption I + 10s Regeneration I every 20s (cooldown starts after regen ends). (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus applied to the Absorption; +Vitality share of your build ÷ 4, added regen seconds." } }
+];
+
+// Future encyclopedia sections — populated as each system gets written up.
+const UPCOMING_SECTIONS = [
+  { name: "Classes & Stats", hint: "Attribute point system (Strength, Agility, Vitality, Intelligence, Dexterity, Luck) and derived stats." },
+  { name: "Economy", hint: "Auction house, bank, trading." },
+  { name: "Siege & MOBA", hint: "PvP siege mode and the MOBA game mode." },
+  { name: "Custom Enchants", hint: "Plugin-added enchantments beyond vanilla." }
+];
+
+// ── World Bosses (WorldBossSummonListener.java / per-boss SkillManager classes /
+//    WorldBossTraversalManager.java / MonsterInitializer.java / DeadMobListener.java) ──
+// Only 6 base mobs can ever become a World Boss, and only via the ritual below — they never
+// spawn that way naturally. (Ravager/Evoker can still appear from a vanilla Raid or Woodland
+// Mansion, but that spawn is never upgraded to World Boss tier and drops normally.)
+const BOSS_GUIDE = {
+  piglin_brute: {
+    epithet: "Cindermaw",
+    role: "Bruiser — a dodgeable ranged line attack, a positioning AoE, a raid-style rage channel, and a mass shackle-and-burn seize.",
+    recipe: [["Armor Stand",1],["Porkchop",10],["Gold Ingot",16],["Ender Pearl",16],["Golden Axe",1]],
+    hasTraversal: true,
+    skills: [
+      { name:"Magma Cleave", cd:"18s", lines:[
+        "Telegraph: 1.2s (lava dust + an angry roar).",
+        "Effect: a fast, non-homing 20-block line of fire, 1.3 blocks wide. First thing it touches takes <strong>6× melee stat</strong>, catches fire for 2s, and is knocked back.",
+        "Counter: step off the line before it fires." ] },
+      { name:"Ground Slam Shockwave", cd:"45s", lines:[
+        "Telegraph: 2s, rooted — a particle ring grows out to the real 5-block blast radius.",
+        "Effect: slams for <strong>4× melee stat</strong> + knockback to anyone still inside when it lands.",
+        "Counter: clear the ring before the telegraph finishes." ] },
+      { name:"Molten Rage", cd:"100s", raid:true, lines:[
+        "Telegraph: 6s channel. At the 4s mark, up to 3 nearby players (within 30 blocks) get a marked tile.",
+        "Effect: still standing on your tile when the channel ends deals <strong>8× melee stat</strong> + sets you on fire for 5s.",
+        "Interrupt: dealing 15% of its max HP during the channel breaks it outright (2s stagger, next cast 40s sooner).",
+        "If not interrupted: gains a 20s Strength II buff (\"Molten Empowerment\") on completion." ] },
+      { name:"Molten Manacle", cd:"80s", lines:[
+        "Mark: every player and Deviant within <strong>100 blocks</strong> gets shackled at once, each resolving independently and in parallel.",
+        "Escape: kite past 10 blocks from the boss during the 1.5s windup to melt the shackle off; Deviants can't act on this, so they're always seized once marked.",
+        "Seize: still shackled when the windup ends gets teleport-locked in place (Slowness IV + Mining Fatigue III) through 4 lava eruptions, ~0.5s apart, each an instant <strong>1× melee stat</strong> hit in a 3-block splash (catches bystanders too)." ] }
+    ],
+    strategy: "Track its facing and step off the Magma Cleave line, and clear the Ground Slam ring in time. During Molten Rage, either move off your marked tile or help burst 15% of its HP to interrupt the channel. If shackled by Molten Manacle, sprint away from the boss during the windup before it locks in."
+  },
+  zombified_piglin: {
+    epithet: "Goldrot",
+    role: "Swarm/chaos boss — a chain-detonating decoy horde, a kiteable mark, a blink combo, and a mass decoy-swarm seize.",
+    recipe: [["Armor Stand",1],["Gold Ingot",8],["Ender Eye",64],["Potion",1],["Golden Sword",1]],
+    recipeNote: "The Potion slot only checks the base Potion item, not its brew — any potion type satisfies it.",
+    hasTraversal: true,
+    skills: [
+      { name:"Golden Horde", cd:"55s", lines:[
+        "Effect: spawns 4 mobile decoy clones — flat 20 HP, weak attack, named \"&lt;Boss&gt; Clone\" so the real boss stays tag-identifiable.",
+        "Fuse: killing a decoy (or leaving one alive 10s) primes a 0.4s fuse, then it detonates for <strong>3× melee stat</strong> in a 3-block radius.",
+        "Chain: catching another decoy in that blast primes it too — spread your kills out instead of clustering." ] },
+      { name:"Soul Brand", cd:"20s", lines:[
+        "Effect: brands a random player within 25 blocks with a visible tether.",
+        "Counter: get 8+ blocks away or break line of sight within 5s.",
+        "Failure: takes <strong>5× melee stat</strong> + knockback when the timer expires." ] },
+      { name:"Chaos Rush", cd:"90s", lines:[
+        "Effect: blinks 3× toward its target in quick succession (~0.7s apart, each with a random ±8-block offset).",
+        "Each landing leaves a scorching patch — 2.5-block radius, 3s lifetime, <strong>0.5× melee stat/tick</strong> trickle while you stand in it.",
+        "The <strong>final</strong> blink's patch also hits everyone still inside for an instant <strong>7× melee stat</strong> burst." ] },
+      { name:"Feeding Frenzy", cd:"85s", lines:[
+        "Mark: every player and Deviant within <strong>100 blocks</strong> gets swarmed at once, each resolving independently and in parallel.",
+        "Effect: 3 mobile \"Reveler\" decoys converge and circle you — one of them (not visibly marked) is the real anchor.",
+        "Escape: kill the anchor decoy within the 1.5s windup to scatter the horde; Deviants can't act on this, so they're always seized once marked.",
+        "Seize: still swarmed when the windup ends gets teleport-locked in place (Slowness IV) while the decoys orbit you, through 4 hits, ~0.4s apart, each an instant <strong>1× melee stat</strong> hit in a 2-block splash (catches bystanders too)." ] }
+    ],
+    strategy: "Spread out your kills on the horde instead of clustering — a chain detonation hurts a group far more than one player. If branded, run or break line of sight fast, and track the Chaos Rush blinks so you're never standing in the final patch. If swarmed by Feeding Frenzy, find and kill the anchor Reveler before the horde closes in."
+  },
+  warden: {
+    epithet: "Direwail",
+    role: "Blind melee tank with a devastating short-range AoE and a mass vibration-tracking seize.",
+    recipe: [["Armor Stand",1],["Echo Shard",1],["Sculk Shrieker",1],["Blaze Rod",1],["Anvil",1]],
+    hasTraversal: true,
+    traversalName: "Sculk Burrow",
+    skills: [
+      { name:"Sonic Boom", cd:"vanilla ability, reworked", lines:[
+        "Its normal ranged sonic boom attack is boosted to <strong>10× melee stat</strong>.",
+        "The Darkness effect it would otherwise apply on hit is suppressed entirely." ] },
+      { name:"Scream Shockwave", cd:"60s", raid:true, lines:[
+        "Telegraph: 5s charge — a visible warning to anyone within 30 blocks, with growing Sculk Soul particles.",
+        "Effect: <strong>halves the current HP</strong> of every player and monster within 4 blocks.",
+        "It heals itself by however much HP it drained from players specifically (not from other mobs).",
+        "Counter: break line of sight or back off — the shockwave only reaches 4 blocks." ] },
+      { name:"Resonant Grasp", cd:"90s", lines:[
+        "Mark: every player and Deviant within <strong>100 blocks</strong> gets marked at once, each resolving independently and in parallel — works through walls, since the Warden hunts by vibration, not sight.",
+        "Escape: sneak (go still) within the 4s tracking window to shake the mark off; Deviants can't act on this, so they're always seized once marked.",
+        "Seize: still marked when the window ends gets teleport-locked in place (Slowness IV + Mining Fatigue III) through 3 sonic pulses, ~0.7s apart, each an instant <strong>1× melee stat</strong> hit in a 3.5-block splash (catches bystanders too)." ] }
+    ],
+    strategy: "Break line of sight or spread out before the 5s scream charge finishes — the shockwave only reaches 4 blocks, so back off early rather than tanking it. If marked by Resonant Grasp, stop moving (sneak) before the 4s window ends — it hunts by vibration, so hiding behind a wall won't help."
+  },
+  wither: {
+    epithet: "Doomcrown",
+    role: "Flying ranged/melee pressure boss — no unique skill kit, just permanent flight and relentless targeting.",
+    recipe: [["Armor Stand",1],["Soul Sand",4],["Netherrack",10],["Ancient Debris",1],["TNT",10]],
+    hasTraversal: false,
+    skills: [
+      { name:"Permanent No-Clip Flight", cd:"always active", lines:[
+        "Gravity and vanilla AI are disabled the moment it's tagged a World Boss — it teleport-steps straight through terrain toward its target instead of pathing around it.",
+        "Auto-targets the nearest valid player within 40 blocks.",
+        "Within 3 blocks: melees for its stat-derived damage (1s internal cooldown).",
+        "Beyond 3 blocks: fires a Wither Skull every 3.5s.",
+        "Because flight fully replaces vanilla AI, it never rolls the shared Traversal ability below and is exempt from the block-box anti-cheese check other bosses use." ] }
+    ],
+    strategy: "It flies and ignores terrain entirely — fight in the open where you can circle-strafe its skulls instead of trying to break line of sight, since it will simply phase through whatever you hide behind."
+  },
+  ravager: {
+    epithet: "Bonecrusher",
+    role: "Bruiser — a ground charge, a telegraphed quake AoE, a channeled boulder barrage, and a mass spike-impalement seize.",
+    recipe: [["Armor Stand",1],["Rotten Flesh",64],["Saddle",1],["Redstone",10],["Gunpowder",64]],
+    hasTraversal: true,
+    skills: [
+      { name:"Bull Rush", cd:"15s", lines:[
+        "Telegraph: 0.9s (paws the ground).",
+        "Effect: charges up to 12 blocks in a straight line; stops dead on any block collision.",
+        "The first thing it hits takes <strong>6× melee stat</strong>, strong knockback, and 5s of Nausea II." ] },
+      { name:"Quaking Stomp", cd:"38s", lines:[
+        "Telegraph: 2s (dust ring growing to 6 blocks).",
+        "Impact: <strong>4× melee stat</strong> + Slowness III + Darkness to anyone still in range.",
+        "Also lobs 5 arcing fireballs at random jittered points around players within 30 blocks — each explodes for <strong>1.2× melee stat</strong> in a 3.5-block blast and ignites the ground." ] },
+      { name:"Warhorn Bellow", cd:"75s", raid:true, lines:[
+        "Roars and freezes for 5s. Any melee hit landed on it during this window deals it <strong>zero damage and is fully reflected back at the attacker instead</strong>.",
+        "When the freeze ends, it launches an arcing boulder at every player within 30 blocks.",
+        "Each boulder impacts for <strong>9× melee stat</strong> in a 3.5-block blast + Slowness III + knockback." ] },
+      { name:"Tectonic Impale", cd:"78s", lines:[
+        "Mark: every player and Deviant within <strong>100 blocks</strong> gets marked at once, each resolving independently and in parallel.",
+        "Escape: be airborne (jump) at the exact instant the 1s rumble telegraph resolves to dodge the spikes entirely; Deviants can't act on this, so they're always seized once marked.",
+        "Seize: still grounded when it resolves gets teleport-locked in place (Slowness IV) through 3 spike impalements, ~0.6s apart, each an instant <strong>1× melee stat</strong> hit in a 3-block splash (catches bystanders too)." ] }
+    ],
+    strategy: "Never melee it during its 5s freeze — the hit deals it no damage and comes right back at you. Once the freeze ends, watch for and sidestep the incoming boulder arcs. If marked by Tectonic Impale, time a jump for the moment the rumble telegraph finishes."
+  },
+  evoker: {
+    epithet: "Hexweaver",
+    role: "Caster — every skill scales off its Splash Damage stat instead of melee. A bolt, a nova, disposable adds, an air-grab icicle barrage, and a raid-style channel.",
+    recipe: [["Armor Stand",1],["Emerald",16],["Totem of Undying",1],["Diamond",1],["Glowstone Dust",10]],
+    hasTraversal: true,
+    traversalName: "Spectral Step",
+    skills: [
+      { name:"Arcane Bolt", cd:"15s", lines:[
+        "Telegraph: 1.0s.",
+        "Effect: a non-homing bolt travels up to 22 blocks, 1.2 wide. First thing it hits takes <strong>6.5× splash stat</strong> + 2s Weakness II." ] },
+      { name:"Arcane Cataclysm", cd:"40s", lines:[
+        "Telegraph: 2s (expanding ring to 12 blocks).",
+        "Effect: detonates for <strong>5.5× splash stat</strong> + strong knockback to everyone still inside." ] },
+      { name:"Spectral Conscription", cd:"50s", lines:[
+        "Telegraph: 1.5s, then summons 4 Vindicators in a line in front of it.",
+        "Pure action-economy — they auto-despawn after 6s regardless of whether they're killed, so don't overcommit to them." ] },
+      { name:"Glacial Ascension", cd:"75s", lines:[
+        "Telegraph: marks every player and Deviant within <strong>100 blocks</strong> that currently has line of sight to it, each for its own 5s live tether — a given target's mark fizzles instantly (independent of the others) if their line of sight breaks, they leave the 100-block radius, or (players only) they go down.",
+        "Effect: each target still marked when its own 5s ends is hoisted 5 blocks up from where it stands (capped by any ceiling overhead) and locked in place there — position pinned every tick, though they can still look around — while it disables its own AI and stares for 2s. Multiple targets can be seized and pinned at once, each at their own location; its AI stays disabled the whole time at least one target is still being held.",
+        "Then throws 5 icicles per pinned target in quick succession (~0.4s apart) at that target's hover point, each an instant <strong>1× splash stat</strong> hit in a 3-block splash radius (catches bystanders too, not just the marked target).",
+        "Release: Levitation ends and each target falls normally (fall damage applies), landing with <strong>5s Slowness II</strong>.",
+        "Not interruptible — unlike Ritual of Unmaking, there's no damage threshold that breaks the sequence early once a mark holds. Every valid target resolves independently and in parallel." ] },
+      { name:"Ritual of Unmaking", cd:"100s", raid:true, lines:[
+        "Telegraph: 6s channel. At the 4s mark, up to 3 nearby players (within 30 blocks) get a marked rune tile.",
+        "Effect: still standing on it when the channel ends deals <strong>9.5× splash stat</strong> + 3s Darkness.",
+        "Interrupt: dealing 15% of its max HP during the channel breaks it outright (2s stagger, next cast 40s sooner).",
+        "If not interrupted: gains a 20s Strength II buff (\"Arcane Empowerment\") on completion." ] }
+    ],
+    strategy: "Kill the summoned Vindicators fast or ignore them entirely — they despawn in 6s on their own. During Ritual of Unmaking, either dodge your marked tile or help burst 15% of its HP to interrupt it."
+  }
+};
+
+const WB_TRAVERSAL_SHARED = "All World Bosses except the Wither share one Traversal ability — a telegraphed high jump (Piglin Brute/Zombified Piglin/Ravager) or a teleport-step through 1-2 blocks of terrain (Warden/Evoker) that closes distance on its target. Off a 25s cooldown it has a 35% chance to fire on each check; it also fires immediately, skipping that roll, if it loses line of sight on its target for 4+ seconds while close by — the counter to boxing it in with blocks. Landing a jump deals 0.5× melee stat + knockback to anyone caught underneath.";
+
+// ── Gear Upgrading (RollableStat.java / GearLevelSystem.java / AscendingGUI(Listener).java / GearRegistry.java) ──
+// A drop's Gear Level is a weighted roll between 1 and the killing mob's level at the kill (1-200
+// ceiling) — never a guaranteed match to the mob's own level. The roll is skewed toward the low
+// end (random^2), so median rolls land around 25% of the mob's level and only ~5% of rolls land
+// in the top 10% of the range. Each stat's actual value is 100% deterministic from the item's
+// rolled Level — perLevelValue × Level, no separate roll. "@200" below is each stat's value if it
+// were leveled all the way to the cap.
+const ROLLABLE_STATS = [
+  { name: "Crit Chance",        at200: "+10 flat (Crit Power)" },
+  { name: "Crit Damage",        at200: "+100 flat" },
+  { name: "Melee Damage",       at200: "+40 flat" },
+  { name: "Ranged Damage",      at200: "+40 flat" },
+  { name: "Splash Damage",      at200: "+80 flat" },
+  { name: "Attack Speed",       at200: "+50%" },
+  { name: "Lifesteal",          at200: "+15%" },
+  { name: "Lifesteal Chance",   at200: "+15%" },
+  { name: "Hit Rate",           at200: "+4.0 flat" },
+  { name: "Cooldown Reduction", at200: "+25%" },
+  { name: "Crit Resist",        at200: "+10 flat (Crit Resist Power)" },
+  { name: "Crit Dmg Negate",    at200: "+15%" },
+  { name: "Flee",               at200: "+1.0 flat" },
+  { name: "Damage Reduction",   at200: "+15 flat" },
+  { name: "Max Health",         at200: "+100 flat" }
+];
+
+// ---------- rendering ----------
+
+function escapeHtml(s){ return (s==null?"":String(s)).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function bossDot(bossId){
+  const b = BOSSES[bossId];
+  return `<span class="dot" style="background:${b.color}"></span>`;
+}
+function bossPill(bossId){
+  const b = BOSSES[bossId];
+  return `<span class="boss-pill">${bossDot(bossId)}${b.name}</span>`;
+}
+
+function cdBadge(cd){
+  if (!cd) return `<span class="cd-badge na">No cooldown gate</span>`;
+  if (cd === "—") return `<span class="cd-badge na">Own cooldown logic</span>`;
+  if (cd === "None") return `<span class="cd-badge na">No cooldown</span>`;
+  return `<span class="cd-badge">${escapeHtml(cd)}</span>`;
+}
+
+function itemCard(it, opts){
+  opts = opts || {};
+  const rows = [];
+  rows.push(`<div class="row vanilla"><span class="tag">Vanilla</span><span class="val">${escapeHtml(it.van)}</span></div>`);
+  rows.push(`<div class="row rpg"><span class="tag">+RPG</span><span class="val">${escapeHtml(it.rpg)}</span></div>`);
+  rows.push(`<div class="row deviant"><span class="tag">Deviant</span><span class="val">${escapeHtml(it.dev)}</span></div>`);
+  const skillBlock = it.skill
+    ? `<div class="skill-name">${escapeHtml(it.skill)}</div><div class="activation">${escapeHtml(it.act)}</div>`
+    : `<div class="activation">${escapeHtml(it.act)}</div>`;
+  const dropLine = opts.showBoss ? `<div class="drop-line">${bossDot(it.boss)}Dropped by ${BOSSES[it.boss].name}</div>` : "";
+  return `<div class="card">
+      <div class="card-head">
+        <div><div class="name">${escapeHtml(it.name)}</div><div class="slot-tag">${escapeHtml(it.slot)}</div></div>
+        ${cdBadge(it.cd)}
+      </div>
+      ${skillBlock}
+      <div class="rows">${rows.join("")}</div>
+      ${dropLine}
+    </div>`;
+}
+
+function pieceCard(p){
+  const rows = [];
+  rows.push(`<div class="row vanilla"><span class="tag">Vanilla</span><span class="val">${escapeHtml(p.van)}</span></div>`);
+  rows.push(`<div class="row rpg"><span class="tag">+RPG</span><span class="val">${escapeHtml(p.rpg)}</span></div>`);
+  rows.push(`<div class="row deviant"><span class="tag">Deviant</span><span class="val">${escapeHtml(p.dev)}</span></div>`);
+  return `<div class="card">
+      <div class="card-head">
+        <div><div class="name">${escapeHtml(p.itemName)}</div><div class="slot-tag">${escapeHtml(p.slot)}</div></div>
+        ${cdBadge(p.cd)}
+      </div>
+      <div class="skill-name">${escapeHtml(p.skill)}</div>
+      <div class="activation">${escapeHtml(p.act)}</div>
+      <div class="rows">${rows.join("")}</div>
+    </div>`;
+}
+
+function bonusCard(b){
+  const rows = [];
+  rows.push(`<div class="row vanilla"><span class="tag">Vanilla</span><span class="val">${escapeHtml(b.van)}</span></div>`);
+  rows.push(`<div class="row rpg"><span class="tag">+RPG</span><span class="val">${escapeHtml(b.rpg)}</span></div>`);
+  rows.push(`<div class="row deviant"><span class="tag">Deviant</span><span class="val">${DEV.SET}</span></div>`);
+  return `<div class="card bonus">
+      <div class="card-head">
+        <div><div class="name">${escapeHtml(b.name)}</div><div class="slot-tag">Full-set bonus — not a droppable item</div></div>
+      </div>
+      <div class="activation">${escapeHtml(b.act)}</div>
+      <div class="rows">${rows.join("")}</div>
+    </div>`;
+}
+
+function setBlock(set, opts){
+  opts = opts || {};
+  return `<div class="set-block">
+      <div class="set-block-head">
+        <h3>${escapeHtml(set.name)}</h3>
+        ${opts.showBoss ? bossPill(set.boss) : ""}
+        ${set.altName ? `<span class="drop-line">${escapeHtml(set.altName)}</span>` : ""}
+      </div>
+      <div class="grid tight">
+        ${set.pieces.map(pieceCard).join("")}
+        ${bonusCard(set.bonus)}
+      </div>
+    </div>`;
+}
+
+const state = { section: "gear", view: { type: "boss", id: "piglin_brute" }, query: "" };
+
+function itemsForBoss(bossId){ return ITEMS.filter(i => i.boss === bossId); }
+function setsForBoss(bossId){ return SETS.filter(s => s.boss === bossId); }
+
+function renderNav(){
+  const nav = document.getElementById("nav");
+
+  let html = `<div class="section-tabs">
+      <button class="section-tab ${state.section === 'gear' ? 'active' : ''}" data-section="gear">Gear</button>
+      <button class="section-tab ${state.section === 'upgrade' ? 'active' : ''}" data-section="upgrade">Upgrading</button>
+      <button class="section-tab ${state.section === 'bosses' ? 'active' : ''}" data-section="bosses">Bosses</button>
+      <button class="section-tab ${state.section === 'deviants' ? 'active' : ''}" data-section="deviants">Deviants</button>
+      <button class="section-tab ${state.section === 'more' ? 'active' : ''}" data-section="more">More soon</button>
+    </div>`;
+
+  if (state.section === "bosses") {
+    html += `<div class="nav-heading">World Bosses</div>`;
+    for (const id in BOSSES) {
+      const b = BOSSES[id];
+      const active = state.view.type === "wbdetail" && state.view.id === id ? "active" : "";
+      html += `<button class="nav-btn ${active}" data-type="wbdetail" data-id="${id}">
+          <span class="dot" style="background:${b.color}"></span>${b.name}
+        </button>`;
+    }
+    html += `<div class="nav-heading">General</div>`;
+    const activeRitual = state.view.type === "wbritual" ? "active" : "";
+    html += `<button class="nav-btn ${activeRitual}" data-type="wbritual" data-id="all">Summoning &amp; Loot Rules</button>`;
+    nav.innerHTML = html;
+    attachNavHandlers(nav);
+    return;
+  }
+
+  if (state.section === "gear") {
+    html += `<div class="nav-heading">By World Boss</div>`;
+    for (const id in BOSSES) {
+      const b = BOSSES[id];
+      const n = itemsForBoss(id).length + setsForBoss(id).length * 5;
+      const active = state.view.type === "boss" && state.view.id === id ? "active" : "";
+      html += `<button class="nav-btn ${active}" data-type="boss" data-id="${id}">
+          <span class="dot" style="background:${b.color}"></span>${b.name}<span class="count">${n}</span>
+        </button>`;
+    }
+    html += `<div class="nav-heading">By Category</div>`;
+    const cats = [
+      ["Swords", "Sword"], ["Ranged", ["Bow","Crossbow"]], ["Shields & Books", ["Shield","Book"]], ["Tools", ["Pickaxe","Axe","Hoe","Shovel"]]
+    ];
+    for (const [label, slots] of cats) {
+      const arr = [].concat(slots);
+      const n = ITEMS.filter(i => arr.includes(i.slot)).length;
+      const active = state.view.type === "cat" && state.view.id === label ? "active" : "";
+      html += `<button class="nav-btn ${active}" data-type="cat" data-id="${label}">${label}<span class="count">${n}</span></button>`;
+    }
+    const activeArmor = state.view.type === "armor" ? "active" : "";
+    html += `<button class="nav-btn ${activeArmor}" data-type="armor" data-id="all">Armor Sets<span class="count">${SETS.length}</span></button>`;
+    html += `<div class="nav-heading">&nbsp;</div>`;
+    const activeAll = state.view.type === "all" ? "active" : "";
+    html += `<button class="nav-btn ${activeAll}" data-type="all" data-id="all">Browse everything</button>`;
+  }
+
+  nav.innerHTML = html;
+  attachNavHandlers(nav);
+}
+
+const SECTION_DEFAULT_VIEW = {
+  gear: { type: "boss", id: "piglin_brute" },
+  bosses: { type: "wbdetail", id: "piglin_brute" }
+};
+
+function attachNavHandlers(nav){
+  nav.querySelectorAll(".section-tab").forEach(btn => {
+    btn.addEventListener("click", () => {
+      state.section = btn.dataset.section;
+      document.getElementById("search").value = "";
+      state.query = "";
+      if (SECTION_DEFAULT_VIEW[state.section]) state.view = SECTION_DEFAULT_VIEW[state.section];
+      render();
+    });
+  });
+  nav.querySelectorAll(".nav-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      state.view = { type: btn.dataset.type, id: btn.dataset.id };
+      document.getElementById("search").value = "";
+      state.query = "";
+      render();
+    });
+  });
+}
+
+function bossSkillCard(sk){
+  const badge = sk.raid ? `<span class="cd-badge" style="border-color:var(--accent-2);color:var(--accent-2)">${escapeHtml(sk.cd)}</span>` : cdBadge(sk.cd);
+  return `<div class="mode-card">
+      <h4>${escapeHtml(sk.name)} ${badge}</h4>
+      <ul>${sk.lines.map(l => `<li>${l}</li>`).join("")}</ul>
+    </div>`;
+}
+
+function renderBossDetail(bossId){
+  const el = document.getElementById("content");
+  const b = BOSSES[bossId];
+  const g = BOSS_GUIDE[bossId];
+  const items = itemsForBoss(bossId);
+  const sets = setsForBoss(bossId);
+  const poolSize = items.length + sets.length * 4;
+
+  const recipeHtml = g.recipe.map(([mat,qty]) => `<div class="stat-pill"><span class="stat-name">${escapeHtml(mat)}</span><span class="stat-target">× ${qty}</span></div>`).join("");
+
+  const traversalHtml = g.hasTraversal
+    ? `<div class="callout"><strong>Traversal — ${escapeHtml(g.traversalName || "shared ability")}.</strong> ${WB_TRAVERSAL_SHARED}</div>`
+    : "";
+
+  el.innerHTML = `
+    <div class="view-title">${escapeHtml(b.name)}</div>
+    <div class="wb-epithet">Named on spawn as "<strong style="color:var(--text)">${escapeHtml(g.epithet)}, the ${escapeHtml(b.name)}</strong>" — ${escapeHtml(g.role)}</div>
+
+    <div class="guide-h2" style="margin-top:4px">Summoning Recipe</div>
+    <div class="guide-p">Drop these on an <strong>empty</strong> cauldron and left-click it to receive this boss's Totem. See <a href="#" class="jump-link" data-goto="wbritual">Summoning &amp; Loot Rules</a> for the full ritual and shared drop table.</div>
+    <div class="stat-pool-grid">${recipeHtml}</div>
+    ${g.recipeNote ? `<div class="guide-p" style="margin-top:6px">${escapeHtml(g.recipeNote)}</div>` : ""}
+
+    <div class="guide-h2">Skills &amp; Abilities</div>
+    ${traversalHtml}
+    <div class="mode-grid">${g.skills.map(bossSkillCard).join("")}</div>
+
+    <div class="guide-h2">Strategy</div>
+    <div class="guide-p">${escapeHtml(g.strategy)}</div>
+
+    <div class="guide-h2">Drops</div>
+    <div class="guide-p">Guaranteed themed-legendary drop from its own ${poolSize}-item pool, to every nearby player on the kill — on top of the shared World Boss loot table (Diamond/Netherite bonus gear, see Summoning &amp; Loot Rules).</div>
+    <button class="jump-link" data-goto-gear="${bossId}">View ${escapeHtml(b.name)}'s full drop pool in the Gear tab →</button>
+  `;
+}
+
+function renderRitualOverview(){
+  const el = document.getElementById("content");
+  el.innerHTML = `
+    <div class="view-title">Summoning &amp; Loot Rules</div>
+    <div class="guide-lead">Every rule on this page applies identically to all 6 World Bosses — see each boss's own page for its specific recipe, skill kit, and strategy.</div>
+
+    <div class="guide-h2" style="margin-top:0">How the ritual works</div>
+    <div class="step-list">
+      <div class="step"><span class="num">1</span><span class="txt"><strong>Craft the totem.</strong> Drop the boss's exact ingredients on top of an <strong>empty</strong> cauldron (not water/lava/powder-snow filled) and left-click it. If the dropped items happen to satisfy more than one boss's recipe at once, one match is picked at random. Matching items are consumed exactly to the required amount — surplus is left alone — and you receive that boss's Totem (an enchanted Nether Star).</span></div>
+      <div class="step"><span class="num">2</span><span class="txt"><strong>Summon it.</strong> Right-click the Totem while standing in <strong>world_rpg</strong>. A particle vortex converges above and in front of you for 5 seconds, then the boss spawns with a server-wide broadcast announcing its name and coordinates.</span></div>
+    </div>
+    <div class="guide-p">The Totem can't be used in crafting, anvils, grindstones, or smithing tables — right-click-to-summon is its only function.</div>
+
+    <div class="guide-h2">Level &amp; stats (shared formula)</div>
+    <div class="guide-p"><strong>Level</strong> = distance from world spawn ÷ 100, floored, minimum 1 — summon it further out for a harder, higher-level fight.</div>
+    <div class="guide-p"><strong>HP</strong> = the standard stat-derived roll × <strong>260</strong> for Piglin Brute / Zombified Piglin / Ravager / Evoker, × <strong>200</strong> for Warden / Wither.</div>
+    <div class="guide-p"><strong>Melee (or Splash, for the Evoker) damage</strong> = the standard stat-derived value, × <strong>1.25</strong> for Piglin Brute / Zombified Piglin / Ravager / Evoker.</div>
+    <div class="guide-p">All 6 have infinite <strong>Regeneration II</strong>.</div>
+
+    <div class="guide-h2">Loot rules (per kill, per nearby player)</div>
+    <div class="guide-p">
+      <strong>Guaranteed (100%):</strong> one random item from the boss's own themed drop pool.<br>
+      <strong>Guaranteed:</strong> one random Diamond-tier equipment piece — ritual-summoned World Bosses are always flagged "Special," which would otherwise only be a 50% chance.<br>
+      <strong>1% chance:</strong> one random Netherite-tier equipment piece.<br>
+      Being "Special" also adds <strong>+20 Dexterity per level</strong>, <strong>double max HP</strong>, and <strong>+10% damage on every boss-skill-kit ability</strong> (not ordinary melee/ranged hits) on top of the boss's rolled stats.
+    </div>
+
+    <div class="guide-h2">Anti-cheese combat lock</div>
+    <div class="guide-p">Landing or taking a hit against a World Boss locks you out of Ender Pearls and teleport commands (<code>/rtp</code>, <code>/warp</code>, <code>/tpa</code>, <code>/tpahere</code>, <code>/spawn</code>, <code>/home</code>) for 15 seconds. A boss that loses line of sight on its target for 4+ seconds while close by (e.g. from being boxed in with blocks) fires its Traversal ability immediately instead of waiting on cooldown.</div>
+  `;
+}
+
+function renderMoreSoon(){
+  const el = document.getElementById("content");
+  el.innerHTML = `<div class="view-title">More sections are on the way</div>
+    <div class="view-desc">These get their own fully-detailed pages here as they're written up — same treatment as Gear: every effect, every number, vanilla vs. RPG.</div>
+    <div class="placeholder-grid">
+      ${UPCOMING_SECTIONS.map(s => `<div class="placeholder-card"><div class="name">${escapeHtml(s.name)}</div>${escapeHtml(s.hint)}</div>`).join("")}
+    </div>`;
+}
+
+function renderUpgradeGuide(){
+  const el = document.getElementById("content");
+
+  const statPool = ROLLABLE_STATS.map(s => `<div class="stat-pill"><span class="stat-name">${escapeHtml(s.name)}</span><span class="stat-target">${escapeHtml(s.at200)} @ Lv.200</span></div>`).join("");
+
+  el.innerHTML = `
+    <div class="view-title">Upgrading Gear</div>
+    <div class="guide-lead">World-boss gear isn't fixed the moment it drops — every piece has a <strong>Gear Level</strong> and a small set of rollable stats, and both grow through the <strong>Combine Forge</strong> (<code>/ascenditem</code>). This page covers how the whole system fits together.</div>
+
+    <div class="guide-h2">1. What a fresh drop looks like</div>
+    <div class="guide-p">A world-boss kill drops gear with its <strong>Gear Level set to the boss's own level</strong> (1-200) and <strong>one random stat</strong> from the pool below. There's no roll on the stat's number — its value is 100% determined by the item's current Level, so it automatically gets stronger every time the item is leveled up later.</div>
+    <div class="stat-pool-grid">${statPool}</div>
+    <div class="guide-p" style="margin-top:8px">Regular (non-world-boss) equip drops use the same pool and formula, just off a lower-level mob.</div>
+    <div class="callout"><strong>Skinned vs. non-skinned gear.</strong> The 77 unique-named world-boss items (Halo Chestplate, Riesling Crossbow, etc.) are <em>skinned</em> gear — Combine/Socket/Level Up always require the <strong>exact same gear item</strong> as the material, regardless of its stats. Plain-looking Diamond/Netherite drops (no custom name or model) are <em>non-skinned</em> gear — they're matched by equipment slot and tier instead: a Diamond piece only takes Diamond material, but a Netherite piece can take Diamond <em>or</em> Netherite material of the same slot. Both kinds share the same Combine Forge, Gear Level, and socket system.</div>
+    <div class="callout"><strong>Crit Chance and Crit Resist work differently from the rest of the pool.</strong> They're not direct %-point bonuses — they add to a flat "Power" number (Crit Power for attackers, Crit Resist Power for defenders) that gets compared at the moment of the hit: <code>10% + (attacker's Crit Power − defender's Crit Resist Power) × 2%</code>, clamped 0-100%. Equal Power on both sides always lands at a 10% baseline, regardless of either side's level. Other flat bonuses (ice element, Archer Skill 3, Gamble trait) are added directly on top of that result, not run through the formula.</div>
+
+    <div class="guide-h2">2. The Combine Forge — three modes</div>
+    <div class="guide-p">Open it with <strong>/ascenditem</strong>. A button in the GUI cycles between three modes; each uses the same 27-slot window differently.</div>
+    <div class="mode-grid">
+      <div class="mode-card">
+        <h4>Combine</h4>
+        <ul>
+          <li>Adds a <strong>2nd or 3rd stat line</strong> to an item — a stat type already on the item can be added again as a separate line, stacking its contribution.</li>
+          <li>Material must be the <strong>same item</strong> (exact gear id for skinned gear; same slot + compatible tier for non-skinned Diamond/Netherite gear) and the <strong>same Gear Level</strong> as the original, with exactly one stat rolled.</li>
+          <li><strong>50% chance.</strong> On success the material's stat type is added as a new line; either way the material is consumed.</li>
+          <li>Optional <strong>Insurance</strong> item (same item + Level, any stat): if the combine fails, the insurance is lost <em>instead of</em> the material, so you keep it to try again.</li>
+          <li>Capped by the item's current socket count (see Socket Unlock).</li>
+        </ul>
+      </div>
+      <div class="mode-card">
+        <h4>Socket Unlock</h4>
+        <ul>
+          <li>Raises how many stat lines an item can hold: <strong>3 → 4 costs 10</strong> matching copies, <strong>4 → 5 costs 20</strong>.</li>
+          <li>Every fed copy must match the original's <strong>item identity and Gear Level</strong> (gear id for skinned gear; slot + tier for non-skinned) — their own rolled stat doesn't matter.</li>
+          <li><strong>Guaranteed</strong>, no chance roll. Feeding more than needed returns the extra copies.</li>
+          <li>This only raises capacity — you still need a normal Combine to actually fill the new slot.</li>
+        </ul>
+      </div>
+      <div class="mode-card">
+        <h4>Level Up</h4>
+        <ul>
+          <li>Raises the original's <strong>Gear Level by 1</strong>.</li>
+          <li>Consume <strong>2 items</strong> of the same item identity (gear id for skinned gear; slot + tier for non-skinned) <strong>and the same current Level</strong> as the original — their own rolled stat doesn't matter.</li>
+          <li><strong>Guaranteed</strong>, no chance roll. Max Level is <strong>200</strong>.</li>
+          <li>Raising Level makes every stat line already on the item stronger (see §1) and scales that item's unique Vanilla skill effect, if any (see §4). Upgrading a non-skinned item from Diamond to Netherite via the vanilla Smithing Table keeps its Level/stats/sockets intact.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout"><strong>Why you can't just farm easy bosses.</strong> Leveling a piece from 1 to 200 needs a full pipeline of matching-Level duplicate pairs at every single step along the way — each step's ingredients must themselves already be at that step's Level. On top of that, a drop's starting Gear Level isn't the mob's level — it's a weighted roll <em>capped</em> by it and skewed toward the low end, so even a genuine Level-200 boss kill usually won't drop anywhere near Gear Level 200 on the first try. A high-level boss just buys you a higher ceiling and more attempts at a good roll; it's still always faster than trying to power-level gear farmed off trivial, low-level bosses.</div>
+
+    <div class="guide-h2">3. A worked example</div>
+    <div class="step-list">
+      <div class="step"><span class="num">1</span><span class="txt">Kill a Level 40 world boss — the drop's <strong>Gear Level</strong> is rolled between 1 and 40, weighted toward the low end (say it lands at <strong>12</strong>), with one stat, say <strong>Melee Damage</strong> (worth 40/200 × 12 = 2.4 at this Level).</span></div>
+      <div class="step"><span class="num">2</span><span class="txt">Find or farm a second copy of the <strong>exact same sword</strong>, also at Level 12 (matching drops are also weighted-roll results, so this itself can take a few kills). Feed both into <strong>Level Up</strong> repeatedly (2 matching copies each time) to raise your sword's Level.</span></div>
+      <div class="step"><span class="num">3</span><span class="txt">Once you're happy with the Level, use <strong>Combine</strong> with a same-Level copy to try adding a 2nd stat (50% chance) — <strong>Insurance</strong> is worth using here so a failed roll doesn't cost you the copy you were relying on.</span></div>
+      <div class="step"><span class="num">4</span><span class="txt">Want a 4th or 5th stat slot? Feed <strong>10</strong> (then <strong>20</strong>) same-item-same-Level copies into <strong>Socket Unlock</strong>, then Combine again to actually fill each new slot.</span></div>
+    </div>
+
+    <div class="guide-h2">4. Vanilla skill effects also scale</div>
+    <div class="guide-p">Every named world-boss item's own unique skill (documented in the <strong>Gear</strong> tab, the "Vanilla" row on each card) scales with that specific item's Gear Level: <strong>×1</strong> below Level 100, <strong>×2</strong> at Level 100+, <strong>×3</strong> at Level 200. Where the effect is a fixed potion tier instead of a raw number (e.g. Speed I, Regeneration I), it upgrades a tier at each threshold (I → II → III) instead of multiplying. Full-set bonuses use the <em>lowest</em> Level among all 4 worn pieces, so leveling only one piece can't cheese a stronger set bonus. A handful of purely binary effects (permanent Fire Resistance, full knockback immunity, etc.) have nothing to scale and stay as-is.</div>
+  `;
+}
+
+// ── Deviants (deviant/Deviant.java, DeviantType.java, DeviantGenerator.java,
+//    DeviantStatCalculator.java, DeviantLevelingService.java, DeviantSkillManager.java,
+//    DeviantSummonService.java, DeviantSummonCooldown.java, DeviantGuiManager.java) ──
+const DEVIANT_TYPES = [
+  { type:"Skeleton",       cls:"Archer",    weapon:"Bow only" },
+  { type:"Stray",          cls:"Archer",    weapon:"Bow only" },
+  { type:"Zombie",         cls:"Swordsman", weapon:"Iron/Diamond/Netherite Sword, Diamond/Netherite Axe" },
+  { type:"Zombified Piglin", cls:"Swordsman", weapon:"Iron/Diamond/Netherite Sword, Diamond/Netherite Axe" },
+  { type:"Piglin", note:"(exists in code, not sold)", cls:"Archer", weapon:"Crossbow only" }
+];
+
+const DEVIANT_SKILLS = {
+  swordsman: [
+    { name:"Skill 1 — Power Strike", cd:"60s base (−≤30s w/ DEX)", lines:[
+        "On hit: flat <strong>INT-scaled</strong> bonus damage (8 dmg per 100 INT) + knockback.",
+        "Passive: that same INT bonus is folded into base melee damage too." ] },
+    { name:"Skill 2 — Blade Frenzy", cd:"60s base (−≤30s w/ DEX)", lines:[
+        "On hit: heals the deviant <strong>15%</strong> of the damage it just dealt, and splashes <strong>50% damage + INT bonus</strong> to monsters within 3 blocks.",
+        "Passive: +10% Lifesteal Chance while wielding a sword." ] },
+    { name:"Skill 3 — Battle Fury", cd:"15–30s (15s fixed floor, CDR can't go below it)", lines:[
+        "On hit: Resistance II + Speed II + Strength I for a <strong>VIT-scaled</strong> duration (100 ticks + 20 ticks per 100 VIT).",
+        "Passive: +2 max HP per level — the cheapest cooldown of any skill, but no direct damage of its own." ] }
+  ],
+  archer: [
+    { name:"Skill 1 — Piercing Shot", cd:"60s base (−≤30s w/ DEX)", lines:[
+        "On hit: flat <strong>INT-scaled</strong> bonus damage, plus pierces <strong>30% damage</strong> to monsters within 2 blocks of the target.",
+        "Passive: that same INT bonus is folded into base ranged damage too." ] },
+    { name:"Skill 2 — Elemental Volley", cd:"60s base (−≤30s w/ DEX)", lines:[
+        "On hit: flat <strong>INT-scaled</strong> bonus damage, then applies the deviant's own element: Fire burns 5s, Ice applies Slowness II 5s, Water applies Weakness II 5s." ] },
+    { name:"Skill 3 — Crippling Shot", cd:"60s base (−≤30s w/ DEX)", lines:[
+        "On hit: Slowness (2–6s, INT-scaled) + flat INT-scaled bonus damage.",
+        "Passive: +10% flat crit chance, plus +5% guaranteed lifesteal while wielding a crossbow." ] }
+  ]
+};
+
+const DEVIANT_ELEMENTS = [
+  { name:"Fire",  effect:"All 3 damage types (Melee/Ranged/Splash) ×1.10." },
+  { name:"Ice",   effect:"+10% flat crit chance." },
+  { name:"Water", effect:"+10% max HP (×1.10)." }
+];
+
+const DEVIANT_TRAITS = [
+  { name:"Frenzy",    effect:"All 3 damage types ×2, +8 flat. Crit Damage bonus ×2." },
+  { name:"Fortress",  effect:"All 3 damage types ×0.8. Max HP ×2." },
+  { name:"Gamble",    effect:"Crit Chance −25% flat. Crit Damage bonus ×1.5." },
+  { name:"Bloodlust", effect:"+5% Lifesteal Chance. Max HP ×0.9." }
+];
+
+function deviantTypeCard(t){
+  return `<div class="stat-pill" style="padding:9px 12px">
+      <div><span class="stat-name">${escapeHtml(t.type)}</span> ${t.note ? `<span style="color:var(--text-dim);font-size:11px">${escapeHtml(t.note)}</span>` : ""}</div>
+      <div style="color:var(--text-dim);font-size:11.5px;margin-top:3px">${escapeHtml(t.cls)} · ${escapeHtml(t.weapon)}</div>
+    </div>`;
+}
+
+function deviantSkillCard(sk){
+  return `<div class="mode-card">
+      <h4>${escapeHtml(sk.name)} <span class="cd-badge">${escapeHtml(sk.cd)}</span></h4>
+      <ul>${sk.lines.map(l => `<li>${l}</li>`).join("")}</ul>
+    </div>`;
+}
+
+function renderDeviantsGuide(){
+  const el = document.getElementById("content");
+
+  const typeGrid = DEVIANT_TYPES.map(deviantTypeCard).join("");
+  const elementGrid = DEVIANT_ELEMENTS.map(e => `<div class="stat-pill"><span class="stat-name">${escapeHtml(e.name)}</span><div style="color:var(--text-dim);font-size:11.5px;margin-top:2px">${escapeHtml(e.effect)}</div></div>`).join("");
+  const traitGrid = DEVIANT_TRAITS.map(t => `<div class="stat-pill"><span class="stat-name">${escapeHtml(t.name)}</span><div style="color:var(--text-dim);font-size:11.5px;margin-top:2px">${escapeHtml(t.effect)}</div></div>`).join("");
+
+  el.innerHTML = `
+    <div class="view-title">Deviants</div>
+    <div class="guide-lead">A Deviant is a fully autonomous companion mob — not a mount you ride. You buy one, it lives inside a mob-head "skull" item, and summoning it spawns a real mob that follows you and fights on its own AI, entirely off its own stats. Its base stats, class, skill, element, and trait are all rolled once at purchase and never change — there's no reroll, so gearing and leveling are how you actually improve one.</div>
+
+    <div class="guide-h2" style="margin-top:0">1. Getting one</div>
+    <div class="guide-p"><strong>/deviant buy</strong> — costs a flat <strong>64 Emeralds</strong>, checked against your wallet balance first, then Emerald items in your inventory. Only 4 of the 5 possible types are actually sold; Piglin exists in the code (and can still appear from other sources) but is hidden from the buy menu.</div>
+    <div class="stat-pool-grid">${typeGrid}</div>
+    <div class="guide-p" style="margin-top:8px">Class is fixed by type — Skeleton/Stray/Piglin are Archers, Zombie/Zombified Piglin are Swordsmen — and it decides which of the two skill lists and which weapons the deviant can use.</div>
+
+    <div class="guide-h2">2. Summoning it</div>
+    <div class="step-list">
+      <div class="step"><span class="num">1</span><span class="txt"><strong>Right-click</strong> the deviant skull in hand to summon it (right-click again to despawn/recall it — recalling manually has no cooldown).</span></div>
+      <div class="step"><span class="num">2</span><span class="txt"><strong>Shift+right-click</strong> the skull (or <strong>/deviant equip</strong> while holding it) opens the equip/manage GUI.</span></div>
+      <div class="step"><span class="num">3</span><span class="txt"><strong>/deviant guide</strong> opens the in-game stat-formula reference GUI for a live look at any deviant's exact numbers.</span></div>
+    </div>
+    <div class="callout"><strong>Limits.</strong> Max <strong>3</strong> deviants summoned at once per player. They can't be summoned on the MOBA map. If a deviant's entity actually <em>dies</em> in combat, it goes on a <strong>60-second</strong> re-summon cooldown — manually recalling it does not trigger this. Ownership lives entirely in the skull item, so giving, dropping, or trading it transfers the deviant.</div>
+
+    <div class="guide-h2">3. Stats & how Level scales them</div>
+    <div class="guide-p">At creation, 1–3 of the 6 core stats (Strength, Agility, Dexterity, Intelligence, Vitality, Luck) are randomly chosen and split to sum to exactly <strong>100 base points</strong> — a 1-stat roll dumps all 100 into one stat, a 3-stat roll spreads it thinner across three. Every other point of power comes from Level and gear:</div>
+    <div class="guide-p" style="margin:-4px 0 12px"><strong>Final Stat = Base Stat × Level + Gear Bonus.</strong> There's no separate per-level class growth — Level is the only multiplier on your base roll, which is why leveling matters more than almost anything else you can do.</div>
+    <div class="guide-p">Max Level is <strong>200</strong>, same 20,000-point Abyss cap the player leveling curve uses. Max HP = 20 + 8 per level above 1 + (VIT/100)×10 + (STR/100)×5 + gear Max-Health bonus, then Fortress ×2 / Bloodlust ×0.9 / Water element ×1.1 apply on top (Swordsman Skill 3 also adds a flat +2 HP × Level). Melee Damage = (STR/100)×4 + (DEX/100)×2 [+ (INT/100)×4 if Swordsman Skill 1]; Ranged Damage = (DEX/100)×4 + (AGI/100)×2 [+ (INT/100)×4 for Archer Skill 1/2] — both also add +4 per enchant level of Sharpness/Power on the weapon, plus any gear damage stat. DEX drives Cooldown Reduction, worth up to <strong>−30 seconds</strong> off a skill's cooldown at 40+ DEX per level.</div>
+
+    <div class="guide-h2">4. Leveling up</div>
+    <div class="guide-p">A summoned deviant gains the <strong>exact same Abyss amount</strong> its owner gets from a kill, any time that kill happens in an RPG or siege world (world name contains "_rpg", except the MOBA map) — using the identical escalating conversion curve the player uses (100 converted points per level). <strong>Only currently-summoned deviants earn anything</strong> — one left in your inventory as a skull gains nothing, so keep it out while you grind if you want it to level.</div>
+
+    <div class="guide-h2">5. Equipment</div>
+    <div class="guide-p">Open the equip GUI with <strong>/deviant equip</strong> (holding the skull) or shift+right-click the skull. Five slots — Helmet, Chestplate, Leggings, Boots, Weapon — each now shows a shaped placeholder icon and an upfront "Accepts:" line so you don't have to guess by trial and error. Any vanilla armor tier (Leather through Netherite, plus Turtle for the helmet slot) fits its matching armor slot; both legacy stat-lore gear and world-boss "Gear Level" drops work and stack their bonuses on top of the Level-derived formula above.</div>
+    <div class="guide-p" style="margin-top:-4px">The <strong>Weapon</strong> slot is the one gated by type — see the accepted weapons per type in the table above. Equipped items are automatically made unbreakable with zero drop chance the moment they're worn, so gear is never destroyed or lost on death; unequipping or deleting the deviant returns everything to your inventory (or drops it if your inventory is full).</div>
+
+    <div class="guide-h2">6. Skills</div>
+    <div class="guide-p">One skill is rolled at creation from the deviant's class list and fixed forever — it fires automatically on hit whenever it's off cooldown, no player input required, and only ever damages Monsters (never players or other deviants).</div>
+    <div class="mode-grid">${DEVIANT_SKILLS.swordsman.map(deviantSkillCard).join("")}</div>
+    <div class="mode-grid" style="margin-top:10px">${DEVIANT_SKILLS.archer.map(deviantSkillCard).join("")}</div>
+
+    <div class="guide-h2">7. Elements &amp; Abyss Traits</div>
+    <div class="guide-p">Also rolled once at creation and fixed forever — one element, one trait, both purely passive multipliers stacked on top of everything above.</div>
+    <div class="stat-pool-grid">${elementGrid}</div>
+    <div class="stat-pool-grid" style="margin-top:8px">${traitGrid}</div>
+
+    <div class="guide-h2">8. Other game modes</div>
+    <div class="guide-p"><strong>/deviantduel</strong> pits your deviant 1-v-1 against another player's. <strong>/deviantarena</strong> runs wave-based arena battles. In both, deviants lean toward a favored target by type before falling back to a default rule: Skeleton favors Zombified Piglin, Zombified Piglin favors Zombie, Zombie favors Stray, and Stray favors Skeleton (fallback is closest or lowest-HP opponent depending on type); other types just pick a random opponent.</div>
+
+    <div class="guide-h2">9. Making one strong — the short version</div>
+    <div class="step-list">
+      <div class="step"><span class="num">1</span><span class="txt">Stats, skill, element, and trait are pure RNG at purchase with no reroll — a strong roll is worth as much as good gear, so don't be afraid to buy more than one and keep the best.</span></div>
+      <div class="step"><span class="num">2</span><span class="txt">Keep it <strong>summoned</strong> while you grind RPG-world kills — only summoned deviants earn Abyss XP, and Level is the single biggest multiplier on every stat it has.</span></div>
+      <div class="step"><span class="num">3</span><span class="txt">Fill all 5 gear slots with the highest tier you can, matching its type's weapon restriction.</span></div>
+      <div class="step"><span class="num">4</span><span class="txt">Enchant its weapon with Sharpness/Power — each level adds flat bonus damage on top of the stat formula.</span></div>
+      <div class="step"><span class="num">5</span><span class="txt">DEX-per-level isn't something you allocate — it's locked in by the base roll at purchase. If you want more Cooldown Reduction, look for a DEX-heavy roll when buying, or equip legacy stat-lore gear with flat Dexterity on it.</span></div>
+    </div>
+  `;
+}
+
+function renderContent(){
+  const el = document.getElementById("content");
+
+  if (state.section === "upgrade") { renderUpgradeGuide(); return; }
+  if (state.section === "deviants") { renderDeviantsGuide(); return; }
+  if (state.section === "bosses") {
+    if (state.view.type === "wbdetail") renderBossDetail(state.view.id);
+    else renderRitualOverview();
+    return;
+  }
+  if (state.section !== "gear") { renderMoreSoon(); return; }
+
+  if (state.query.trim()) {
+    const q = state.query.trim().toLowerCase();
+    const matchItem = i => [i.name, i.skill, i.van, i.rpg, i.dev, i.slot].join(" ").toLowerCase().includes(q);
+    const matchPiece = p => [p.itemName, p.skill, p.van, p.rpg].join(" ").toLowerCase().includes(q);
+    const matchBonus = (s,b) => [s.name, b.name, b.van, b.rpg].join(" ").toLowerCase().includes(q);
+
+    const items = ITEMS.filter(matchItem);
+    const pieces = [];
+    SETS.forEach(s => s.pieces.forEach(p => { if (matchPiece(p)) pieces.push({p, s}); }));
+    const bonuses = SETS.filter(s => matchBonus(s, s.bonus));
+
+    const total = items.length + pieces.length + bonuses.length;
+    let html = `<div class="view-title">Search results for "${escapeHtml(state.query)}"</div>
+      <div class="view-desc">${total} match${total===1?"":"es"}.</div>`;
+    if (!total) {
+      html += `<div class="empty">Nothing matches that search.</div>`;
+    } else {
+      html += `<div class="grid">`;
+      items.forEach(i => html += itemCard(i, {showBoss:true}));
+      pieces.forEach(({p}) => html += pieceCard(p));
+      bonuses.forEach(s => html += bonusCard(s.bonus));
+      html += `</div>`;
+    }
+    el.innerHTML = html;
+    return;
+  }
+
+  if (state.view.type === "boss") {
+    const b = BOSSES[state.view.id];
+    const items = itemsForBoss(state.view.id);
+    const sets = setsForBoss(state.view.id);
+    let html = `<div class="view-title">${b.name}'s drop pool</div>
+      <div class="view-desc">Everything this world boss can drop — one random roll from this pool per successful drop.</div>`;
+    if (items.length) html += `<div class="grid" style="margin-bottom:22px">${items.map(i=>itemCard(i)).join("")}</div>`;
+    sets.forEach(s => html += setBlock(s));
+    el.innerHTML = html;
+    return;
+  }
+
+  if (state.view.type === "cat") {
+    const label = state.view.id;
+    const slotsMap = { "Swords":["Sword"], "Ranged":["Bow","Crossbow"], "Shields & Books":["Shield","Book"], "Tools":["Pickaxe","Axe","Hoe","Shovel"] };
+    const arr = slotsMap[label];
+    const items = ITEMS.filter(i => arr.includes(i.slot));
+    let html = `<div class="view-title">${label}</div>
+      <div class="view-desc">${items.length} item${items.length===1?"":"s"}.</div>
+      <div class="grid">${items.map(i=>itemCard(i,{showBoss:true})).join("")}</div>`;
+    el.innerHTML = html;
+    return;
+  }
+
+  if (state.view.type === "armor") {
+    let html = `<div class="view-title">Armor Sets</div>
+      <div class="view-desc">14 four-piece sets, each with an independent full-set bonus. Deviants check the bonus against their own equipped set.</div>`;
+    SETS.forEach(s => html += setBlock(s, {showBoss:true}));
+    el.innerHTML = html;
+    return;
+  }
+
+  // all
+  let html = `<div class="view-title">Everything</div>
+    <div class="view-desc">All 21 standalone items, followed by all 14 armor sets.</div>
+    <div class="grid" style="margin-bottom:22px">${ITEMS.map(i=>itemCard(i,{showBoss:true})).join("")}</div>`;
+  SETS.forEach(s => html += setBlock(s, {showBoss:true}));
+  el.innerHTML = html;
+}
+
+function render(){ renderNav(); renderContent(); }
+
+document.getElementById("search").addEventListener("input", e => {
+  state.query = e.target.value;
+  renderContent();
+  document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+});
+
+document.getElementById("content").addEventListener("click", e => {
+  const gotoBtn = e.target.closest("[data-goto]");
+  if (gotoBtn) {
+    e.preventDefault();
+    state.view = { type: gotoBtn.dataset.goto, id: "all" };
+    document.getElementById("search").value = "";
+    state.query = "";
+    render();
+    return;
+  }
+  const gotoGear = e.target.closest("[data-goto-gear]");
+  if (gotoGear) {
+    e.preventDefault();
+    state.section = "gear";
+    state.view = { type: "boss", id: gotoGear.dataset.gotoGear };
+    document.getElementById("search").value = "";
+    state.query = "";
+    render();
+  }
+});
+
+render();
+</script>
