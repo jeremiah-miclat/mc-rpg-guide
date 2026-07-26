@@ -372,9 +372,12 @@ const ELYTRA_ICONS = {
   "zt_yellow_maple": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAbJJREFUWIXNV0Fqw0AMlJdSCjUFn3zsn/KSPCUvyZ989MlgbCi9pAczsTyr3WgdBzqXEO1qNCtpZbuSApxPcvv6XP+P8/LLtstVKi9nKBEANLXP9jIBXe+zHSoA6c+dtKmXcpxPcjtcwKtQLKDrRdomtrfNvjK4BHD6P97jPbCVluGhAE/tGSUisgI4uCfF2OMVkRRgBUfth2kdOJerVOO82ES2veARYQpIBe8HuwEBvccrIhKQCo4msxoQ0Hu8Iu4zWy9qAT+/K3HXL2vWvIfwcRb5bmNflA2A/xsbtJimzp/4ETi49ZAye4AbSyQ9gBg8kHLBkwJSd9+TDd7zdBOK+E8PcBZyIjYCUsFF8qM2Nao9IkKKpOtXgtIHjc6Y5rFEmD0AApDwvfYERxbAk/INItvTawLdUCXXkf30ATgLUQa0emtNX03GMKWbFSIYFdd+mOImxGTDncZbML8VY033EXyZG1ybDMBonVIPFD1SAb2W8+e1wBtyJHuR474L0ONSb0TdrfUjfAMTMI54GDG0iABDKbn2ecY/66if8aVBvL7/+8MkdeW82JM5EyXfeqU+f1XPLntvzEn6AAAAAElFTkSuQmCC"
 };
 
-// Independent cosmetic elytra drop pool for special world bosses (see WorldBossElytraDropTable.java).
-// Tier 1 is droppable from any special world boss; Tier 2 additionally unlocks at boss level 20+.
-// This pool is deliberately separate from the Gear drop pools above — no gear stats, no sets.
+// Independent elytra drop pool for special world bosses (see WorldBossElytraDropTable.java /
+// ElytraSkinTheme.java). Tier 1 is droppable from any special world boss; Tier 2 additionally
+// unlocks at boss level 20+. Still deliberately separate from the Gear drop pools above (no
+// GearRegistry tagging, no gear level, no armor-set bonuses) — but each skin now carries real
+// flight-altering attribute stats via a fixed Speedster/Tank/Glass Cannon identity, plus a
+// particle trail color-matched to that skin's actual texture while gliding.
 const ELYTRA_DROPS = {
   piglin_brute: {
     tier1: [["mondstadt","Mondstadt Wings"], ["liyue","Liyue Wings"], ["sumeru","Sumeru Wings"], ["inazuma","Inazuma Wings"]],
@@ -402,12 +405,77 @@ const ELYTRA_DROPS = {
   }
 };
 
+// Fixed Speedster/Tank/Glass Cannon identity per skin id — mirrors ElytraSkinTheme.java's
+// CATEGORY_BY_ID exactly. Every named skin always has these same stats, every time it drops.
+const ELYTRA_CATEGORY = {
+  mondstadt: "speedster", liyue: "tank", sumeru: "glass_cannon", inazuma: "speedster",
+  fontaine1: "tank", fontaine2: "speedster", frost: "glass_cannon", musa: "tank",
+  zelda_sheikah: "glass_cannon", zelda_zonai_wing: "speedster", zelda_zora: "tank",
+  descension: "tank", feasting: "glass_cannon", firstflight: "speedster",
+  zelda_gerudo: "glass_cannon", zelda_goron: "tank", zelda_botw_paraglider: "speedster",
+  companionship: "speedster", music: "glass_cannon", prime: "tank",
+  zt_yellow: "speedster", zt_yellow_maple: "tank", zt_royal: "glass_cannon",
+  zt_blue: "glass_cannon", zt_leaf: "speedster", zt_maple: "tank",
+  zt_dark: "glass_cannon", zt_ripped_cape: "speedster", zt_insect: "tank", zt_jet: "glass_cannon",
+  zt_blue_demon: "tank", zt_lesser_demon: "glass_cannon", zt_red_demon: "speedster", zt_true_demon: "tank",
+  zt_green_dragon: "speedster", zt_red_dragon: "glass_cannon", zt_white_dragon: "tank",
+  zt_angel: "speedster", zt_guardian: "tank", zt_white: "glass_cannon"
+};
+
+// Particle trail color per skin id — sampled from the actual worn wing texture in the live
+// resource pack, mirrors ElytraSkinTheme.java's TRAIL_BY_ID exactly.
+const ELYTRA_COLOR = {
+  companionship: "#205070", descension: "#205090", feasting: "#E0D0A0", firstflight: "#707060",
+  fontaine1: "#5080C0", fontaine2: "#40B0D0", frost: "#90A0C0", inazuma: "#A050D0",
+  liyue: "#E0B030", mondstadt: "#40D0D0", musa: "#D03050", music: "#B0A080",
+  prime: "#304080", sumeru: "#D0B090", zelda_botw_paraglider: "#502020", zelda_gerudo: "#A05000",
+  zelda_goron: "#604020", zelda_sheikah: "#702010", zelda_zonai_wing: "#60A070", zelda_zora: "#00C0C0",
+  zt_angel: "#909090", zt_blue_demon: "#003050", zt_blue: "#50C0F0", zt_dark: "#202020",
+  zt_green_dragon: "#005020", zt_guardian: "#402000", zt_insect: "#D0D0D0", zt_jet: "#00B0F0",
+  zt_leaf: "#105000", zt_lesser_demon: "#202020", zt_maple: "#007010", zt_red_demon: "#500000",
+  zt_red_dragon: "#400000", zt_ripped_cape: "#900000", zt_royal: "#D00000", zt_true_demon: "#D00000",
+  zt_white_dragon: "#4090B0", zt_white: "#D0D0D0", zt_yellow: "#F0D050", zt_yellow_maple: "#805000"
+};
+
+// Stat lines shown on the item's real "When on Chest:" tooltip block (vanilla auto-renders this
+// from the item's attribute_modifiers — these strings just mirror ElytraSkinTheme.java's numbers
+// for the web guide). Tier 2 is meaningfully stronger across the board.
+const ELYTRA_STAT_LINES = {
+  speedster: {
+    tier1: ["+10% Speed", "−25% Fall Damage Multiplier", "+4 Safe Fall Distance", "−35% Gravity"],
+    tier2: ["+18% Speed", "−45% Fall Damage Multiplier", "+7 Safe Fall Distance", "−55% Gravity"]
+  },
+  tank: {
+    tier1: ["+3 Armor", "+2 Armor Toughness", "−8% Speed"],
+    tier2: ["+5 Armor", "+3.5 Armor Toughness", "−4% Speed"]
+  },
+  glass_cannon: {
+    tier1: ["+65% Gravity"],
+    tier2: ["+35% Gravity"]
+  }
+};
+
+const ELYTRA_CATEGORY_LABEL = { speedster: "Speedster", tank: "Tank", glass_cannon: "Glass Cannon" };
+
 function elytraDropCard([id, name], locked){
   const icon = ELYTRA_ICONS[id] || "";
+  const tier = locked ? "tier2" : "tier1";
+  const category = ELYTRA_CATEGORY[id];
+  const color = ELYTRA_COLOR[id] || "#888";
   const lockNote = locked ? `<div class="drop-line">Requires boss level 20+</div>` : "";
+
+  let statBlock = "";
+  if (category) {
+    const lines = ELYTRA_STAT_LINES[category][tier];
+    const statLines = lines.map(l => `<div class="drop-line">${escapeHtml(l)}</div>`).join("");
+    statBlock = `
+      <div class="drop-line" style="margin-top:4px"><span class="dot" style="background:${color}"></span><strong>${ELYTRA_CATEGORY_LABEL[category]}</strong> — When on Chest:</div>
+      ${statLines}`;
+  }
+
   return `<div class="mode-card" style="display:flex;align-items:center;gap:10px">
       <img src="${icon}" width="32" height="32" style="image-rendering:pixelated;flex-shrink:0" alt="">
-      <div><h4 style="margin:0">${escapeHtml(name)}</h4>${lockNote}</div>
+      <div><h4 style="margin:0">${escapeHtml(name)}</h4>${lockNote}${statBlock}</div>
     </div>`;
 }
 
@@ -418,9 +486,9 @@ function elytraDropsSectionHtml(bossId){
   const tier2Html = pool.tier2.map(e => elytraDropCard(e, true)).join("");
   return `
     <div class="guide-h2">Elytra Drops (independent pool)</div>
-    <div class="guide-p">A separate cosmetic drop pool from the Gear drops above — no gear stats, no armor-set bonuses. 50% chance per kill on a <strong>Special</strong> world boss (see Summoning &amp; Loot Rules) to receive one random skin from this boss's themed pool.</div>
+    <div class="guide-p">A separate drop pool from the Gear drops above — no GearRegistry tagging, no armor-set bonuses. 50% chance per kill on a <strong>Special</strong> world boss (see Summoning &amp; Loot Rules) to receive one random skin from this boss's themed pool. Each skin permanently belongs to one of three flight archetypes (Speedster / Tank / Glass Cannon), and its particle trail color while gliding always matches its own wing texture.</div>
     <div class="mode-grid">${tier1Html}</div>
-    <div class="guide-p" style="margin-top:10px"><strong>Tier 2 — unlocks at boss level 20+:</strong> the pool above is joined by these additional skins.</div>
+    <div class="guide-p" style="margin-top:10px"><strong>Tier 2 — unlocks at boss level 20+:</strong> the pool above is joined by these additional skins, each meaningfully stronger than its Tier 1 counterpart within the same archetype.</div>
     <div class="mode-grid">${tier2Html}</div>
   `;
 }
