@@ -410,7 +410,7 @@ const SETS = [
 
   { name:"Grimdark Gold", boss:"zombified_piglin", pieces:[
       { slot:"Helmet",     itemName:"Grimdark Gold Helmet",     skill:"Gilded Greed",    act:"Triggers on kill", van:"1% chance for bonus currency on kill. (Gear Level 100: 2% chance, Level 200: 3% chance.)", rpg:"+Luck share of your build ÷ 4, added chance.", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"Grimdark Gold Chestplate", skill:"Golden Bulwark",  act:"Automatic pulse every 20s while worn", van:"Absorption I when hit for 6+ damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 10, added points.", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Grimdark Gold Chestplate", skill:"Golden Bulwark",  act:"Triggers when hit for 6+ damage (6s cooldown)", van:"Absorption I when hit for 6+ damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 10, added points.", dev:DEV.STD },
       { slot:"Leggings",   itemName:"Grimdark Gold Leggings",   skill:"Molten Legguards",act:"Triggers on taking damage (chance-based)", van:"40% chance to ignite an attacker on being hit. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+0.5× your Melee bonus, added chance.", dev:DEV.STD },
       { slot:"Boots",      itemName:"Grimdark Gold Boots",      skill:"Heavy Steps",     act:"Passive: always active while worn", van:"15% knockback resistance. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Flee bonus.", dev:DEV.STD }
     ],
@@ -434,7 +434,7 @@ const SETS = [
 
   { name:"Ellegaard", boss:"warden", pieces:[
       { slot:"Helmet",     itemName:"Ellegaard Helmet",     skill:"Tinker's Sight",     act:"Automatic pulse every 20s while worn", van:"Reveals invisible enemies + highlights nearby mobs every 20s, 8-block range. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Crit bonus, added range.", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"Ellegaard Chestplate", skill:"Reinforced Plating",act:"Passive: always active while worn", van:"Absorption I when hit below 50% HP. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 10, added points.", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Ellegaard Chestplate", skill:"Reinforced Plating",act:"Triggers when hit while below 50% HP", van:"Absorption I when hit below 50% HP. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 10, added points.", dev:DEV.STD },
       { slot:"Leggings",   itemName:"Ellegaard Leggings",   skill:"Servo Legs",        act:"Triggers when you start sprinting (8s cooldown)", cd:"8s", van:"Speed II for 3s when you start sprinting. (Gear Level 100: 5s, Level 200: 7s.)", rpg:"+1s duration per 100 Agility.", dev:DEV.SUB },
       { slot:"Boots",      itemName:"Ellegaard Boots",      skill:"Piston Step",       act:"Triggers when you jump", van:"+0.3 block jump height. (Gear Level 100: x2, Level 200: x3.)", rpg:"+Vitality share of your build ÷ 4 × 0.2, added height (up to 5 blocks total).", dev:DEV.STD }
     ],
@@ -450,7 +450,7 @@ const SETS = [
 
   { name:"White Ninja", boss:"wither", pieces:[
       { slot:"Helmet",     itemName:"White Ninja Helmet",     skill:"Clear Mind",  act:"Triggers when Blindness/Nausea would apply (40% chance to resist)", van:"40% chance to resist Blindness and Nausea. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+1% chance per 1000 Intelligence.", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"White Ninja Chestplate", skill:"Light Guard", act:"Triggers when you take a critical hit (5s cooldown)", van:"Absorption I when hit by a crit. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 10, added points.", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"White Ninja Chestplate", skill:"Light Guard", act:"Triggers when you take 6+ damage (5s cooldown)", van:"Absorption I when hit for 6+ damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 10, added points.", dev:DEV.STD },
       { slot:"Leggings",   itemName:"White Ninja Leggings",   skill:"Swift Steps", act:"Automatic pulse every 15s while worn", van:"Speed I for 3s every 15s. (Gear Level 100: 6s, Level 200: 9s.)", rpg:"+1s duration per 100 Agility.", dev:DEV.STD },
       { slot:"Boots",      itemName:"White Ninja Boots",      skill:"Featherfall", act:"Triggers on fall damage (40% chance)", van:"40% chance to negate fall damage. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+1% chance per 1000 Agility.", dev:DEV.STD }
     ],
