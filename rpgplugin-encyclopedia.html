@@ -304,7 +304,7 @@
 
   <footer class="credit">
     Gear section compiled from ItemUtils.java (item &amp; armor definitions), GearSkillListener.java (skill logic, cooldowns, activation triggers), GearInfoGui.java (in‑game /gearinfo lore text) and WorldBossGearDropTable.java (drop pools) — reflects what's implemented, not aspirational text. "RPG" rows are the bonus added on top of the flat vanilla effect, scaled by the stat named (Intelligence, Strength, Vitality share, etc.); "Flat‑only" means the vanilla effect doesn't scale with stats at all.
-    <br>Upgrading section compiled from RollableStat.java (stat pool &amp; per-level values), GearLevelSystem.java (Level/lore rendering), GearRegistry.java (Gear Level &amp; socket PDC), AscendingGUI.java/AscendingGUIListener.java (Combine Forge modes) and GearSkillListener.java's vBase/vSetBase/vAmplifier tiering helpers.
+    <br>Upgrading section compiled from RollableStat.java (stat pool &amp; per-level values), GearLevelSystem.java (Level/lore rendering, broken-state lore), GearRegistry.java (Gear Level, socket &amp; broken-flag PDC), AscendingGUI.java/AscendingGUIListener.java (Combine Forge modes, including Repair), GearBreakUtil.java/PlayerDeathListener.java (death-breaks-gear trigger) and GearSkillListener.java's vBase/vSetBase/vAmplifier tiering helpers.
     <br>World Bosses section compiled directly from WorldBossSummonListener.java (ritual recipes &amp; summoning), the per-boss skill managers (PiglinBruteSkillManager.java, ZombifiedPiglinSkillManager.java, RavagerSkillManager.java, EvokerSkillManager.java, WardenSkillManager.java/WardenChargeTask.java, WitherFlightController.java), WorldBossTraversalManager.java (shared traversal ability &amp; anti-cheese combat lock), MonsterInitializer.java (level/HP/damage scaling) and DeadMobListener.java (drop chances). The in-game /worldbossguide GUI text was resynced alongside this page — both now cover each boss's full current skill kit, including the four "mass seize" abilities (Molten Manacle, Feeding Frenzy, Resonant Grasp, Tectonic Impale) added since the previous pass.
     <br>Deviants section compiled from Deviant.java/DeviantType.java (data model &amp; weapon restrictions), DeviantGenerator.java (stat/skill/element/trait rolls), DeviantStatCalculator.java (every derived-stat formula), DeviantLevelingService.java/AbyssAutoConverter.java (Abyss XP &amp; Level curve), DeviantSkillManager.java (skill effects &amp; cooldowns), DeviantSummonService.java/DeviantSummonCooldown.java (summon limits &amp; cooldowns) and DeviantGuiManager.java (buy/equip GUIs &amp; arena targeting).
   </footer>
@@ -962,8 +962,16 @@ function renderUpgradeGuide(){
     <div class="callout"><strong>Skinned vs. non-skinned gear.</strong> The 77 unique-named world-boss items (Halo Chestplate, Riesling Crossbow, etc.) are <em>skinned</em> gear — Combine/Socket/Level Up always require the <strong>exact same gear item</strong> as the material, regardless of its stats. Plain-looking Diamond/Netherite drops (no custom name or model) are <em>non-skinned</em> gear — they're matched by equipment slot and tier instead: a Diamond piece only takes Diamond material, but a Netherite piece can take Diamond <em>or</em> Netherite material of the same slot. Both kinds share the same Combine Forge, Gear Level, and socket system.</div>
     <div class="callout"><strong>Crit Chance and Crit Resist work differently from the rest of the pool.</strong> They're not direct %-point bonuses — they add to a flat "Power" number (Crit Power for attackers, Crit Resist Power for defenders) that gets compared at the moment of the hit: <code>10% + (attacker's Crit Power − defender's Crit Resist Power) × 2%</code>, clamped 0-100%. Equal Power on both sides always lands at a 10% baseline, regardless of either side's level. Other flat bonuses (ice element, Archer Skill 3, Gamble trait) are added directly on top of that result, not run through the formula.</div>
 
-    <div class="guide-h2">2. The Combine Forge — three modes</div>
-    <div class="guide-p">Open it with <strong>/ascenditem</strong>. A button in the GUI cycles between three modes; each uses the same 27-slot window differently.</div>
+    <div class="guide-h2">2. Gear breaks on death</div>
+    <div class="guide-p">Dying anywhere <strong>except the Siege and MOBA maps</strong> breaks every gear-id item you currently have equipped (helmet, chestplate, leggings, boots, main hand, off hand) — Siege and MOBA manage their own death rules and are exempt, and plain vanilla items are never affected. A broken piece:</div>
+    <div class="step-list">
+      <div class="step"><span class="num">1</span><span class="txt">Can't be (re-)equipped into an armor slot — trying shows "This gear is broken!"</span></div>
+      <div class="step"><span class="num">2</span><span class="txt">Stops contributing its stats, skills, and set bonuses while worn — including a piece that was already equipped at the moment it broke. A broken <strong>weapon</strong> is the one exception to "can't be equipped": it can still be held and swung, it just deals no RPG bonus damage and triggers no gear skill until repaired.</span></div>
+      <div class="step"><span class="num">3</span><span class="txt">Shows a red "BROKEN — Repair Required" lore line until fixed via the Combine Forge's <strong>Repair</strong> mode (see §3).</span></div>
+    </div>
+
+    <div class="guide-h2">3. The Combine Forge — four modes</div>
+    <div class="guide-p">Open it with <strong>/ascenditem</strong>. A button in the GUI cycles between four modes; each uses the same 27-slot window differently.</div>
     <div class="mode-grid">
       <div class="mode-card">
         <h4>Combine</h4>
@@ -990,14 +998,23 @@ function renderUpgradeGuide(){
           <li>Raises the original's <strong>Gear Level by 1</strong>.</li>
           <li>Consume <strong>2 items</strong> of the same item identity (gear id for skinned gear; slot + tier for non-skinned) <strong>and the same current Level</strong> as the original — their own rolled stat doesn't matter.</li>
           <li><strong>Guaranteed</strong>, no chance roll. Max Level is <strong>200</strong>.</li>
-          <li>Raising Level makes every stat line already on the item stronger (see §1) and scales that item's unique Vanilla skill effect, if any (see §4). Upgrading a non-skinned item from Diamond to Netherite via the vanilla Smithing Table keeps its Level/stats/sockets intact.</li>
+          <li>Raising Level makes every stat line already on the item stronger (see §1) and scales that item's unique Vanilla skill effect, if any (see §5). Upgrading a non-skinned item from Diamond to Netherite via the vanilla Smithing Table keeps its Level/stats/sockets intact.</li>
+        </ul>
+      </div>
+      <div class="mode-card">
+        <h4>Repair</h4>
+        <ul>
+          <li>Fixes a <strong>broken</strong> item (see §2) — clears the BROKEN lore line and restores its normal stats/skills.</li>
+          <li>Material must share the item's <strong>exact gear id</strong> — unlike every other mode, its Gear Level and rolled stats don't need to match at all.</li>
+          <li><strong>Guaranteed</strong>, no chance roll, no Insurance slot. The material is always consumed on success.</li>
+          <li>Only works on items that are actually broken — an unbroken item shows "This item isn't broken."</li>
         </ul>
       </div>
     </div>
 
     <div class="callout"><strong>Why you can't just farm easy bosses.</strong> Leveling a piece from 1 to 200 needs a full pipeline of matching-Level duplicate pairs at every single step along the way — each step's ingredients must themselves already be at that step's Level. On top of that, a drop's starting Gear Level isn't the mob's level — it's a weighted roll <em>capped</em> by it and skewed toward the low end, so even a genuine Level-200 boss kill usually won't drop anywhere near Gear Level 200 on the first try. A high-level boss just buys you a higher ceiling and more attempts at a good roll; it's still always faster than trying to power-level gear farmed off trivial, low-level bosses.</div>
 
-    <div class="guide-h2">3. A worked example</div>
+    <div class="guide-h2">4. A worked example</div>
     <div class="step-list">
       <div class="step"><span class="num">1</span><span class="txt">Kill a Level 40 world boss — the drop's <strong>Gear Level</strong> is rolled between 1 and 40, weighted toward the low end (say it lands at <strong>12</strong>), with one stat, say <strong>Melee Damage</strong> (worth 40/200 × 12 = 2.4 at this Level).</span></div>
       <div class="step"><span class="num">2</span><span class="txt">Find or farm a second copy of the <strong>exact same sword</strong>, also at Level 12 (matching drops are also weighted-roll results, so this itself can take a few kills). Feed both into <strong>Level Up</strong> repeatedly (2 matching copies each time) to raise your sword's Level.</span></div>
@@ -1005,7 +1022,7 @@ function renderUpgradeGuide(){
       <div class="step"><span class="num">4</span><span class="txt">Want a 4th or 5th stat slot? Feed <strong>10</strong> (then <strong>20</strong>) same-item-same-Level copies into <strong>Socket Unlock</strong>, then Combine again to actually fill each new slot.</span></div>
     </div>
 
-    <div class="guide-h2">4. Vanilla skill effects also scale</div>
+    <div class="guide-h2">5. Vanilla skill effects also scale</div>
     <div class="guide-p">Every named world-boss item's own unique skill (documented in the <strong>Gear</strong> tab, the "Vanilla" row on each card) scales with that specific item's Gear Level: <strong>×1</strong> below Level 100, <strong>×2</strong> at Level 100+, <strong>×3</strong> at Level 200. Where the effect is a fixed potion tier instead of a raw number (e.g. Speed I, Regeneration I), it upgrades a tier at each threshold (I → II → III) instead of multiplying. Full-set bonuses use the <em>lowest</em> Level among all 4 worn pieces, so leveling only one piece can't cheese a stronger set bonus. A handful of purely binary effects (permanent Fire Resistance, full knockback immunity, etc.) have nothing to scale and stay as-is.</div>
   `;
 }
