@@ -1047,6 +1047,27 @@ const ROLLABLE_STATS = [
   { name: "Max Health",         at200: "+100 flat" }
 ];
 
+// Vanilla-world (any map without "_rpg" in its name) counterpart values — see
+// RollableStat#vanillaTargetAtMax / GearRegistry#vanillaScaledStat. Linear-proportional:
+// a player's/Deviant's raw summed stat (across all equipped gear) is scaled from 0 up to
+// this target as it approaches the same reference max the RPG-world "@ Lv.40" column uses
+// (a single stat maxed across 6 gear slots at Level 40 each — Deviants only have 5 slots,
+// so a maxed Deviant naturally tops out at 5/6 of these numbers).
+const VANILLA_WORLD_STATS = [
+  { name: "Crit Chance",        target: "20% chance to crit" },
+  { name: "Crit Damage",        target: "+4.8 flat, on a crit" },
+  { name: "Melee Damage",       target: "+6 flat" },
+  { name: "Ranged Damage",      target: "+6 flat" },
+  { name: "Splash Damage",      target: "+6 flat" },
+  { name: "Attack Speed",       target: "5% chance of a 2nd attack" },
+  { name: "Lifesteal",          target: "40%" },
+  { name: "Lifesteal Chance",   target: "10%" },
+  { name: "Hit Rate",           target: "+6 flat dmg (full swing only)" },
+  { name: "Flee",               target: "+0.6 flat dmg reduction" },
+  { name: "Damage Reduction",   target: "+0.4 flat dmg reduction" },
+  { name: "Max Health",         target: "+10 flat" }
+];
+
 // ---------- rendering ----------
 
 function escapeHtml(s){ return (s==null?"":String(s)).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
@@ -1323,6 +1344,7 @@ function renderUpgradeGuide(){
   const el = document.getElementById("content");
 
   const statPool = ROLLABLE_STATS.map(s => `<div class="stat-pill"><span class="stat-name">${escapeHtml(s.name)}</span><span class="stat-target">${escapeHtml(s.at200)} @ Lv.40</span></div>`).join("");
+  const vanillaStatPool = VANILLA_WORLD_STATS.map(s => `<div class="stat-pill"><span class="stat-name">${escapeHtml(s.name)}</span><span class="stat-target">${escapeHtml(s.target)}</span></div>`).join("");
 
   el.innerHTML = `
     <div class="view-title">Upgrading Gear</div>
@@ -1334,6 +1356,9 @@ function renderUpgradeGuide(){
     <div class="guide-p" style="margin-top:8px"><strong>Only World Bosses drop actual gear</strong> — Normal/Leader/Boss kills drop stones only. A World Boss's gear drops with <strong>0-5 open sockets</strong> (never any stones pre-filled) — the higher the boss's own Level, the better the odds of more sockets: bucket = <code>min(4, (boss Level−1)÷40)</code> splits the 1-200 range into five 40-wide bands, then socket count is a uniform roll from 0 up to <code>bucket+1</code>. Even a maxed-out boss can still drop a 0-socket piece — it's still weighted low. Because a single stone/line now caps at 40 (a fifth of the old 200 ceiling), reaching a stat's full listed "@ Lv.40" target from one stone alone is the new ceiling — real power comes from filling several sockets with different stats, not stacking one.</div>
     <div class="callout"><strong>Skinned vs. non-skinned gear.</strong> The 77 unique-named world-boss items (Halo Chestplate, Riesling Crossbow, etc.) are <em>skinned</em> gear — Repair always requires the <strong>exact same gear item</strong> as material, and Socket Unlock/Socket-a-Stone care about it too. Plain-looking Diamond/Netherite drops (no custom name or model) are <em>non-skinned</em> gear — matched by equipment slot and tier instead: a Diamond piece only takes Diamond material, a Netherite piece takes Diamond <em>or</em> Netherite. Both kinds share the same Combine Forge and socket system.</div>
     <div class="callout"><strong>Crit Chance isn't a direct %-point bonus.</strong> It adds to a flat "Crit Power" number that gets compared against the defender's Crit Resist Power at the moment of the hit: <code>10% + (attacker's Crit Power − defender's Crit Resist Power) × 2%</code>, clamped 0-100%. Equal Power on both sides always lands at a 10% baseline. Crit Resist Power itself is a <em>core-stat</em> mechanic ((LUK+AGI+VIT)÷30, see the Classes &amp; Stats guide) — it's no longer part of the Enchantment Stone pool, so gear can boost your Crit Power but not your Crit Resist Power directly. Cooldown Reduction and Crit Dmg Negate were removed from the stone pool the same way — both still exist as core-stat-derived mechanics, just not gear-boostable anymore. Other flat bonuses (ice element, Archer Skill 3, Gamble trait) are added directly on top of the crit-chance result, not run through the formula.</div>
+
+    <div class="callout"><strong>Socketed stones also work on vanilla (non-RPG) maps — at much smaller numbers.</strong> Taking gear with socketed Enchantment Stones onto any map without <code>_rpg</code> in its name (a hub, a plain survival world) no longer does nothing: each stat scales <em>linearly</em> from 0 up to a small vanilla-appropriate target as your raw stat total approaches the same reference max the "@ Lv.40" numbers above use (a single stat maxed across all 6 of a player's gear slots at Level 40 each — a Deviant only has 5 slots, so a fully-decked Deviant tops out at 5/6 of these numbers). Hit Rate and Flee have no vanilla accuracy/evasion equivalent, so they're repurposed here into flat damage/defense bonuses instead of their RPG-world meaning. This applies to both players and Deviants, and can be toggled off entirely via <code>/featuretoggle</code> ("Vanilla-World Gear Stats").</div>
+    <div class="stat-pool-grid">${vanillaStatPool}</div>
 
     <div class="guide-h2">2. Gear breaks on death</div>
     <div class="guide-p">Dying anywhere <strong>except the Siege and MOBA maps</strong> breaks every gear-id item you're carrying — anywhere in your inventory, equipped or not — and resets every Deviant you own (summoned or sitting in inventory as a skull) to <strong>level 1</strong>, breaking any gear-id item equipped on that Deviant too (see Deviants §4). Siege and MOBA manage their own death rules and are exempt, and plain vanilla items are never affected. A broken piece:</div>
