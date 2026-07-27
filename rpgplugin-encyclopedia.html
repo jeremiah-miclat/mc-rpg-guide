@@ -1329,12 +1329,12 @@ function renderUpgradeGuide(){
 
   el.innerHTML = `
     <div class="view-title">Upgrading Gear</div>
-    <div class="guide-lead">World-boss gear isn't fixed the moment it drops — every piece has a <strong>Gear Level</strong> and a small set of rollable stats, and both grow through the <strong>Combine Forge</strong> (<code>/ascenditem</code>). This page covers how the whole system fits together.</div>
+    <div class="guide-lead">World-boss gear isn't fixed the moment it drops — every piece carries a small set of rollable <strong>stat lines</strong>, each with its own individual Level (capped at <strong>40</strong>), and they grow through the <strong>Combine Forge</strong> (<code>/ascenditem</code>). An item's displayed <strong>Gear Level</strong> is simply the <em>sum</em> of all its lines' Levels — with up to 5 socket-unlocked lines at 40 each, the ceiling works out to exactly <strong>200</strong>. This page covers how the whole system fits together.</div>
 
     <div class="guide-h2">1. What a fresh drop looks like</div>
-    <div class="guide-p">A world-boss kill drops gear with its <strong>Gear Level set to the boss's own level</strong> (1-200) and <strong>one random stat</strong> from the pool below. There's no roll on the stat's number — its value is 100% determined by the item's current Level, so it automatically gets stronger every time the item is leveled up later.</div>
+    <div class="guide-p">A world-boss kill drops gear with <strong>one stat line</strong> from the pool below, rolled at a weighted Level between 1 and <code>min(40, boss level ÷ 5)</code> — so only a Level-200 boss can produce a line anywhere near the full 40 cap; a Level-40 boss caps out around 8. There's no separate roll on the stat's number — its value is 100% determined by that line's own Level, so it automatically gets stronger every time the line is leveled up later.</div>
     <div class="stat-pool-grid">${statPool}</div>
-    <div class="guide-p" style="margin-top:8px">Regular (non-world-boss) equip drops use the same pool and formula, just off a lower-level mob.</div>
+    <div class="guide-p" style="margin-top:8px">Regular (non-world-boss) equip drops use the same pool and formula, just off a lower-level mob. Because a single line now caps at 40 (a fifth of the old 200 ceiling), reaching a stat's full listed "@ Lv.200" target from one line alone isn't possible — real power comes from spreading Levels across several distinct lines instead of stacking one.</div>
     <div class="callout"><strong>Skinned vs. non-skinned gear.</strong> The 77 unique-named world-boss items (Halo Chestplate, Riesling Crossbow, etc.) are <em>skinned</em> gear — Combine/Socket/Level Up always require the <strong>exact same gear item</strong> as the material, regardless of its stats. Plain-looking Diamond/Netherite drops (no custom name or model) are <em>non-skinned</em> gear — they're matched by equipment slot and tier instead: a Diamond piece only takes Diamond material, but a Netherite piece can take Diamond <em>or</em> Netherite material of the same slot. Both kinds share the same Combine Forge, Gear Level, and socket system.</div>
     <div class="callout"><strong>Crit Chance and Crit Resist work differently from the rest of the pool.</strong> They're not direct %-point bonuses — they add to a flat "Power" number (Crit Power for attackers, Crit Resist Power for defenders) that gets compared at the moment of the hit: <code>10% + (attacker's Crit Power − defender's Crit Resist Power) × 2%</code>, clamped 0-100%. Equal Power on both sides always lands at a 10% baseline, regardless of either side's level. Other flat bonuses (ice element, Archer Skill 3, Gamble trait) are added directly on top of that result, not run through the formula.</div>
 
@@ -1352,10 +1352,10 @@ function renderUpgradeGuide(){
       <div class="mode-card">
         <h4>Combine</h4>
         <ul>
-          <li>Adds a <strong>2nd or 3rd stat line</strong> to an item — a stat type already on the item can be added again as a separate line, stacking its contribution.</li>
-          <li>Material must be the <strong>same item</strong> (exact gear id for skinned gear; same slot + compatible tier for non-skinned Diamond/Netherite gear) and the <strong>same Gear Level</strong> as the original, with exactly one stat rolled.</li>
-          <li><strong>50% chance.</strong> On success the material's stat type is added as a new line; either way the material is consumed.</li>
-          <li>Optional <strong>Insurance</strong> item (same item + Level, any stat): if the combine fails, the insurance is lost <em>instead of</em> the material, so you keep it to try again.</li>
+          <li>Adds a <strong>brand-new stat line</strong> to an item — the material's stat type must be one the item <em>doesn't already have</em> (a duplicate of an existing type is no longer allowed here; use Level Up to grow an existing line instead).</li>
+          <li>Material must be the <strong>exact same item</strong> (exact gear id for skinned gear; same slot + compatible tier for non-skinned Diamond/Netherite gear) as the original, with exactly one stat line rolled. <strong>No Level requirement</strong> — any Level material works.</li>
+          <li><strong>50% chance.</strong> On success the material's line (its own stat and Level, unchanged) is added as a new line; either way the material is consumed.</li>
+          <li>Optional <strong>Insurance</strong> item (same item, any Level/stat): if the combine fails, the insurance is lost <em>instead of</em> the material, so you keep it to try again.</li>
           <li>Capped by the item's current socket count (see Socket Unlock).</li>
         </ul>
       </div>
@@ -1363,7 +1363,7 @@ function renderUpgradeGuide(){
         <h4>Socket Unlock</h4>
         <ul>
           <li>Raises how many stat lines an item can hold: <strong>3 → 4 costs 10</strong> matching copies, <strong>4 → 5 costs 20</strong>.</li>
-          <li>Every fed copy must match the original's <strong>item identity and Gear Level</strong> (gear id for skinned gear; slot + tier for non-skinned) — their own rolled stat doesn't matter.</li>
+          <li>Every fed copy must match the original's <strong>item identity</strong> (gear id for skinned gear; slot + tier for non-skinned) — <strong>no Level requirement</strong>, and their own rolled stat doesn't matter either.</li>
           <li><strong>Guaranteed</strong>, no chance roll. Feeding more than needed returns the extra copies.</li>
           <li>This only raises capacity — you still need a normal Combine to actually fill the new slot.</li>
         </ul>
@@ -1371,10 +1371,18 @@ function renderUpgradeGuide(){
       <div class="mode-card">
         <h4>Level Up</h4>
         <ul>
-          <li>Raises the original's <strong>Gear Level by 1</strong>.</li>
-          <li>Consume <strong>2 items</strong> of the same item identity (gear id for skinned gear; slot + tier for non-skinned) <strong>and the same current Level</strong> as the original — their own rolled stat doesn't matter.</li>
-          <li><strong>Guaranteed</strong>, no chance roll. Max Level is <strong>200</strong>.</li>
-          <li>Raising Level makes every stat line already on the item stronger (see §1) and scales that item's unique Vanilla skill effect, if any (see §5). Upgrading a non-skinned item from Diamond to Netherite via the vanilla Smithing Table keeps its Level/stats/sockets intact.</li>
+          <li>Grows an <strong>existing stat line</strong> by feeding a single material that carries a matching stat type. <strong>No Level requirement</strong> — a lower-Level material works fine, its Level just determines how many trials you get (below).</li>
+          <li>For <strong>every Level point</strong> on the material's matching line, one independent roll is made to add <strong>+1</strong> to the target line (capped at 40). The odds depend on how closely the material matches the original:</li>
+        </ul>
+        <ul>
+          <li><strong>50%</strong> per roll — exact same gear item as the original.</li>
+          <li><strong>25%</strong> per roll — a <em>different</em> gear item, but the same equipment slot.</li>
+          <li><strong>5%</strong> per roll — plain (non-skinned) Diamond/Netherite gear of the same slot.</li>
+        </ul>
+        <ul>
+          <li>Example: a Level-20 matching line fed in at 50% odds averages around <strong>+10</strong> to the target line — but it's randomized per roll, not a guaranteed flat amount.</li>
+          <li>The material is always fully consumed, win or lose on each individual roll. Growing a line already at max Level (40) isn't possible.</li>
+          <li>Raising a line's Level (and therefore the summed Gear Level) makes that stat's contribution stronger and, once the summed total crosses 100/200, scales that item's unique Vanilla skill effect too (see §5). Upgrading a non-skinned item from Diamond to Netherite via the vanilla Smithing Table keeps its lines/sockets intact.</li>
         </ul>
       </div>
       <div class="mode-card">
@@ -1388,14 +1396,14 @@ function renderUpgradeGuide(){
       </div>
     </div>
 
-    <div class="callout"><strong>Why you can't just farm easy bosses.</strong> Leveling a piece from 1 to 200 needs a full pipeline of matching-Level duplicate pairs at every single step along the way — each step's ingredients must themselves already be at that step's Level. On top of that, a drop's starting Gear Level isn't the mob's level — it's a weighted roll <em>capped</em> by it and skewed toward the low end, so even a genuine Level-200 boss kill usually won't drop anywhere near Gear Level 200 on the first try. A high-level boss just buys you a higher ceiling and more attempts at a good roll; it's still always faster than trying to power-level gear farmed off trivial, low-level bosses.</div>
+    <div class="callout"><strong>Why you can't just farm easy bosses.</strong> A drop's starting line Level is capped at <code>boss level ÷ 5</code> — so a Level-40 boss can never drop (or donate, via Level Up) a line above roughly 8, no matter how many times you farm it or how lucky the roll is. Same-gear material at 50% odds is always the fastest way to grow a line, but it's still bounded by whatever Level the material itself rolled; cross-item (25%) and plain Diamond/Netherite (5%) material let you keep feeding <em>something</em> in in a pinch, just far less efficiently. A high-level boss buys you both a higher per-drop ceiling and better-odds fodder — there's no shortcut that makes trivial, low-level farming competitive with it.</div>
 
     <div class="guide-h2">4. A worked example</div>
     <div class="step-list">
-      <div class="step"><span class="num">1</span><span class="txt">Kill a Level 40 world boss — the drop's <strong>Gear Level</strong> is rolled between 1 and 40, weighted toward the low end (say it lands at <strong>12</strong>), with one stat, say <strong>Melee Damage</strong> (worth 40/200 × 12 = 2.4 at this Level).</span></div>
-      <div class="step"><span class="num">2</span><span class="txt">Find or farm a second copy of the <strong>exact same sword</strong>, also at Level 12 (matching drops are also weighted-roll results, so this itself can take a few kills). Feed both into <strong>Level Up</strong> repeatedly (2 matching copies each time) to raise your sword's Level.</span></div>
-      <div class="step"><span class="num">3</span><span class="txt">Once you're happy with the Level, use <strong>Combine</strong> with a same-Level copy to try adding a 2nd stat (50% chance) — <strong>Insurance</strong> is worth using here so a failed roll doesn't cost you the copy you were relying on.</span></div>
-      <div class="step"><span class="num">4</span><span class="txt">Want a 4th or 5th stat slot? Feed <strong>10</strong> (then <strong>20</strong>) same-item-same-Level copies into <strong>Socket Unlock</strong>, then Combine again to actually fill each new slot.</span></div>
+      <div class="step"><span class="num">1</span><span class="txt">Kill a Level 100 world boss — the drop's line Level is rolled between 1 and <code>min(40, 100÷5)</code> = 20, weighted toward the low end (say it lands at <strong>6</strong>), on one stat, say <strong>Melee Damage</strong> (worth 40/200 × 6 = 1.2 at this Level).</span></div>
+      <div class="step"><span class="num">2</span><span class="txt">Find or farm a second copy of the <strong>exact same sword</strong> — any Level works now. Feed it into <strong>Level Up</strong>: at 50% odds (same gear), a Level-14 copy averages about +7 onto your line.</span></div>
+      <div class="step"><span class="num">3</span><span class="txt">Once you're happy with that line's Level, use <strong>Combine</strong> with any-Level same-gear material carrying a <em>different</em> stat type (50% chance to add it as a 2nd line) — <strong>Insurance</strong> is worth using here so a failed roll doesn't cost you the copy you were relying on.</span></div>
+      <div class="step"><span class="num">4</span><span class="txt">Want a 4th or 5th stat slot? Feed <strong>10</strong> (then <strong>20</strong>) same-item copies (any Level) into <strong>Socket Unlock</strong>, then Combine again to actually fill each new slot.</span></div>
     </div>
 
     <div class="guide-h2">5. Vanilla skill effects also scale</div>
