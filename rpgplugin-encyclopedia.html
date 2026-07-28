@@ -616,7 +616,8 @@ const ITEMS = [
 
   // Ranged
   { name:"Composite Bow", id:"composite_bow", slot:"Bow", boss:"piglin_brute", skill:"Piercing Volley", act:"Any hit while off cooldown (10s cooldown)", cd:"10s",
-    van:"4 damage per pierced enemy (up to 3). (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your Ranged Damage bonus per pierce.", dev:DEV.ARCHER },
+    van:"4 damage per pierced enemy (up to 3), plus a Bleed dealing 2/3/5 damage per second for 5s at Gear Level 1/100/200. (Gear Level 100: x2 pierce dmg, Level 200: x3.)",
+    rpg:"+0.5× your Ranged Damage bonus per pierce (the Bleed itself isn't RPG-scaled).", dev:DEV.ARCHER },
   { name:"Thundering Pulse", id:"warbow", slot:"Bow", boss:"witch", skill:"Thunderclap Arrow", act:"Any hit while off cooldown (14s cooldown)", cd:"14s",
     van:"10 damage, 5-block radius, plus a real lightning strike on every enemy hit for another 10 damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Ranged Damage (applies to both the burst and the lightning strike).", dev:DEV.STD },
   { name:"Assassination", id:"assassination_bow", slot:"Bow", boss:"ravager", skill:"Mark for Death", act:"1st hit marks the target; a 2nd hit within 6s executes (20s cooldown)", cd:"20s",
@@ -624,7 +625,8 @@ const ITEMS = [
   { name:"Netherite Crossbow", id:"netherite_crossbow", slot:"Crossbow", boss:"zombified_piglin", skill:"Molten Bolt", act:"Any hit while off cooldown (8s cooldown)", cd:"8s",
     van:"6 fire damage, 2-block radius, knockup/knockback on nearby entities. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Ranged Damage.", dev:DEV.STD },
   { name:"Riesling Crossbow", id:"riesling_crossbow", slot:"Crossbow", boss:"witch", skill:"Frost Lock", act:"Any hit while off cooldown (8s cooldown)", cd:"8s",
-    van:"Slowness II + Mining Fatigue I, 2s. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Ranged Damage ÷ 5, added seconds.", dev:DEV.STD },
+    van:"10 damage + Slowness II + Mining Fatigue I (2s), to everyone within a 5-block radius (includes the arrow's direct target). (Gear Level 100: x2 damage & duration, Level 200: x3.)",
+    rpg:"+0.5× Ranged Damage on the hit; +0.5× Ranged Damage ÷ 5, added debuff seconds.", dev:DEV.STD },
 
   // Shields & books
   { name:"Mirror Shield", id:"mirror_shield", slot:"Shield", boss:"zombified_piglin", skill:"Reflective Ward", act:"Block an attack (10s cooldown)", cd:"10s",
@@ -674,9 +676,9 @@ const ITEMS = [
     van:"Up to +6 bonus damage at 100% target HP, tapering to 0 below 30% HP. (Gear Level 100: cap +12, Level 200: cap +18.)",
     rpg:"+0.5× your Melee Damage bonus, through the same taper.", dev:DEV.STD },
   { name:"Dagger", id:"ztbow_dagger", slot:"Sword", boss:"piglin_brute", skill:"Backstab",
-    act:"Any hit landed while the target isn't facing you (no cooldown)", cd:"None",
-    van:"+5 bonus damage + 1s Slowness II. (Gear Level 100: +10 dmg, Level 200: +15 dmg.)",
-    rpg:"+12 bonus damage per 100 Dexterity.", dev:DEV.STD },
+    act:"Speed III (1.5s) on every hit, unconditional; +5 backstab bonus damage only while the target isn't facing you (no cooldown)", cd:"None",
+    van:"Speed III for 1.5s on every hit. A backstab (target not facing you) additionally deals +5 bonus damage + 1s Slowness II. (Gear Level 100: +10 dmg, Level 200: +15 dmg.)",
+    rpg:"+12 bonus damage per 100 Dexterity (backstab only).", dev:DEV.STD },
   { name:"Dante's Devilsword", id:"ztbow_dante", slot:"Sword", boss:"ravager", skill:"Devil Trigger",
     act:"Right-click opens a 5s banking window; hits inside it bank a stack, released as one burst when it closes (20s cooldown after)", cd:"20s",
     van:"3 damage per banked stack (up to 5), released on window close. (Gear Level 100: x2, Level 200: x3.)",
@@ -712,13 +714,13 @@ const ITEMS = [
     van:"Mark window 3s. (Gear Level 100: 4s, Level 200: 5s.)",
     rpg:"+1s window duration per 200 Luck.", dev:DEV.STD },
   { name:"Angelic Greatsword", id:"ztbow_holy_greatsword", slot:"Sword", boss:"evoker", skill:"Aegis Zeal",
-    act:"Any hit grants a shield stack (max 3, no cooldown)", cd:"None",
-    van:"+3 shield per stack, 4s independent expiry each. (Gear Level 100: +5/stack, Level 200: +7/stack.)",
+    act:"Any hit grants a shield stack (max 3); reaching 3 stacks locks the skill out for 5s (no new stacks/absorption while locked out)", cd:"5s",
+    van:"+3 shield per stack, 4s independent expiry each; at 3 stacks, triggers a 5s lockout. (Gear Level 100: +5/stack, Level 200: +7/stack.)",
     rpg:"+0.4× your Damage Reduction bonus, per stack.", dev:DEV.STD },
   { name:"Angelic Sword", id:"ztbow_holy_sword", slot:"Sword", boss:"evoker", skill:"Radiant Focus",
-    act:"Passive — crit-like bonus chance climbs the longer you go untouched, resets on any hit taken", cd:"None",
-    van:"+2%/s untouched, caps at +20% after 10s. (Gear Level 100: cap +30%/15s, Level 200: cap +40%/20s.)",
-    rpg:"+0.3× your Crit Chance bonus, added to the cap.", dev:DEV.STD },
+    act:"Every hit builds a Focus stack (max 5, 6s expiry each); the 5th stack unleashes a guaranteed Judgment strike (no cooldown)", cd:"None",
+    van:"Below 5 stacks: +1/+2/+3 damage per stack (Gear Level 1/100/200). At 5 stacks: guaranteed 1.8x/2.0x/2.2x damage plus a heal of 15%/20%/25% of the damage dealt, then the stacks reset.",
+    rpg:"+0.3× your Crit Chance bonus, added to the Judgment heal %.", dev:DEV.STD },
   { name:"Infinity", id:"ztbow_infinity", slot:"Sword", boss:"evoker", skill:"Overflow",
     act:"Any hit shaves cooldowns on your other equipped gear skills (no cooldown of its own)", cd:"None",
     van:"-0.3s off other active cooldowns per hit. (Gear Level 100: -0.5s, Level 200: -0.8s.)",
@@ -733,12 +735,12 @@ const ITEMS = [
     rpg:"+1s potion duration per 1000 Agility per stack (no cap).", dev:DEV.STD },
   { name:"Yamato", id:"ztbow_yamato", slot:"Sword", boss:"zombified_piglin", skill:"Perfect Cut",
     act:"Bonus scales with time stood still before swinging, capped at 5s (no cooldown for a player)", cd:"None",
-    van:"+1 true damage per 0.5s still, capped at +10. (Gear Level 100: cap +16, Level 200: cap +22.)",
+    van:"+5 true damage per 0.5s still, capped at +50. (Gear Level 100: cap +80, Level 200: cap +110.)",
     rpg:"+10 bonus damage per 100 Strength, added at full charge.",
     dev:DEV.SUB+" (Fires on-attack at full charge instead, cooldown-gated: 15s.)" },
   { name:"Daedric", id:"ztbow_daedric", slot:"Bow", boss:"piglin_brute", skill:"Windup Shot",
     act:"Reads your real bow draw strength; 50-90% draw = bonus tier, full draw = bigger bonus + brief root (8s cooldown on the bonus tiers)", cd:"8s",
-    van:"50-90% draw = +4 dmg; full draw = +8 dmg + 1s root. (Gear Level 100: +8/+16 dmg, Level 200: +12/+24 dmg.)",
+    van:"50-90% draw = +8 dmg; full draw = +16 dmg + 1s root. (Gear Level 100: +16/+32 dmg, Level 200: +24/+48 dmg.)",
     rpg:"+0.5× your Ranged Damage bonus, on top of whichever tier procs.",
     dev:DEV.SUB+" (Auto-fires at the full-draw tier instead of varying draw strength.)" },
   { name:"Lumberjack", id:"ztbow_lumberjack", slot:"Axe", boss:"warden", skill:"Sunder",
@@ -954,14 +956,16 @@ const BOSS_GUIDE = {
   witch: {
     epithet: "Hexbrewer",
     role: "Caster — every scripted skill scales off its Splash Damage stat instead of melee. A self-heal, a lingering poison zone, and a mass hex-lock seize; its own potion throws hit far harder on a direct hit.",
-    recipe: [["Armor Stand",1],["Cauldron",1],["Fermented Spider Eye",4],["Glowstone Dust",8],["Redstone",16]],
+    recipe: [["Armor Stand",1],["Diamond",1],["Dirt",4],["Glowstone Dust",1],["Redstone",4]],
     hasTraversal: true,
     traversalName: "Hexward Blink",
     skills: [
-      { name:"Potion Throws", cd:"vanilla-timed, not a scripted cooldown", lines:[
+      { name:"Potion Throws", cd:"vanilla-timed; damage throttled to once per 5s", lines:[
         "Its own vanilla ranged potion-throw AI is left untouched — the timing/frequency is whatever vanilla Witch AI does, not a designed cooldown.",
-        "Damage is fully overridden instead: everyone caught in the splash radius takes <strong>1.75× splash stat</strong>, and whichever entity it directly hit takes an additional <strong>3×</strong> that splash amount on top (a direct hit deals 4× the splash-only damage).",
-        "No random vanilla potion effect (Harming/Poison/Weakness/Slowness) ever lands — the damage above replaces it entirely." ] },
+        "Damage is fully overridden instead: everyone caught in the splash radius takes <strong>0.6× splash stat</strong>, and whichever entity it directly hit takes an additional <strong>1×</strong> that splash amount on top (a direct hit deals 1.2× splash stat total).",
+        "No random vanilla potion effect (Harming/Poison/Weakness/Slowness) ever lands — the damage above replaces it entirely.",
+        "Vanilla AI can throw far more often than the bonus damage can land — a throw within 5s of the last damaging one still plays out visually (splash cloud, particles, sound) but deals no bonus damage.",
+        "The Witch itself is immune to Poison." ] },
       { name:"Lingering Miasma", cd:"36s", lines:[
         "Lobs a vial that lands at its target's position (~1s flight, dodgeable by moving off the landing spot).",
         "On impact: leaves a 3.5-block poison zone for 6s, ticking every 1s for <strong>0.6× splash stat</strong> + a refreshed Poison to anyone still standing in it." ] },
@@ -973,7 +977,7 @@ const BOSS_GUIDE = {
         "Escape: break line of sight, leave the 100-block radius, or (players only) go down within the 4s mark window to fizzle the hex.",
         "Seize: still hexed when the window ends gets teleport-locked in place (Slowness IV + Nausea II) through 4 pulses, ~0.6s apart, each an instant <strong>2× splash stat</strong> hit in a 3-block splash (catches bystanders too)." ] }
     ],
-    strategy: "Watch for the direct-hit potion splash — being the one actually struck deals 4× the damage of just standing nearby, so spread out. Step out of Lingering Miasma zones instead of fighting through them. If hexed by Baleful Hex, break line of sight within 4s or you'll be seized and pulsed 4 times."
+    strategy: "Being the one directly struck by a potion splash deals 2× the damage of just standing nearby, so spread out. Step out of Lingering Miasma zones instead of fighting through them. If hexed by Baleful Hex, break line of sight within 4s or you'll be seized and pulsed 4 times. It's immune to Poison, so don't bother trying to whittle it down that way."
   },
   ravager: {
     epithet: "Bonecrusher",
