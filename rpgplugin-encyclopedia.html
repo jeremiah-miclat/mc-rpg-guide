@@ -618,7 +618,7 @@ const ITEMS = [
   { name:"Composite Bow", id:"composite_bow", slot:"Bow", boss:"piglin_brute", skill:"Piercing Volley", act:"Any hit while off cooldown (10s cooldown)", cd:"10s",
     van:"4 damage per pierced enemy (up to 3). (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your Ranged Damage bonus per pierce.", dev:DEV.ARCHER },
   { name:"Thundering Pulse", id:"warbow", slot:"Bow", boss:"wither", skill:"Thunderclap Arrow", act:"Any hit while off cooldown (14s cooldown)", cd:"14s",
-    van:"10 damage, 3-block radius (visual/sound thunder only). (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Ranged Damage.", dev:DEV.STD },
+    van:"10 damage, 5-block radius, plus a real lightning strike on every enemy hit for another 10 damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Ranged Damage (applies to both the burst and the lightning strike).", dev:DEV.STD },
   { name:"Assassination", id:"assassination_bow", slot:"Bow", boss:"ravager", skill:"Mark for Death", act:"1st hit marks the target; a 2nd hit within 6s executes (20s cooldown)", cd:"20s",
     van:"15 bonus execute damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Ranged Damage.", dev:DEV.STD },
   { name:"Netherite Crossbow", id:"netherite_crossbow", slot:"Crossbow", boss:"zombified_piglin", skill:"Molten Bolt", act:"Any hit while off cooldown (8s cooldown)", cd:"8s",
@@ -954,7 +954,7 @@ const BOSS_GUIDE = {
   wither: {
     epithet: "Doomcrown",
     role: "Flying ranged/melee pressure boss — no unique skill kit, just permanent flight and relentless targeting.",
-    recipe: [["Armor Stand",1],["Soul Sand",4],["Netherrack",10],["Ancient Debris",1],["TNT",10]],
+    recipe: [["Armor Stand",1],["Soul Sand",4],["Netherrack",64],["TNT",10]],
     hasTraversal: false,
     skills: [
       { name:"Permanent No-Clip Flight", cd:"always active", lines:[
