@@ -641,7 +641,7 @@ const ARCHETYPES = {
 const ITEMS = [
   // Swords
   { name:"Dark Blade", id:"dark_blade", archetype:"Bruiser", slot:"Sword", boss:"witch", skill:"Umbral Reap", act:"Right-click, either hand (20s cooldown after the 10s buff ends)", cd:"20s",
-    van:"Full swings (not on attack cooldown) add 8 damage + 2s Blindness + Slowness VI (1s) while active. (Gear Level 100: x2, Level 200: x3.)", rpg:"+16 bonus damage per 100 Intelligence.", dev:DEV.SUB+" (Auto-activates off cooldown instead of right-click.)" },
+    van:"Full swings (not on attack cooldown) add 16 damage + 2s Blindness + Slowness VI (1s) while active. (Gear Level 100: x2, Level 200: x3.)", rpg:"+16 bonus damage per 100 Intelligence.", dev:DEV.SUB+" (Auto-activates off cooldown instead of right-click.)" },
   { name:"Dragon Slaying Blade", id:"dragonslayingblade", archetype:"Vanguard", slot:"Sword", boss:"piglin_brute", skill:"Dragon's Wrath", act:"Right-click, either hand (10s cooldown)", cd:"10s",
     van:"A normal hit (not affected by attack cooldown) + 16 bonus damage to everyone in the slash. (Gear Level 100: x2, Level 200: x3.)", rpg:"+15 dmg per 100 Intelligence, +8 dmg per 100 Dexterity.", dev:DEV.SUB },
   { name:"Mythic Blade", id:"mythic_blade", archetype:"Bruiser", slot:"Sword", boss:"warden", skill:"Arcane Surge", act:"Charge while walking (not sneaking) for 3s, then land a hit. No cooldown.", cd:"None",
@@ -736,7 +736,7 @@ const ITEMS = [
     rpg:"+5% phantom-hit ratio per 100 Strength.", dev:DEV.STD },
   { name:"Death Bringer", id:"ztbow_death_bringer", archetype:"Berserker", slot:"Sword", boss:"witch", skill:"Reaper's Toll",
     act:"Right-click, spends 10% of your current HP to empower the next hit (10s lockout)", cd:"10s",
-    van:"+1.6 bonus damage per 1% HP spent. (Gear Level 100: x1.2 ratio, Level 200: x1.6 ratio.)",
+    van:"Full swings (not on attack cooldown) add +3.2 bonus damage per 1% HP spent. (Gear Level 100: x1.2 ratio, Level 200: x1.6 ratio.)",
     rpg:"+10 bonus damage per 100 Strength.",
     dev:DEV.SUB+" (Auto-triggers off cooldown while above 50% HP instead of right-click.)" },
   { name:"Demonic Greatsword", id:"ztbow_demonic_greatsword", archetype:"Berserker", slot:"Sword", boss:"warden", skill:"Vengeance",
