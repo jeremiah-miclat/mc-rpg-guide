@@ -1568,7 +1568,7 @@ function renderUpgradeGuide(){
         <h4>Socket Unlock</h4>
         <ul>
           <li>Raises how many sockets an item has: cost = <strong>current sockets + 1</strong> items (0→1 needs 1, 1→2 needs 2, ..., 4→5 needs 5).</li>
-          <li>Every fed item only needs to match the original's <strong>equipment slot</strong> (any sword for a sword, any bow for a bow, etc.) — no gear-identity match needed at all, and their own stats don't matter.</li>
+          <li>Every fed item only needs to match the original's <strong>broad category</strong> — any armor piece (any of helmet/chestplate/leggings/boots) for an armor original, or any weapon (sword or axe) for a weapon original — no exact slot, gear-identity match, or stats needed.</li>
           <li><strong>Guaranteed</strong>, no chance roll. Feeding more than needed returns the extra copies. One unlock per confirm click.</li>
         </ul>
       </div>
@@ -1592,7 +1592,7 @@ function renderUpgradeGuide(){
         <h4>Repair</h4>
         <ul>
           <li>Fixes a <strong>broken</strong> item (see §2) — clears the BROKEN lore line and restores its normal stats/skills.</li>
-          <li>Material must share the item's <strong>exact gear id</strong> — unlike every other mode, its Level and stones don't need to match at all, and it's fine if the material is <strong>broken</strong> too (it's consumed either way).</li>
+          <li>Material only needs to share the item's <strong>broad category</strong> — any armor piece (any slot) for armor, or any weapon (any type) for a weapon — no gear id, Level, or stones need to match, and it's fine if the material is <strong>broken</strong> too (it's consumed either way).</li>
           <li><strong>Guaranteed</strong>, no chance roll. The material is always consumed on success.</li>
           <li>Only works on items that are actually broken — an unbroken item shows "This item isn't broken."</li>
         </ul>
