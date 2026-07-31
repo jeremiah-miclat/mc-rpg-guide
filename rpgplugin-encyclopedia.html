@@ -305,7 +305,7 @@
   <footer class="credit">
     Gear section compiled from ItemUtils.java (item &amp; armor definitions), GearSkillListener.java (skill logic, cooldowns, activation triggers), GearInfoGui.java (in‑game /gearinfo lore text) and WorldBossGearDropTable.java (drop pools) — reflects what's implemented, not aspirational text. "RPG" rows are the bonus added on top of the flat vanilla effect, scaled by the stat named (Intelligence, Strength, Vitality share, etc.); "Flat‑only" means the vanilla effect doesn't scale with stats at all.
     <br>Upgrading section compiled from RollableStat.java (stat pool, per-level values, stone Material/color), EnchantmentStoneItem.java/EnchantmentStoneListener.java (stone item &amp; no-craft block), GearLevelSystem.java (socket/Level/lore rendering, broken-state lore, /refreshgear clear-and-convert), GearRegistry.java (Gear Level, socket &amp; broken-flag PDC), AscendingGUI.java/AscendingGUIListener.java (Combine Forge's five modes: Socket a Stone, Socket Unlock, Level a Stone, Remove Stone, Repair), DeadMobListener.java (stone drop chances), GearBreakUtil.java/DeviantDeathResetUtil.java/PlayerDeathListener.java (death-breaks-gear/resets-deviants trigger) and GearSkillListener.java's vBase/vSetBase/vAmplifier tiering helpers.
-    <br>World Bosses section compiled directly from WorldBossSummonListener.java (ritual recipes &amp; summoning), the per-boss skill managers (PiglinBruteSkillManager.java, ZombifiedPiglinSkillManager.java, RavagerSkillManager.java, EvokerSkillManager.java, WardenSkillManager.java/WardenChargeTask.java, WitchSkillManager.java), WorldBossTraversalManager.java (shared traversal ability &amp; anti-cheese combat lock), MonsterInitializer.java (level/HP/damage scaling) and DeadMobListener.java (drop chances). The in-game /worldbossguide GUI text was resynced alongside this page — both now cover each boss's full current skill kit, including the four "mass seize" abilities (Molten Manacle, Feeding Frenzy, Resonant Grasp, Tectonic Impale) added since the previous pass.
+    <br>World Bosses section compiled directly from OverworldStructureEventManager.java/OverworldStructureEventConfig.java (Territory Event trigger, phase timeline, boss pool &amp; leveling, loot rules), the per-boss skill managers (PiglinBruteSkillManager.java, ZombifiedPiglinSkillManager.java, RavagerSkillManager.java, EvokerSkillManager.java, WardenSkillManager.java/WardenChargeTask.java, WitchSkillManager.java), WorldBossTraversalManager.java (shared traversal ability &amp; anti-cheese combat lock, now world-agnostic outside MOBA) and MonsterStatCalculator.java (tier/level PDC helpers). The in-game /worldbossguide GUI text was resynced alongside this page — both now describe Territory Events (not the retired world_rpg cauldron-and-totem ritual) as how players actually encounter a World Boss, and still cover each boss's full current skill kit, including the four "mass seize" abilities (Molten Manacle, Feeding Frenzy, Resonant Grasp, Tectonic Impale).
     <br>Deviants section compiled from Deviant.java/DeviantType.java (data model &amp; weapon restrictions), DeviantGenerator.java (stat/skill/element/trait rolls), DeviantStatCalculator.java (every derived-stat formula), DeviantLevelingService.java/AbyssAutoConverter.java (Abyss XP &amp; Level curve), DeviantDeathResetUtil.java (owner-death level/gear reset), DeviantSkillManager.java (skill effects &amp; cooldowns), DeviantSummonService.java/DeviantSummonCooldown.java (summon limits &amp; cooldowns) and DeviantGuiManager.java (buy/equip GUIs &amp; arena targeting).
   </footer>
 </div>
@@ -374,7 +374,7 @@ const ELYTRA_ICONS = {
 
 // Independent elytra drop pool for special world bosses (see WorldBossElytraDropTable.java /
 // ElytraSkinTheme.java). Tier 1 is droppable from any special world boss; Tier 2 additionally
-// unlocks at boss level 20+. Still deliberately separate from the Gear drop pools above (no
+// unlocks at boss level 80+ (Territory Event bosses roll 1-99). Still deliberately separate from the Gear drop pools above (no
 // GearRegistry tagging, no gear level, no armor-set bonuses) — but each skin now carries real
 // flight-altering attribute stats via a fixed Speedster/Tank/Glass Cannon identity, plus a
 // particle trail color-matched to that skin's actual texture while gliding.
@@ -462,7 +462,7 @@ function elytraDropCard([id, name], locked){
   const tier = locked ? "tier2" : "tier1";
   const category = ELYTRA_CATEGORY[id];
   const color = ELYTRA_COLOR[id] || "#888";
-  const lockNote = locked ? `<div class="drop-line">Requires boss level 20+</div>` : "";
+  const lockNote = locked ? `<div class="drop-line">Requires boss level 80+</div>` : "";
 
   let statBlock = "";
   if (category) {
@@ -486,9 +486,9 @@ function elytraDropsSectionHtml(bossId){
   const tier2Html = pool.tier2.map(e => elytraDropCard(e, true)).join("");
   return `
     <div class="guide-h2">Elytra Drops (independent pool)</div>
-    <div class="guide-p">A separate drop pool from the Gear drops above — its flight stats come from a fixed per-skin archetype, not RollableStat rolls, and there are no armor-set bonuses. 50% chance per kill on a <strong>Special</strong> world boss (see Summoning &amp; Loot Rules) to receive one random skin from this boss's themed pool. Each skin permanently belongs to one of three flight archetypes (Speedster / Tank / Glass Cannon), and its particle trail color while gliding always matches its own wing texture. Every elytra drop also comes with <strong>5 Enchantment Stone sockets</strong> (empty at first) — socket, replace, and remove stones at the Combine Forge exactly like weapon/armor gear, and the same "Sockets:"/"Level:" lore is shown. Older elytras from before this system will have their 5 sockets backfilled the next time their owner runs <code>/refreshgear</code>.</div>
+    <div class="guide-p">A separate drop pool from the Gear drops above — its flight stats come from a fixed per-skin archetype, not RollableStat rolls, and there are no armor-set bonuses. 50% chance per kill on a <strong>Special</strong> world boss (see Territory Events &amp; Loot Rules) to receive one random skin from this boss's themed pool. Each skin permanently belongs to one of three flight archetypes (Speedster / Tank / Glass Cannon), and its particle trail color while gliding always matches its own wing texture. Every elytra drop also comes with <strong>5 Enchantment Stone sockets</strong> (empty at first) — socket, replace, and remove stones at the Combine Forge exactly like weapon/armor gear, and the same "Sockets:"/"Level:" lore is shown. Older elytras from before this system will have their 5 sockets backfilled the next time their owner runs <code>/refreshgear</code>.</div>
     <div class="mode-grid">${tier1Html}</div>
-    <div class="guide-p" style="margin-top:10px"><strong>Tier 2 — unlocks at boss level 20+:</strong> the pool above is joined by these additional skins, each meaningfully stronger than its Tier 1 counterpart within the same archetype.</div>
+    <div class="guide-p" style="margin-top:10px"><strong>Tier 2 — unlocks at boss level 80+:</strong> the pool above is joined by these additional skins, each meaningfully stronger than its Tier 1 counterpart within the same archetype.</div>
     <div class="mode-grid">${tier2Html}</div>
   `;
 }
@@ -1035,16 +1035,17 @@ const UPCOMING_SECTIONS = [
   { name: "Custom Enchants", hint: "Plugin-added enchantments beyond vanilla." }
 ];
 
-// ── World Bosses (WorldBossSummonListener.java / per-boss SkillManager classes /
-//    WorldBossTraversalManager.java / MonsterInitializer.java / DeadMobListener.java) ──
-// Only 6 base mobs can ever become a World Boss, and only via the ritual below — they never
-// spawn that way naturally. (Ravager/Evoker can still appear from a vanilla Raid or Woodland
-// Mansion, but that spawn is never upgraded to World Boss tier and drops normally.)
+// ── World Bosses (OverworldStructureEventManager.java / per-boss SkillManager classes /
+//    WorldBossTraversalManager.java / MonsterStatCalculator.java / DeadMobListener.java) ──
+// Only 6 base mobs can ever become a World Boss, and only as the Phase 3 finale of an Overworld
+// Territory Event — they never spawn that way naturally. (Ravager/Evoker can still appear from a
+// vanilla Raid or Woodland Mansion, but that spawn is never upgraded to World Boss tier and drops
+// normally.) The old world_rpg cauldron-and-totem ritual (WorldBossSummonListener.java) still
+// exists in-code but is no longer how players are meant to encounter World Bosses.
 const BOSS_GUIDE = {
   piglin_brute: {
     epithet: "Cindermaw",
     role: "Bruiser — a dodgeable ranged line attack, a positioning AoE, a raid-style rage channel, and a mass shackle-and-burn seize.",
-    recipe: [["Armor Stand",1],["Porkchop",1],["Gold Ingot",16],["Ender Pearl",16],["Golden Axe",1]],
     hasTraversal: true,
     skills: [
       { name:"Magma Cleave", cd:"18s", lines:[
@@ -1070,8 +1071,6 @@ const BOSS_GUIDE = {
   zombified_piglin: {
     epithet: "Goldrot",
     role: "Swarm/chaos boss — a chain-detonating decoy horde, a kiteable mark, a blink combo, and a mass decoy-swarm seize.",
-    recipe: [["Armor Stand",1],["Gold Ingot",8],["Ender Eye",3],["Golden Sword",1]],
-    recipeNote: "The Potion slot only checks the base Potion item, not its brew — any potion type satisfies it.",
     hasTraversal: true,
     skills: [
       { name:"Golden Horde", cd:"55s", lines:[
@@ -1097,7 +1096,6 @@ const BOSS_GUIDE = {
   warden: {
     epithet: "Direwail",
     role: "Blind melee tank with a devastating short-range AoE and a mass vibration-tracking seize.",
-    recipe: [["Armor Stand",1],["Ender Pearl",16],["Rotten Flesh",64],["Anvil",1]],
     hasTraversal: true,
     traversalName: "Sculk Burrow",
     skills: [
@@ -1119,7 +1117,6 @@ const BOSS_GUIDE = {
   witch: {
     epithet: "Hexbrewer",
     role: "Caster — every scripted skill scales off its Splash Damage stat instead of melee. A self-heal, a lingering poison zone, and a mass hex-lock seize.",
-    recipe: [["Armor Stand",1],["Diamond",1],["Dirt",4],["Glowstone Dust",1],["Redstone",4]],
     hasTraversal: true,
     traversalName: "Hexward Blink",
     skills: [
@@ -1145,7 +1142,6 @@ const BOSS_GUIDE = {
   ravager: {
     epithet: "Bonecrusher",
     role: "Bruiser — a ground charge, a telegraphed quake AoE, a channeled boulder barrage, and a mass spike-impalement seize.",
-    recipe: [["Armor Stand",1],["Rotten Flesh",64],["Saddle",1],["Redstone",10],["Gunpowder",10]],
     hasTraversal: true,
     skills: [
       { name:"Bull Rush", cd:"15s", lines:[
@@ -1170,7 +1166,6 @@ const BOSS_GUIDE = {
   evoker: {
     epithet: "Hexweaver",
     role: "Caster — every skill scales off its Splash Damage stat instead of melee. A bolt, a nova, disposable adds, an air-grab icicle barrage, and a raid-style channel.",
-    recipe: [["Armor Stand",1],["Emerald",16],["Totem of Undying",1],["Diamond",1],["Glowstone Dust",4]],
     hasTraversal: true,
     traversalName: "Spectral Step",
     skills: [
@@ -1345,7 +1340,7 @@ function renderNav(){
     }
     html += `<div class="nav-heading">General</div>`;
     const activeRitual = state.view.type === "wbritual" ? "active" : "";
-    html += `<button class="nav-btn ${activeRitual}" data-type="wbritual" data-id="all">Summoning &amp; Loot Rules</button>`;
+    html += `<button class="nav-btn ${activeRitual}" data-type="wbritual" data-id="all">Territory Events &amp; Loot Rules</button>`;
     nav.innerHTML = html;
     attachNavHandlers(nav);
     return;
@@ -1423,8 +1418,6 @@ function renderBossDetail(bossId){
   const sets = setsForBoss(bossId);
   const poolSize = items.length + sets.length * 4;
 
-  const recipeHtml = g.recipe.map(([mat,qty]) => `<div class="stat-pill"><span class="stat-name">${escapeHtml(mat)}</span><span class="stat-target">× ${qty}</span></div>`).join("");
-
   const traversalHtml = g.hasTraversal
     ? `<div class="callout"><strong>Traversal — ${escapeHtml(g.traversalName || "shared ability")}.</strong> ${WB_TRAVERSAL_SHARED}</div>`
     : "";
@@ -1433,10 +1426,8 @@ function renderBossDetail(bossId){
     <div class="view-title">${escapeHtml(b.name)}</div>
     <div class="wb-epithet">Named on spawn as "<strong style="color:var(--text)">${escapeHtml(g.epithet)}, the ${escapeHtml(b.name)}</strong>" — ${escapeHtml(g.role)}</div>
 
-    <div class="guide-h2" style="margin-top:4px">Summoning Recipe</div>
-    <div class="guide-p">Drop these on an <strong>empty</strong> cauldron and left-click it to receive this boss's Totem. See <a href="#" class="jump-link" data-goto="wbritual">Summoning &amp; Loot Rules</a> for the full ritual and shared drop table.</div>
-    <div class="stat-pool-grid">${recipeHtml}</div>
-    ${g.recipeNote ? `<div class="guide-p" style="margin-top:6px">${escapeHtml(g.recipeNote)}</div>` : ""}
+    <div class="guide-h2" style="margin-top:4px">How to Encounter</div>
+    <div class="guide-p">Never spawns on demand — it's one of six possible World Bosses a Territory Event's Phase 3 finale can roll. See <a href="#" class="jump-link" data-goto="wbritual">Territory Events &amp; Loot Rules</a> for the full trigger, phase timeline, and drop table.</div>
 
     <div class="guide-h2">Skills &amp; Abilities</div>
     ${traversalHtml}
@@ -1446,7 +1437,7 @@ function renderBossDetail(bossId){
     <div class="guide-p">${escapeHtml(g.strategy)}</div>
 
     <div class="guide-h2">Drops</div>
-    <div class="guide-p">Guaranteed themed-legendary drop from its own ${poolSize}-item pool, to every nearby player on the kill — on top of the shared World Boss loot table (Diamond/Netherite bonus gear, see Summoning &amp; Loot Rules).</div>
+    <div class="guide-p">Guaranteed themed-legendary drop from its own ${poolSize}-item pool, to every nearby player who damaged it on the kill — on top of the shared World Boss loot table (Enchantment Stone + loot chest, see Territory Events &amp; Loot Rules).</div>
     <button class="jump-link" data-goto-gear="${bossId}">View ${escapeHtml(b.name)}'s full drop pool in the Gear tab →</button>
 
     ${elytraDropsSectionHtml(bossId)}
@@ -1456,33 +1447,37 @@ function renderBossDetail(bossId){
 function renderRitualOverview(){
   const el = document.getElementById("content");
   el.innerHTML = `
-    <div class="view-title">Summoning &amp; Loot Rules</div>
-    <div class="guide-lead">Every rule on this page applies identically to all 6 World Bosses — see each boss's own page for its specific recipe, skill kit, and strategy.</div>
+    <div class="view-title">Territory Events &amp; Loot Rules</div>
+    <div class="guide-lead">World Bosses no longer spawn on demand via a ritual — they're the climax of an <strong>Overworld Territory Event</strong>: claim a wilderness structure, survive its escalating guard waves, then bring down whichever World Boss that structure rolls. Every rule on this page applies identically to all 6 possible bosses — see each boss's own page for its specific skill kit and strategy.</div>
 
-    <div class="guide-h2" style="margin-top:0">How the ritual works</div>
+    <div class="guide-h2" style="margin-top:0">How a Territory Event starts</div>
     <div class="step-list">
-      <div class="step"><span class="num">1</span><span class="txt"><strong>Craft the totem.</strong> Drop the boss's exact ingredients on top of an <strong>empty</strong> cauldron (not water/lava/powder-snow filled) and left-click it. If the dropped items happen to satisfy more than one boss's recipe at once, one match is picked at random. Matching items are consumed exactly to the required amount — surplus is left alone — and you receive that boss's Totem (an enchanted Nether Star).</span></div>
-      <div class="step"><span class="num">2</span><span class="txt"><strong>Summon it.</strong> Right-click the Totem while standing in <strong>world_rpg</strong>. A particle vortex converges above and in front of you for 5 seconds, then the boss spawns with a server-wide broadcast announcing its name and coordinates.</span></div>
+      <div class="step"><span class="num">1</span><span class="txt"><strong>Claim the structure.</strong> Place a sign reading exactly <strong>"claimed"</strong> (case-insensitive) on any of its 4 lines while standing on or near an eligible land structure — villages, pillager outposts, woodland mansions, desert/jungle pyramids, swamp huts, igloos, or ruined portals. The sign isn't consumed and stays standing. Only one Territory Event can be active server-wide at a time.</span></div>
+      <div class="step"><span class="num">2</span><span class="txt"><strong>Phase 1 &amp; 2 — guard waves.</strong> Guards (Zombies, Skeletons, and Piglins — some of which roll into Piglin Brutes) trickle-spawn around the structure, scaled to its footprint. 60 seconds later a second wave tops the guard count back up; survivors from Phase 1 don't get culled, so the fight only ever grows.</span></div>
+      <div class="step"><span class="num">3</span><span class="txt"><strong>Phase 3 — the boss.</strong> Another 60 seconds on, the structure's World Boss spawns (with its own escort) behind the same particle-vortex ritual effect as the old summoning rite, and is announced the same way.</span></div>
     </div>
-    <div class="guide-p">The Totem can't be used in crafting, anvils, grindstones, or smithing tables — right-click-to-summon is its only function.</div>
+    <div class="guide-p">Leaving the area (no player within the abandon radius) or the structure's chunk unloading ends the event early — mobs are cleaned up, no loot chest, but the same 60-minute cooldown still starts.</div>
 
-    <div class="guide-h2">Level &amp; stats (shared formula)</div>
-    <div class="guide-p"><strong>Level</strong> = distance from world spawn ÷ 100, floored, minimum 1 — summon it further out for a harder, higher-level fight.</div>
-    <div class="guide-p"><strong>HP</strong> = the standard stat-derived roll × <strong>260</strong> for Piglin Brute / Zombified Piglin / Ravager / Evoker / Witch, × <strong>200</strong> for Warden.</div>
-    <div class="guide-p"><strong>Melee (or Splash, for the Evoker/Witch) damage</strong> = the standard stat-derived value, × <strong>1.25</strong> for Piglin Brute / Zombified Piglin / Ravager / Evoker / Witch.</div>
-    <div class="guide-p">All 6 have infinite <strong>Regeneration II</strong>.</div>
-    <div class="guide-p">Every scripted boss-skill-kit ability (not ordinary melee/ranged hits) deals a flat <strong>1.5×</strong> the boss's Melee (or Splash, for the Evoker/Witch) stat, per hit — no per-skill multiplier and no "Special" damage bonus on top.</div>
+    <div class="guide-h2">Boss &amp; level rules</div>
+    <div class="guide-p">Each structure rolls its <strong>own</strong> World Boss type and level the very first time it's ever triggered, then <strong>permanently remembers both</strong> — the same boss and level come back at that structure every time after that.</div>
+    <div class="guide-p"><strong>Level</strong> = uniform random 1-99, rolled once per structure.</div>
+    <div class="guide-p"><strong>HP</strong> = vanilla base HP × a curve from ×1 (level 1) to ×2 (level 99), plus a flat <strong>+300 per level</strong> bonus on top.</div>
+    <div class="guide-p"><strong>Melee (or Splash, for the Evoker/Witch) damage</strong> = vanilla base damage × the same curve, from ×1 (level 1) to ×3 (level 99).</div>
+    <div class="guide-p">Unlike the old ritual, Territory Event guards and bosses roll <strong>no</strong> player-style STR/DEX/AGI/VIT/INT/LUK stats at all — no evade, no crit, no hit-rate swing — just the flat curve above, so gear/enchants are what decide the fight.</div>
+    <div class="guide-p">All 6 have infinite <strong>Regeneration II</strong>. Every scripted boss-skill-kit ability (not ordinary melee/ranged hits) deals a flat <strong>1.5×</strong> the boss's Melee (or Splash, for the Evoker/Witch) stat, per hit.</div>
+    <div class="guide-p">Guards get tiered armor by the structure's level: unenchanted Leather (1-19) → Chainmail (20-39) → Iron (40-59) → Diamond (60-79) → Netherite with Protection IV (80+). The World Boss itself wears no armor.</div>
 
-    <div class="guide-h2">Loot rules (per kill, per nearby player)</div>
+    <div class="guide-h2">Loot rules</div>
+    <div class="guide-p"><strong>Per nearby player who damaged the boss:</strong></div>
     <div class="guide-p">
+      <strong>Guaranteed (100%):</strong> one Enchantment Stone.<br>
       <strong>Guaranteed (100%):</strong> one random item from the boss's own themed drop pool.<br>
-      <strong>Guaranteed:</strong> one random Diamond-tier equipment piece — ritual-summoned World Bosses are always flagged "Special," which would otherwise only be a 50% chance.<br>
-      <strong>1% chance:</strong> one random Netherite-tier equipment piece.<br>
-      Being "Special" also adds <strong>+20 Dexterity per level</strong> and <strong>double max HP</strong> on top of the boss's rolled stats.
+      <strong>50% chance:</strong> one cosmetic elytra skin from its drop pool (Tier 2 skins need the boss to be level 80+).
     </div>
+    <div class="guide-p"><strong>A loot chest also spawns</strong> where the boss fell, on top of the personal rewards above: enchanted books (always at that enchant's own max level), emeralds, diamonds, golden apples (regular and enchanted), golden carrots, gold ingots, and a chance at an extra Enchantment Stone or a set of armor trims.</div>
 
     <div class="guide-h2">Anti-cheese combat lock</div>
-    <div class="guide-p">Landing or taking a hit against a World Boss locks you out of Ender Pearls and teleport commands (<code>/rtp</code>, <code>/warp</code>, <code>/tpa</code>, <code>/tpahere</code>, <code>/spawn</code>, <code>/home</code>) for 15 seconds. A boss that loses line of sight on its target for 4+ seconds while close by (e.g. from being boxed in with blocks) fires its Traversal ability immediately instead of waiting on cooldown.</div>
+    <div class="guide-p">Landing or taking a hit against a World Boss locks you out of Ender Pearls and teleport commands (<code>/rtp</code>, <code>/warp</code>, <code>/tpa</code>, <code>/tpahere</code>, <code>/spawn</code>, <code>/home</code>) for 15 seconds — this applies in a Territory Event exactly as it does to a world_rpg World Boss. A boss that loses line of sight on its target for 4+ seconds while close by (e.g. from being boxed in with blocks) fires its Traversal ability immediately instead of waiting on cooldown.</div>
   `;
 }
 
