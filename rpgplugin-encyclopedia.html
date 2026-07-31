@@ -1058,15 +1058,15 @@ const BOSS_GUIDE = {
     skills: [
       { name:"Magma Cleave", cd:"18s", lines:[
         "Telegraph: 1.2s (lava dust + an angry roar).",
-        "Effect: a fast, non-homing 20-block line of fire, 1.3 blocks wide. First thing it touches takes <strong>6× melee stat</strong>, catches fire for 2s, and is knocked back.",
+        "Effect: a fast, non-homing 20-block line of fire, 1.3 blocks wide. First thing it touches takes <strong>1.5× melee stat</strong>, catches fire for 2s, and is knocked back.",
         "Counter: step off the line before it fires." ] },
       { name:"Ground Slam Shockwave", cd:"45s", lines:[
         "Telegraph: 2s, rooted — a particle ring grows out to the real 5-block blast radius.",
-        "Effect: slams for <strong>4× melee stat</strong> + knockback to anyone still inside when it lands.",
+        "Effect: slams for <strong>1.5× melee stat</strong> + knockback to anyone still inside when it lands.",
         "Counter: clear the ring before the telegraph finishes." ] },
       { name:"Molten Rage", cd:"100s", raid:true, lines:[
         "Telegraph: 6s channel. At the 4s mark, up to 3 nearby players (within 30 blocks) get a marked tile.",
-        "Effect: still standing on your tile when the channel ends deals <strong>8× melee stat</strong> + sets you on fire for 5s.",
+        "Effect: still standing on your tile when the channel ends deals <strong>1.5× melee stat</strong> + sets you on fire for 5s.",
         "Interrupt: dealing 15% of its max HP during the channel breaks it outright (2s stagger, next cast 40s sooner).",
         "If not interrupted: gains a 20s Strength II buff (\"Molten Empowerment\") on completion." ] },
       { name:"Molten Manacle", cd:"80s", lines:[
@@ -1085,16 +1085,16 @@ const BOSS_GUIDE = {
     skills: [
       { name:"Golden Horde", cd:"55s", lines:[
         "Effect: spawns 4 mobile decoy clones — flat 20 HP, weak attack, named \"&lt;Boss&gt; Clone\" so the real boss stays tag-identifiable.",
-        "Fuse: killing a decoy (or leaving one alive 10s) primes a 0.4s fuse, then it detonates for <strong>3× melee stat</strong> in a 3-block radius.",
+        "Fuse: killing a decoy (or leaving one alive 10s) primes a 0.4s fuse, then it detonates for <strong>1.5× melee stat</strong> in a 3-block radius.",
         "Chain: catching another decoy in that blast primes it too — spread your kills out instead of clustering." ] },
       { name:"Soul Brand", cd:"20s", lines:[
         "Effect: brands a random player within 25 blocks with a visible tether.",
         "Counter: get 8+ blocks away or break line of sight within 5s.",
-        "Failure: takes <strong>5× melee stat</strong> + knockback when the timer expires." ] },
+        "Failure: takes <strong>1.5× melee stat</strong> + knockback when the timer expires." ] },
       { name:"Chaos Rush", cd:"90s", lines:[
         "Effect: blinks 3× toward its target in quick succession (~0.7s apart, each with a random ±8-block offset).",
-        "Each landing leaves a scorching patch — 2.5-block radius, 3s lifetime, <strong>0.5× melee stat/tick</strong> trickle while you stand in it.",
-        "The <strong>final</strong> blink's patch also hits everyone still inside for an instant <strong>7× melee stat</strong> burst." ] },
+        "Each landing leaves a scorching patch — 2.5-block radius, 3s lifetime, <strong>1.5× melee stat/tick</strong> trickle while you stand in it.",
+        "The <strong>final</strong> blink's patch also hits everyone still inside for an instant <strong>1.5× melee stat</strong> burst." ] },
       { name:"Feeding Frenzy", cd:"85s", lines:[
         "Mark: every player and Deviant within <strong>100 blocks</strong> gets swarmed at once, each resolving independently and in parallel.",
         "Effect: 3 mobile \"Reveler\" decoys converge and circle you — one of them (not visibly marked) is the real anchor.",
@@ -1111,7 +1111,7 @@ const BOSS_GUIDE = {
     traversalName: "Sculk Burrow",
     skills: [
       { name:"Sonic Boom", cd:"vanilla ability, reworked", lines:[
-        "Its normal ranged sonic boom attack is boosted to <strong>10× melee stat</strong>.",
+        "Its normal ranged sonic boom attack is boosted to <strong>1.5× melee stat</strong>.",
         "The Darkness effect it would otherwise apply on hit is suppressed entirely." ] },
       { name:"Scream Shockwave", cd:"60s", raid:true, lines:[
         "Telegraph: 5s charge — a visible warning to anyone within 30 blocks, with growing Sculk Soul particles.",
@@ -1127,29 +1127,29 @@ const BOSS_GUIDE = {
   },
   witch: {
     epithet: "Hexbrewer",
-    role: "Caster — every scripted skill scales off its Splash Damage stat instead of melee. A self-heal, a lingering poison zone, and a mass hex-lock seize; its own potion throws hit far harder on a direct hit.",
+    role: "Caster — every scripted skill scales off its Splash Damage stat instead of melee. A self-heal, a lingering poison zone, and a mass hex-lock seize.",
     recipe: [["Armor Stand",1],["Diamond",1],["Dirt",4],["Glowstone Dust",1],["Redstone",4]],
     hasTraversal: true,
     traversalName: "Hexward Blink",
     skills: [
       { name:"Potion Throws", cd:"vanilla-timed; damage throttled to once per 5s", lines:[
         "Its own vanilla ranged potion-throw AI is left untouched — the timing/frequency is whatever vanilla Witch AI does, not a designed cooldown.",
-        "Damage is fully overridden instead: everyone caught in the splash radius takes <strong>0.6× splash stat</strong>, and whichever entity it directly hit takes an additional <strong>1×</strong> that splash amount on top (a direct hit deals 1.2× splash stat total).",
+        "Damage is fully overridden instead: everyone caught in the splash radius takes <strong>1.5× splash stat</strong>, direct hit or not.",
         "No random vanilla potion effect (Harming/Poison/Weakness/Slowness) ever lands — the damage above replaces it entirely.",
         "Vanilla AI can throw far more often than the bonus damage can land — a throw within 5s of the last damaging one still plays out visually (splash cloud, particles, sound) but deals no bonus damage.",
         "The Witch itself is immune to Poison." ] },
       { name:"Lingering Miasma", cd:"36s", lines:[
         "Lobs a vial that lands at its target's position (~1s flight, dodgeable by moving off the landing spot).",
-        "On impact: leaves a 3.5-block poison zone for 6s, ticking every 1s for <strong>0.6× splash stat</strong> + a refreshed Poison to anyone still standing in it." ] },
+        "On impact: leaves a 3.5-block poison zone for 6s, ticking every 1s for <strong>1.5× splash stat</strong> + a refreshed Poison to anyone still standing in it." ] },
       { name:"Restorative Draught", cd:"45s, only below 60% HP", lines:[
         "Telegraph: ~1s (drinks a potion).",
         "Effect: heals <strong>5% of its own max HP</strong>. Doesn't consume the cooldown if it's already above the HP threshold when it's ready — it just keeps re-checking." ] },
       { name:"Baleful Hex", cd:"80s", lines:[
         "Mark: every player and Deviant within <strong>100 blocks</strong> that currently has line of sight to it gets hexed at once, each resolving independently and in parallel.",
         "Escape: break line of sight, leave the 100-block radius, or (players only) go down within the 4s mark window to fizzle the hex.",
-        "Seize: still hexed when the window ends gets teleport-locked in place (Slowness IV + Nausea II) through 4 pulses, ~0.6s apart, each an instant <strong>2× splash stat</strong> hit in a 3-block splash (catches bystanders too)." ] }
+        "Seize: still hexed when the window ends gets teleport-locked in place (Slowness IV + Nausea II) through 4 pulses, ~0.6s apart, each an instant <strong>1.5× splash stat</strong> hit in a 3-block splash (catches bystanders too)." ] }
     ],
-    strategy: "Being the one directly struck by a potion splash deals 2× the damage of just standing nearby, so spread out. Step out of Lingering Miasma zones instead of fighting through them. If hexed by Baleful Hex, break line of sight within 4s or you'll be seized and pulsed 4 times. It's immune to Poison, so don't bother trying to whittle it down that way."
+    strategy: "Step out of Lingering Miasma zones instead of fighting through them. If hexed by Baleful Hex, break line of sight within 4s or you'll be seized and pulsed 4 times. It's immune to Poison, so don't bother trying to whittle it down that way."
   },
   ravager: {
     epithet: "Bonecrusher",
@@ -1160,15 +1160,15 @@ const BOSS_GUIDE = {
       { name:"Bull Rush", cd:"15s", lines:[
         "Telegraph: 0.9s (paws the ground).",
         "Effect: charges up to 12 blocks in a straight line; stops dead on any block collision.",
-        "The first thing it hits takes <strong>6× melee stat</strong>, strong knockback, and 5s of Nausea II." ] },
+        "The first thing it hits takes <strong>1.5× melee stat</strong>, strong knockback, and 5s of Nausea II." ] },
       { name:"Quaking Stomp", cd:"38s", lines:[
         "Telegraph: 2s (dust ring growing to 6 blocks).",
-        "Impact: <strong>4× melee stat</strong> + Slowness III + Darkness to anyone still in range.",
-        "Also lobs 5 arcing fireballs at random jittered points around players within 30 blocks — each explodes for <strong>1.2× melee stat</strong> in a 3.5-block blast and ignites the ground." ] },
+        "Impact: <strong>1.5× melee stat</strong> + Slowness III + Darkness to anyone still in range.",
+        "Also lobs 5 arcing fireballs at random jittered points around players within 30 blocks — each explodes for <strong>1.5× melee stat</strong> in a 3.5-block blast and ignites the ground." ] },
       { name:"Warhorn Bellow", cd:"75s", raid:true, lines:[
         "Roars and freezes for 5s. Any melee hit landed on it during this window deals it <strong>zero damage and is fully reflected back at the attacker instead</strong>.",
         "When the freeze ends, it launches an arcing boulder at every player within 30 blocks.",
-        "Each boulder impacts for <strong>9× melee stat</strong> in a 3.5-block blast + Slowness III + knockback." ] },
+        "Each boulder impacts for <strong>1.5× melee stat</strong> in a 3.5-block blast + Slowness III + knockback." ] },
       { name:"Tectonic Impale", cd:"78s", lines:[
         "Mark: every player and Deviant within <strong>100 blocks</strong> gets marked at once, each resolving independently and in parallel.",
         "Escape: be airborne (jump) at the exact instant the 1s rumble telegraph resolves to dodge the spikes entirely; Deviants can't act on this, so they're always seized once marked.",
@@ -1185,10 +1185,10 @@ const BOSS_GUIDE = {
     skills: [
       { name:"Arcane Bolt", cd:"15s", lines:[
         "Telegraph: 1.0s.",
-        "Effect: a non-homing bolt travels up to 22 blocks, 1.2 wide. First thing it hits takes <strong>6.5× splash stat</strong> + 2s Weakness II." ] },
+        "Effect: a non-homing bolt travels up to 22 blocks, 1.2 wide. First thing it hits takes <strong>1.5× splash stat</strong> + 2s Weakness II." ] },
       { name:"Arcane Cataclysm", cd:"40s", lines:[
         "Telegraph: 2s (expanding ring to 12 blocks).",
-        "Effect: detonates for <strong>5.5× splash stat</strong> + strong knockback to everyone still inside." ] },
+        "Effect: detonates for <strong>1.5× splash stat</strong> + strong knockback to everyone still inside." ] },
       { name:"Spectral Conscription", cd:"50s", lines:[
         "Telegraph: 1.5s, then summons 4 Vindicators in a line in front of it.",
         "Pure action-economy — they auto-despawn after 6s regardless of whether they're killed, so don't overcommit to them." ] },
@@ -1200,7 +1200,7 @@ const BOSS_GUIDE = {
         "Not interruptible — unlike Ritual of Unmaking, there's no damage threshold that breaks the sequence early once a mark holds. Every valid target resolves independently and in parallel." ] },
       { name:"Ritual of Unmaking", cd:"100s", raid:true, lines:[
         "Telegraph: 6s channel. At the 4s mark, up to 3 nearby players (within 30 blocks) get a marked rune tile.",
-        "Effect: still standing on it when the channel ends deals <strong>9.5× splash stat</strong> + 3s Darkness.",
+        "Effect: still standing on it when the channel ends deals <strong>1.5× splash stat</strong> + 3s Darkness.",
         "Interrupt: dealing 15% of its max HP during the channel breaks it outright (2s stagger, next cast 40s sooner).",
         "If not interrupted: gains a 20s Strength II buff (\"Arcane Empowerment\") on completion." ] }
     ],
@@ -1208,7 +1208,7 @@ const BOSS_GUIDE = {
   }
 };
 
-const WB_TRAVERSAL_SHARED = "All World Bosses share one Traversal ability — a telegraphed high jump (Piglin Brute/Zombified Piglin/Ravager) or a teleport-step through 1-2 blocks of terrain (Warden/Evoker/Witch) that closes distance on its target. Off a 25s cooldown it has a 35% chance to fire on each check; it also fires immediately, skipping that roll, if it loses line of sight on its target for 4+ seconds while close by — the counter to boxing it in with blocks. Landing a jump deals 0.5× melee stat + knockback to anyone caught underneath.";
+const WB_TRAVERSAL_SHARED = "All World Bosses share one Traversal ability — a telegraphed high jump (Piglin Brute/Zombified Piglin/Ravager) or a teleport-step through 1-2 blocks of terrain (Warden/Evoker/Witch) that closes distance on its target. Off a 25s cooldown it has a 35% chance to fire on each check; it also fires immediately, skipping that roll, if it loses line of sight on its target for 4+ seconds while close by — the counter to boxing it in with blocks. Landing a jump deals 1.5× melee stat + knockback to anyone caught underneath.";
 
 // ── Gear Upgrading (RollableStat.java / GearLevelSystem.java / AscendingGUI(Listener).java / GearRegistry.java) ──
 // A drop's Gear Level is a weighted roll between 1 and the killing mob's level at the kill (1-200
@@ -1502,13 +1502,14 @@ function renderRitualOverview(){
     <div class="guide-p"><strong>HP</strong> = the standard stat-derived roll × <strong>260</strong> for Piglin Brute / Zombified Piglin / Ravager / Evoker / Witch, × <strong>200</strong> for Warden.</div>
     <div class="guide-p"><strong>Melee (or Splash, for the Evoker/Witch) damage</strong> = the standard stat-derived value, × <strong>1.25</strong> for Piglin Brute / Zombified Piglin / Ravager / Evoker / Witch.</div>
     <div class="guide-p">All 6 have infinite <strong>Regeneration II</strong>.</div>
+    <div class="guide-p">Every scripted boss-skill-kit ability (not ordinary melee/ranged hits) deals a flat <strong>1.5×</strong> the boss's Melee (or Splash, for the Evoker/Witch) stat, per hit — no per-skill multiplier and no "Special" damage bonus on top.</div>
 
     <div class="guide-h2">Loot rules (per kill, per nearby player)</div>
     <div class="guide-p">
       <strong>Guaranteed (100%):</strong> one random item from the boss's own themed drop pool.<br>
       <strong>Guaranteed:</strong> one random Diamond-tier equipment piece — ritual-summoned World Bosses are always flagged "Special," which would otherwise only be a 50% chance.<br>
       <strong>1% chance:</strong> one random Netherite-tier equipment piece.<br>
-      Being "Special" also adds <strong>+20 Dexterity per level</strong>, <strong>double max HP</strong>, and <strong>+10% damage on every boss-skill-kit ability</strong> (not ordinary melee/ranged hits) on top of the boss's rolled stats.
+      Being "Special" also adds <strong>+20 Dexterity per level</strong> and <strong>double max HP</strong> on top of the boss's rolled stats.
     </div>
 
     <div class="guide-h2">Anti-cheese combat lock</div>
