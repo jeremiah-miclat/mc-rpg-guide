@@ -9,8 +9,7 @@
     --text-dim: #5c655f;
     --accent: #a1791f;
     --accent-2: #7d4fc4;
-    --vanilla: #6b7280;
-    --rpg: #2f8f4e;
+    --effect: #6b7280;
     --deviant: #93701a;
     --build: #3568c4;
     --chip-bg: rgba(0,0,0,0.045);
@@ -26,8 +25,7 @@
       --text-dim: #9aa1a6;
       --accent: #d9a94a;
       --accent-2: #b895ec;
-      --vanilla: #9aa0a6;
-      --rpg: #74c67c;
+      --effect: #9aa0a6;
       --deviant: #e0c368;
       --build: #7ea7ee;
       --chip-bg: rgba(255,255,255,.05);
@@ -37,13 +35,13 @@
   :root[data-theme="dark"] {
     --bg: #12151a; --surface: #1a1e25; --surface-2: #0f1114; --border: rgba(255,255,255,.09);
     --text: #e8e6df; --text-dim: #9aa1a6; --accent: #d9a94a; --accent-2: #b895ec;
-    --vanilla: #9aa0a6; --rpg: #74c67c; --deviant: #e0c368; --build: #7ea7ee; --chip-bg: rgba(255,255,255,.05);
+    --effect: #9aa0a6; --deviant: #e0c368; --build: #7ea7ee; --chip-bg: rgba(255,255,255,.05);
     --shadow: 0 1px 2px rgba(0,0,0,.35), 0 10px 24px rgba(0,0,0,.4);
   }
   :root[data-theme="light"] {
     --bg: #eef1ee; --surface: #ffffff; --surface-2: #e2e7e0; --border: rgba(20,30,25,0.13);
     --text: #1b201c; --text-dim: #5c655f; --accent: #a1791f; --accent-2: #7d4fc4;
-    --vanilla: #6b7280; --rpg: #2f8f4e; --deviant: #93701a; --build: #3568c4; --chip-bg: rgba(0,0,0,0.045);
+    --effect: #6b7280; --deviant: #93701a; --build: #3568c4; --chip-bg: rgba(0,0,0,0.045);
     --shadow: 0 1px 2px rgba(20,20,10,.05), 0 6px 16px rgba(20,20,10,.05);
   }
 
@@ -189,8 +187,7 @@
   .rows { display: flex; flex-direction: column; gap: 5px; margin-top: 2px; border-top: 1px solid var(--border); padding-top: 8px; }
   .row { display: flex; gap: 7px; font-size: 12.5px; }
   .row .tag { flex: none; width: 58px; font-size: 10px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700; padding-top: 1px; }
-  .row.vanilla .tag { color: var(--vanilla); }
-  .row.rpg .tag { color: var(--rpg); }
+  .row.vanilla .tag { color: var(--effect); }
   .row.deviant .tag { color: var(--deviant); }
   .row.build .tag { color: var(--build); }
   .row .val { color: var(--text); }
@@ -641,399 +638,393 @@ const ARCHETYPES = {
 const ITEMS = [
   // Swords
   { name:"Dark Blade", id:"dark_blade", archetype:"Bruiser", slot:"Sword", boss:"witch", skill:"Umbral Reap", act:"Right-click, either hand (20s cooldown after the 10s buff ends)", cd:"20s",
-    van:"Full swings (not on attack cooldown) add 16 damage + 2s Blindness + Slowness VI (1s) while active. (Gear Level 100: x2, Level 200: x3.)", rpg:"+16 bonus damage per 100 Intelligence.", dev:DEV.SUB+" (Auto-activates off cooldown instead of right-click.)" },
+    van:"Full swings (not on attack cooldown) add 16 damage + 2s Blindness + Slowness VI (1s) while active. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.SUB+" (Auto-activates off cooldown instead of right-click.)" },
   { name:"Dragon Slaying Blade", id:"dragonslayingblade", archetype:"Vanguard", slot:"Sword", boss:"piglin_brute", skill:"Dragon's Wrath", act:"Right-click, either hand (10s cooldown)", cd:"10s",
-    van:"A normal hit (not affected by attack cooldown) + 16 bonus damage to everyone in the slash. (Gear Level 100: x2, Level 200: x3.)", rpg:"+15 dmg per 100 Intelligence, +8 dmg per 100 Dexterity.", dev:DEV.SUB },
+    van:"A normal hit (not affected by attack cooldown) + 16 bonus damage to everyone in the slash. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.SUB },
   { name:"Mythic Blade", id:"mythic_blade", archetype:"Bruiser", slot:"Sword", boss:"warden", skill:"Arcane Surge", act:"Charge while walking (not sneaking) for 3s, then land a hit. No cooldown.", cd:"None",
-    van:"20 true damage + knockback. (Gear Level 100: x2, Level 200: x3.) Guaranteed minimum 30 damage.", rpg:"+0.5× Melee Damage.", dev:DEV.SUB+" (Charge requirement skipped, always ready.)" },
+    van:"20 true damage + knockback. (Gear Level 50: x2, Level 100: x3.) Guaranteed minimum 30 damage.", dev:DEV.SUB+" (Charge requirement skipped, always ready.)" },
   { name:"Toxic Long Sword", id:"toxic_longsword", archetype:"Vanguard", slot:"Sword", boss:"witch", skill:"Venom Cascade", act:"Hit the ground, left-click a block (20s cooldown)", cd:"20s",
-    van:"4 damage per tick to hostile monsters only, 15-block radius, lingers 10s. (Gear Level 100: x2, Level 200: x3.)", rpg:"+5 bonus damage per tick per 100 Intelligence.", dev:DEV.SUB },
+    van:"4 damage per tick to hostile monsters only, 15-block radius, lingers 10s. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.SUB },
   { name:"Creation Splitter", id:"creationsplitter", archetype:"Vanguard", slot:"Sword", boss:"warden", skill:"Reality Cleave", act:"Right-click, either hand (10s cooldown)", cd:"10s",
-    van:"A normal hit (not affected by attack cooldown) + 16 bonus damage to everyone in a wide 6-block, 140-degree arc in front of you. (Gear Level 100: x2, Level 200: x3.)", rpg:"+15 dmg per 100 Intelligence, +8 dmg per 100 Dexterity.", dev:DEV.SUB },
+    van:"A normal hit (not affected by attack cooldown) + 16 bonus damage to everyone in a wide 6-block, 140-degree arc in front of you. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.SUB },
   { name:"Creation Weaver", id:"creation_weaver", archetype:"Bruiser", slot:"Sword", boss:"ravager", skill:"Life Weave", act:"Charge while walking (not sneaking) for 3s, then land a hit. No cooldown.", cd:"None",
-    van:"+8 damage + Regeneration I (10s) on hit. (Gear Level 100: x2, Level 200: x3.) Guaranteed minimum 30 bonus damage.", rpg:"+15 dmg per 100 Strength, +10 dmg per 100 Intelligence.", dev:DEV.SUB+" (Charge requirement skipped, always ready.)" },
+    van:"+8 damage + Regeneration I (10s) on hit. (Gear Level 50: x2, Level 100: x3.) Guaranteed minimum 30 bonus damage.", dev:DEV.SUB+" (Charge requirement skipped, always ready.)" },
   { name:"Cyber Katana", id:"cyber_katana", archetype:"Assassin", slot:"Sword", boss:"evoker", skill:"Neon Slash", act:"Right-click, either hand, dash up to 10 blocks (10s cooldown)", cd:"10s",
-    van:"A normal hit (not affected by attack cooldown) + 12 bonus damage to everyone struck along the dash. (Gear Level 100: x2, Level 200: x3.)", rpg:"+15 dmg per 100 Agility, +10 dmg per 100 Luck.", dev:DEV.SUB+" (Dashes toward its current melee target instead.)" },
+    van:"A normal hit (not affected by attack cooldown) + 12 bonus damage to everyone struck along the dash. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.SUB+" (Dashes toward its current melee target instead.)" },
   { name:"Flamatic Katana", id:"flamatic_katana", archetype:"Berserker", slot:"Sword", boss:"evoker", skill:"Cinder Combo", act:"Charge while sneaking for 8s (persists after you stop sneaking), then land a hit. Own stack-window tracking — no fixed cooldown.", cd:"—",
-    van:"2 absorption on every hit and on charge; charged hit: 3s root + 10 rapid slashes. (Gear Level 100: x2, Level 200: x3.)", rpg:"+1 bonus absorption per 50 Strength.", dev:DEV.SUB+" (Auto-procs the full combo periodically instead of sneak-charging.)" },
+    van:"2 absorption on every hit and on charge; charged hit: 3s root + 10 rapid slashes. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.SUB+" (Auto-procs the full combo periodically instead of sneak-charging.)" },
 
   // Ranged
   { name:"Composite Bow", id:"composite_bow", slot:"Bow", boss:"piglin_brute", skill:"Piercing Volley", act:"Any hit or landing while off cooldown (5s cooldown)", cd:"5s",
-    van:"12 damage to every enemy within a 5-block radius, plus a Bleed dealing 3/4.5/7.5 damage per second for 5s at Gear Level 1/100/200. (Gear Level 100: x2 dmg, Level 200: x3.) Caution: hits everyone in radius, including passive animals and villagers — avoid firing near your base.",
-    rpg:"+1.0× your Ranged Damage bonus per enemy hit (the Bleed itself isn't RPG-scaled).", dev:DEV.ARCHER },
+    van:"12 damage to every enemy within a 5-block radius, plus a Bleed dealing 3/4.5/7.5 damage per second for 5s at Gear Level 1/50/100. (Gear Level 50: x2 dmg, Level 100: x3.) Caution: hits everyone in radius, including passive animals and villagers — avoid firing near your base.",
+    dev:DEV.ARCHER },
   { name:"Thundering Pulse", id:"warbow", slot:"Bow", boss:"witch", skill:"Thunderclap Arrow", act:"Any hit or landing while off cooldown (8s cooldown)", cd:"8s",
-    van:"45 damage, 8-block radius, plus a real lightning strike on every enemy hit for another 45 damage, a 3s root, and 3s Blindness. (Gear Level 100: x2, Level 200: x3.) Caution: hits everyone in radius, including passive animals and villagers — avoid firing near your base.",
-    rpg:"+1.5× Ranged Damage (applies to both the burst and the lightning strike).", dev:DEV.STD },
+    van:"45 damage, 8-block radius, plus a real lightning strike on every enemy hit for another 45 damage, a 3s root, and 3s Blindness. (Gear Level 50: x2, Level 100: x3.) Caution: hits everyone in radius, including passive animals and villagers — avoid firing near your base.",
+    dev:DEV.STD },
   { name:"Assassination", id:"assassination_bow", slot:"Bow", boss:"ravager", skill:"Mark for Death", act:"Any hit or landing while off cooldown (6s cooldown)", cd:"6s",
-    van:"Delayed AoE pulse in a 6-block radius: marks every enemy in range; 5s later, once the mark's particle effect fades, every enemy still marked takes 36 bonus execute damage. (Gear Level 100: x2, Level 200: x3.) Caution: hits everyone in radius, including passive animals and villagers — avoid firing near your base.",
-    rpg:"+1.5× Ranged Damage.", dev:DEV.STD },
+    van:"Delayed AoE pulse in a 6-block radius: marks every enemy in range; 5s later, once the mark's particle effect fades, every enemy still marked takes 36 bonus execute damage. (Gear Level 50: x2, Level 100: x3.) Caution: hits everyone in radius, including passive animals and villagers — avoid firing near your base.",
+    dev:DEV.STD },
   { name:"Netherite Crossbow", id:"netherite_crossbow", slot:"Crossbow", boss:"zombified_piglin", skill:"Molten Bolt", act:"Any hit or landing while off cooldown (6s cooldown)", cd:"6s",
-    van:"18 fire damage, 6-block radius, knockup/knockback on nearby entities, ignites for 10s. (Gear Level 100: x2, Level 200: x3.) Caution: hits everyone in radius, including passive animals and villagers — avoid firing near your base.",
-    rpg:"+1.0× Ranged Damage.", dev:DEV.STD },
+    van:"18 fire damage, 6-block radius, knockup/knockback on nearby entities, ignites for 10s. (Gear Level 50: x2, Level 100: x3.) Caution: hits everyone in radius, including passive animals and villagers — avoid firing near your base.",
+    dev:DEV.STD },
   { name:"Riesling Crossbow", id:"riesling_crossbow", slot:"Crossbow", boss:"witch", skill:"Frost Lock", act:"Any hit or landing while off cooldown (7s cooldown)", cd:"7s",
-    van:"30 damage + Slowness II + Mining Fatigue I (2s), to everyone within a 7-block radius. (Gear Level 100: x2 damage & duration, Level 200: x3.) Caution: hits everyone in radius, including passive animals and villagers — avoid firing near your base.",
-    rpg:"+1.0× Ranged Damage on the hit; +0.5× Ranged Damage ÷ 5, added debuff seconds.", dev:DEV.STD },
+    van:"30 damage + Slowness II + Mining Fatigue I (2s), to everyone within a 7-block radius. (Gear Level 50: x2 damage & duration, Level 100: x3.) Caution: hits everyone in radius, including passive animals and villagers — avoid firing near your base.",
+    dev:DEV.STD },
 
   // Shields & books
   { name:"Mirror Shield", id:"mirror_shield", slot:"Shield", boss:"zombified_piglin", skill:"Reflective Ward", act:"Block an attack (10s cooldown)", cd:"10s",
-    van:"Reflects 15% of blocked damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your Vitality damage-reduction bonus.", dev:DEV.NA },
+    van:"Reflects 15% of blocked damage. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.NA },
   { name:"Cyber Shield", id:"cyber_shield", slot:"Shield", boss:"evoker", skill:"Kinetic Barrier", act:"Block 3 attacks within 8s of each other. Own stack-window tracking — no fixed cooldown.", cd:"—",
-    van:"8 damage + knockback shockwave, 3-block radius. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Melee Damage.", dev:DEV.NA },
+    van:"8 damage + knockback shockwave, 3-block radius. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.NA },
   { name:"Soul Bound", id:"soulbound", slot:"Book", boss:"evoker", skill:"Soul Mark", act:"Splash-potion hit (Alchemist class)", cd:"None",
-    van:"Marks target; drops 1 bonus orb on death; never lost on player death. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your Splash Damage bonus ÷ 10, added orbs.", dev:DEV.NA_ALCH },
+    van:"Marks target; drops 1 bonus orb on death; never lost on player death. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.NA_ALCH },
   { name:"Ruby Fire", id:"ruby_fire", slot:"Book", boss:"evoker", skill:"Cinderbrew", act:"Splash-potion hit (Alchemist class)", cd:"None",
-    van:"Ignites target 3s + 2s Fire Resistance for you. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Splash Damage ÷ 5, added ignite seconds.", dev:DEV.NA_ALCH },
+    van:"Ignites target 3s + 2s Fire Resistance for you. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.NA_ALCH },
 
   // Tools — reskinned, no active skill, but carry the Telekinesis enchant innately
   { name:"Kalam0n's Pickaxe", id:"kalam0n_pa", slot:"Pickaxe", boss:"piglin_brute", skill:null, act:"No activation — passive stat item",
-    van:"Normal vanilla mining + Telekinesis (blocks go straight to your inventory instead of dropping).", rpg:"None — just the standard random stat roll on drop.", dev:"Works identically on a Deviant (no skill to trigger)." },
+    van:"Normal vanilla mining + Telekinesis (blocks go straight to your inventory instead of dropping).", dev:"Works identically on a Deviant (no skill to trigger)." },
   { name:"Kalam0n's Axe", id:"kalam0n_a", slot:"Axe", boss:"piglin_brute", skill:null, act:"No activation — passive stat item",
-    van:"Normal vanilla chopping/combat + Telekinesis (blocks go straight to your inventory instead of dropping).", rpg:"None — just the standard random stat roll on drop.", dev:"Works identically on a Deviant (no skill to trigger)." },
+    van:"Normal vanilla chopping/combat + Telekinesis (blocks go straight to your inventory instead of dropping).", dev:"Works identically on a Deviant (no skill to trigger)." },
   { name:"Kalam0n's Hoe", id:"kalam0n_h", slot:"Hoe", boss:"piglin_brute", skill:null, act:"No activation — passive stat item",
-    van:"Normal vanilla tilling + Telekinesis (blocks go straight to your inventory instead of dropping).", rpg:"None — just the standard random stat roll on drop.", dev:"Works identically on a Deviant (no skill to trigger)." },
+    van:"Normal vanilla tilling + Telekinesis (blocks go straight to your inventory instead of dropping).", dev:"Works identically on a Deviant (no skill to trigger)." },
   { name:"Kalam0n's Shovel", id:"kalam0n_s", slot:"Shovel", boss:"piglin_brute", skill:null, act:"No activation — passive stat item",
-    van:"Normal vanilla digging + Telekinesis (blocks go straight to your inventory instead of dropping).", rpg:"None — just the standard random stat roll on drop.", dev:"Works identically on a Deviant (no skill to trigger)." },
+    van:"Normal vanilla digging + Telekinesis (blocks go straight to your inventory instead of dropping).", dev:"Works identically on a Deviant (no skill to trigger)." },
   { name:"Hoe", id:"ztbow_hoe", slot:"Hoe", boss:"warden", skill:null, act:"No activation — passive stat item",
-    van:"Normal vanilla tilling + Telekinesis (blocks go straight to your inventory instead of dropping).", rpg:"None — just the standard random stat roll on drop.", dev:"Works identically on a Deviant (no skill to trigger)." },
+    van:"Normal vanilla tilling + Telekinesis (blocks go straight to your inventory instead of dropping).", dev:"Works identically on a Deviant (no skill to trigger)." },
   { name:"Lucky Pick", id:"ztbow_lucky_pick", slot:"Pickaxe", boss:"witch", skill:null, act:"No activation — passive stat item",
-    van:"Normal vanilla mining + Telekinesis (blocks go straight to your inventory instead of dropping).", rpg:"None — just the standard random stat roll on drop.", dev:"Works identically on a Deviant (no skill to trigger)." },
+    van:"Normal vanilla mining + Telekinesis (blocks go straight to your inventory instead of dropping).", dev:"Works identically on a Deviant (no skill to trigger)." },
   { name:"Soft Pick", id:"ztbow_soft_pick", slot:"Pickaxe", boss:"evoker", skill:null, act:"No activation — passive stat item",
-    van:"Normal vanilla mining + Telekinesis (blocks go straight to your inventory instead of dropping).", rpg:"None — just the standard random stat roll on drop.", dev:"Works identically on a Deviant (no skill to trigger)." },
+    van:"Normal vanilla mining + Telekinesis (blocks go straight to your inventory instead of dropping).", dev:"Works identically on a Deviant (no skill to trigger)." },
   { name:"Spade", id:"ztbow_spade", slot:"Shovel", boss:"zombified_piglin", skill:null, act:"No activation — passive stat item",
-    van:"Normal vanilla digging + Telekinesis (blocks go straight to your inventory instead of dropping).", rpg:"None — just the standard random stat roll on drop.", dev:"Works identically on a Deviant (no skill to trigger)." },
+    van:"Normal vanilla digging + Telekinesis (blocks go straight to your inventory instead of dropping).", dev:"Works identically on a Deviant (no skill to trigger)." },
 
   // Sword/Bow/Axe skill prototypes — each carries its own unique, original skill (not shared
   // with any other item on this list). Still test-only: obtainable in-game only via
   // /futuregeartest, not the real drop pools — boss values below are flavor/documentation only.
   { name:"Bloodthirst", id:"ztbow_bloodthirst", archetype:"Berserker", slot:"Sword", boss:"zombified_piglin", skill:"Blood Drain",
     act:"Right-click to enter Blood Drain for 30s (cooldown 30s once it ends). Every hit while active applies a 10s bleed on the target (refreshed, not stacked, by later hits).", cd:"30s (starts once the 30s stance ends)",
-    van:"Bleed deals 10% of that hit's damage over its 10s duration; each bleed tick heals you back for the same amount, as long as you're still wielding this weapon. (Gear Level 100: 20% of hit damage, Level 200: 30% of hit damage.)",
-    rpg:"+1% of hit damage per 100 Dexterity.", dev:DEV.SUB+" (Auto-activates off cooldown instead of right-click.)" },
+    van:"Bleed deals 10% of that hit's damage over its 10s duration; each bleed tick heals you back for the same amount, as long as you're still wielding this weapon. (Gear Level 50: 20% of hit damage, Level 100: 30% of hit damage.)",
+    dev:DEV.SUB+" (Auto-activates off cooldown instead of right-click.)" },
   { name:"Bloodvein", id:"ztbow_bloodvein", archetype:"Assassin", slot:"Sword", boss:"warden", skill:"Rupture",
     act:"Any hit (no cooldown; passive stack application)", cd:"None",
-    van:"3 bleed damage per tick per stack, 1s ticks for 4s, max 4 stacks. (Gear Level 100: x2 tick damage, Level 200: x3.)",
-    rpg:"+0.4 bleed damage per 100 Intelligence (per stack).", dev:DEV.STD },
+    van:"3 bleed damage per tick per stack, 1s ticks for 4s, max 4 stacks. (Gear Level 50: x2 tick damage, Level 100: x3.)",
+    dev:DEV.STD },
   { name:"Blue Rose", id:"ztbow_blue_rose", archetype:"Vanguard", slot:"Sword", boss:"evoker", skill:"Freezing Field",
     act:"Right-click, either hand: summons a 10-block-radius freezing field centered on you, lasting 10s (30s cooldown)", cd:"30s",
-    van:"Deals 4 damage per second and applies Slowness II to hostile monsters inside (won't refresh an already-slowed target). Non-hostile living entities instead gain Regeneration V for as long as the field remains. (Gear Level 100: 20s cooldown, Level 200: 10s cooldown.)",
-    rpg:"+4 damage per second per 100 Intelligence.", dev:DEV.STD },
+    van:"Deals 4 damage per second and applies Slowness II to hostile monsters inside (won't refresh an already-slowed target). Non-hostile living entities instead gain Regeneration V for as long as the field remains. (Gear Level 50: 20s cooldown, Level 100: 10s cooldown.)",
+    dev:DEV.STD },
   { name:"Corrupted Greatsword", id:"ztbow_corrupted_greatsword", archetype:"Executioner", slot:"Sword", boss:"witch", skill:"Corruptor's Toll",
     act:"Any hit (no cooldown; scales off the target's current HP%)", cd:"None",
-    van:"Up to +12 bonus damage at 100% target HP, tapering to 0 below 30% HP. (Gear Level 100: cap +24, Level 200: cap +36.)",
-    rpg:"+0.5× your Melee Damage bonus, through the same taper.", dev:DEV.STD },
+    van:"Up to +12 bonus damage at 100% target HP, tapering to 0 below 30% HP. (Gear Level 50: cap +24, Level 100: cap +36.)",
+    dev:DEV.STD },
   { name:"Dagger", id:"ztbow_dagger", archetype:"Assassin", slot:"Sword", boss:"piglin_brute", skill:"Backstab",
     act:"Speed III (1.5s) on every hit, unconditional; +10 backstab bonus damage only while the target isn't facing you (no cooldown)", cd:"None",
-    van:"Speed III for 1.5s on every hit. A backstab (target not facing you) additionally deals +10 bonus damage + 1s Slowness II. (Gear Level 100: +20 dmg, Level 200: +30 dmg.)",
-    rpg:"+12 bonus damage per 100 Dexterity (backstab only).", dev:DEV.STD },
+    van:"Speed III for 1.5s on every hit. A backstab (target not facing you) additionally deals +10 bonus damage + 1s Slowness II. (Gear Level 50: +20 dmg, Level 100: +30 dmg.)",
+    dev:DEV.STD },
   { name:"Dante's Devilsword", id:"ztbow_dante", archetype:"Duelist", slot:"Sword", boss:"ravager", skill:"Devil Trigger",
     act:"Right-click opens a 30s banking window; only full swings landed inside it bank a stack (no cap), released as one burst in a 10-block sphere when it closes (20s cooldown after)", cd:"20s",
-    van:"15 damage per banked stack, hitting every hostile monster in range on window close. (Gear Level 100: x2, Level 200: x3.) Guaranteed minimum 30 damage per burst.",
-    rpg:"+0.5× your Melee Damage bonus per banked stack.",
+    van:"15 damage per banked stack, hitting every hostile monster in range on window close. (Gear Level 50: x2, Level 100: x3.) Guaranteed minimum 30 damage per burst.",
     dev:DEV.SUB+" (Auto-opens the window off cooldown instead of right-click.)" },
   { name:"Awakened Devilsword", id:"ztbow_danteawk", archetype:"Duelist", slot:"Sword", boss:"ravager", skill:"Rebellion Surge",
     act:"Passive — every 4th consecutive hit (no cooldown)", cd:"None",
-    van:"A phantom repeat-hit for 100% of the triggering hit's damage, 0.5s later. (Gear Level 100: 120%, Level 200: 140%.)",
-    rpg:"+5% phantom-hit ratio per 100 Strength.", dev:DEV.STD },
+    van:"A phantom repeat-hit for 100% of the triggering hit's damage, 0.5s later. (Gear Level 50: 120%, Level 100: 140%.)",
+    dev:DEV.STD },
   { name:"Death Bringer", id:"ztbow_death_bringer", archetype:"Berserker", slot:"Sword", boss:"witch", skill:"Reaper's Toll",
     act:"Right-click, spends 10% of your current HP to empower the next hit (10s lockout)", cd:"10s",
-    van:"Full swings (not on attack cooldown) add +3.2 bonus damage per 1% HP spent. (Gear Level 100: x1.2 ratio, Level 200: x1.6 ratio.)",
-    rpg:"+10 bonus damage per 100 Strength.",
+    van:"Full swings (not on attack cooldown) add +3.2 bonus damage per 1% HP spent. (Gear Level 50: x1.2 ratio, Level 100: x1.6 ratio.)",
     dev:DEV.SUB+" (Auto-triggers off cooldown while above 50% HP instead of right-click.)" },
   { name:"Demonic Greatsword", id:"ztbow_demonic_greatsword", archetype:"Berserker", slot:"Sword", boss:"warden", skill:"Vengeance",
     act:"Passive — scales with your own missing HP% (no cooldown)", cd:"None",
-    van:"+0.6 bonus damage per 1% missing HP, caps at 75% missing. (Gear Level 100: x2 rate, Level 200: x3 rate.)",
-    rpg:"+8 bonus damage per 100 Strength, added at the cap.", dev:DEV.STD },
+    van:"+0.6 bonus damage per 1% missing HP, caps at 75% missing. (Gear Level 50: x2 rate, Level 100: x3 rate.)",
+    dev:DEV.STD },
   { name:"Demonic Sword", id:"ztbow_demonic_sword", archetype:"Assassin", slot:"Sword", boss:"warden", skill:"Fell Presence",
     act:"On-hit chance proc, 15% base (no cooldown)", cd:"None",
-    van:"15% chance to Blind the target for 5s, dealing 4 bonus damage and healing you 1. (Gear Level 100: 6 dmg / 2 heal, Level 200: 8 dmg / 3 heal.)",
-    rpg:"+4 bonus damage per 50 Intelligence, +2 heal per 50 Intelligence.", dev:DEV.STD },
+    van:"15% chance to Blind the target for 5s, dealing 4 bonus damage and healing you 1. (Gear Level 50: 6 dmg / 2 heal, Level 100: 8 dmg / 3 heal.)",
+    dev:DEV.STD },
   { name:"Corrupted Sword", id:"ztbow_ender_blade", archetype:"Assassin", slot:"Sword", boss:"piglin_brute", skill:"Voidgrasp",
     act:"On-hit chance proc, 12% base (no cooldown)", cd:"None",
-    van:"12% chance to inflict Slowness VI, Wither I, Blindness, and Weakness II for 10s. (Gear Level 100: 12.5s, Level 200: 15s.)",
-    rpg:"+2% proc chance per 100 Dexterity.", dev:DEV.STD },
+    van:"12% chance to inflict Slowness VI, Wither I, Blindness, and Weakness II for 10s. (Gear Level 50: 12.5s, Level 100: 15s.)",
+    dev:DEV.STD },
   { name:"Golden Splitter", id:"ztbow_golden_splitter", archetype:"Executioner", slot:"Sword", boss:"piglin_brute", skill:"Splitting Edge",
     act:"On a killing blow only (no cooldown)", cd:"None",
-    van:"Chains to the nearest enemy for 80% of the kill damage. (Gear Level 100: 110%, Level 200: 140%.)",
-    rpg:"+0.5× your Melee Damage bonus, added to the chained hit.", dev:DEV.STD },
+    van:"Chains to the nearest enemy for 80% of the kill damage. (Gear Level 50: 110%, Level 100: 140%.)",
+    dev:DEV.STD },
   { name:"Grim", id:"ztbow_grim", archetype:"Duelist", slot:"Sword", boss:"evoker", skill:"Grim Ledger",
     act:"On-hit chance to mark, 20% base; your own follow-up hit in the window is a guaranteed crit-like bonus", cd:"None",
-    van:"Mark window 3s. (Gear Level 100: 4s, Level 200: 5s.)",
-    rpg:"+1s window duration per 200 Luck.", dev:DEV.STD },
+    van:"Mark window 3s. (Gear Level 50: 4s, Level 100: 5s.)",
+    dev:DEV.STD },
   { name:"Angelic Greatsword", id:"ztbow_holy_greatsword", archetype:"Guardian", slot:"Sword", boss:"evoker", skill:"Aegis Zeal",
     act:"Any hit grants a shield stack (max 3); reaching 3 stacks locks the skill out for 5s (no new stacks/absorption while locked out)", cd:"5s",
-    van:"+3 shield per stack, 4s independent expiry each; at 3 stacks, triggers a 5s lockout. (Gear Level 100: +5/stack, Level 200: +7/stack.)",
-    rpg:"+0.4× your Damage Reduction bonus, per stack.", dev:DEV.STD },
+    van:"+3 shield per stack, 4s independent expiry each; at 3 stacks, triggers a 5s lockout. (Gear Level 50: +5/stack, Level 100: +7/stack.)",
+    dev:DEV.STD },
   { name:"Angelic Sword", id:"ztbow_holy_sword", archetype:"Executioner", slot:"Sword", boss:"evoker", skill:"Radiant Focus",
     act:"Every hit builds a Focus stack (max 5, 6s expiry each); the 5th stack unleashes a guaranteed Judgment strike (no cooldown)", cd:"None",
-    van:"Below 5 stacks: +2/+4/+6 damage per stack (Gear Level 1/100/200). At 5 stacks: guaranteed 3.6x/4.0x/4.4x damage plus a heal of 15%/20%/25% of the damage dealt, then the stacks reset.",
-    rpg:"+0.3× your Crit Chance bonus, added to the Judgment heal %.", dev:DEV.STD },
+    van:"Below 5 stacks: +2/+4/+6 damage per stack (Gear Level 1/50/100). At 5 stacks: guaranteed 3.6x/4.0x/4.4x damage plus a heal of 15%/20%/25% of the damage dealt, then the stacks reset.",
+    dev:DEV.STD },
   { name:"Infinity", id:"ztbow_infinity", archetype:"Duelist", slot:"Sword", boss:"evoker", skill:"Overflow",
     act:"Any hit shaves cooldowns on your other equipped gear skills (no cooldown of its own)", cd:"None",
-    van:"-0.3s off other active cooldowns per hit. (Gear Level 100: -0.5s, Level 200: -0.8s.)",
-    rpg:"+0.2s CDR per hit per 100 Agility.", dev:DEV.STD },
+    van:"-0.3s off other active cooldowns per hit. (Gear Level 50: -0.5s, Level 100: -0.8s.)",
+    dev:DEV.STD },
   { name:"Royal Slash", id:"ztbow_royal_slash", archetype:"Vanguard", slot:"Sword", boss:"piglin_brute", skill:"Sovereign's Edict",
     act:"On-hit chance to mark Exposed, 12% base; the next hit from ANY attacker on that target crits", cd:"None",
-    van:"Exposed lasts 3s. (Gear Level 100: 4s, Level 200: 5s.)",
-    rpg:"+2% chance per 100 Luck.", dev:DEV.STD },
+    van:"Exposed lasts 3s. (Gear Level 50: 4s, Level 100: 5s.)",
+    dev:DEV.STD },
   { name:"Wolf's Gravestone", id:"ztbow_wolfblade", archetype:"Skirmisher", slot:"Sword", boss:"ravager", skill:"Pack Alpha",
     act:"Any hit within the last 4s adds a speed stack (max 3, no cooldown)", cd:"None",
     van:"Speed I at 1 stack, Speed II at 2 stacks, Speed III at 3 stacks — movement speed only, no attack-speed component.",
-    rpg:"+1s potion duration per 1000 Agility per stack (no cap).", dev:DEV.STD },
+    dev:DEV.STD },
   { name:"Yamato", id:"ztbow_yamato", archetype:"Duelist", slot:"Sword", boss:"zombified_piglin", skill:"Perfect Cut",
     act:"Bonus scales with time stood still before swinging, capped at 5s (no cooldown for a player)", cd:"None",
-    van:"+10 true damage per 0.5s still, capped at +100. (Gear Level 100: cap +160, Level 200: cap +220.) A fully-charged strike cannot be evaded. While charging or fully charged, the wielder is immune to knockback — only moving on their own breaks the stance.",
-    rpg:"+10 bonus damage per 100 Strength, added at full charge.",
+    van:"+10 true damage per 0.5s still, capped at +100. (Gear Level 50: cap +160, Level 100: cap +220.) A fully-charged strike cannot be evaded. While charging or fully charged, the wielder is immune to knockback — only moving on their own breaks the stance.",
     dev:DEV.SUB+" (Fires on-attack at full charge instead, cooldown-gated: 15s.)" },
   { name:"Daedric", id:"ztbow_daedric", slot:"Bow", boss:"piglin_brute", skill:"Windup Shot",
     act:"Reads your real bow draw strength on hit or landing; 50-90% draw = bonus tier, full draw = bigger bonus + brief root (7s cooldown on the bonus tiers)", cd:"7s",
-    van:"50-90% draw = +24 dmg; full draw = +48 dmg + 5s root, to every enemy within a 7-block radius. (Gear Level 100: +48/+96 dmg, Level 200: +72/+144 dmg.) Caution: hits everyone in radius, including passive animals and villagers — avoid firing near your base.",
-    rpg:"+1.0× your Ranged Damage bonus, on top of whichever tier procs.",
+    van:"50-90% draw = +24 dmg; full draw = +48 dmg + 5s root, to every enemy within a 7-block radius. (Gear Level 50: +48/+96 dmg, Level 100: +72/+144 dmg.) Caution: hits everyone in radius, including passive animals and villagers — avoid firing near your base.",
     dev:DEV.SUB+" (Auto-fires at the full-draw tier instead of varying draw strength.)" },
   { name:"Lumberjack", id:"ztbow_lumberjack", archetype:"Vanguard", slot:"Axe", boss:"warden", skill:"Sunder",
     act:"Any hit adds a stacking mark on the target (max 3, no cooldown on application)", cd:"None",
-    van:"+8% damage taken from all sources per stack, 5s independent expiry each. (Gear Level 100: +10%/stack, Level 200: +12%/stack.)",
-    rpg:"+0.5× your Melee Damage bonus, on the axe's own direct hit.", dev:DEV.STD },
+    van:"+8% damage taken from all sources per stack, 5s independent expiry each. (Gear Level 50: +10%/stack, Level 100: +12%/stack.)",
+    dev:DEV.STD },
   { name:"Frostmorne", id:"frostmorne", archetype:"Executioner", slot:"Sword", boss:"warden", skill:"Soulreap",
     act:"On killing blow, permanently gain a Soul stack (max 15, resets on death or when you switch away from this weapon; no cooldown)", cd:"None",
-    van:"+3 bonus damage per Soul stack, max 15 stacks (45 at cap). At max stacks, nearby enemies (radius 3) get Slowness II, refreshed every 2s. (Gear Level 100: +6/stack, Level 200: +9/stack.)",
-    rpg:"+10 bonus damage per 100 Vitality, per stack.", dev:DEV.STD },
+    van:"+3 bonus damage per Soul stack, max 15 stacks (45 at cap). At max stacks, nearby enemies (radius 3) get Slowness II, refreshed every 2s. (Gear Level 50: +6/stack, Level 100: +9/stack.)",
+    dev:DEV.STD },
   { name:"Murasama", id:"murasama", archetype:"Berserker", slot:"Sword", boss:"witch", skill:"Blood Frenzy",
     act:"Right-click to enter Blood Frenzy for 8s (cooldown 18s once it ends). Each landed hit costs 3% of your current HP and grants a Frenzy stack (max 5, 2s independent decay). Bonus damage only lands on a fully-charged swing.", cd:"18s",
-    van:"+15 bonus damage per Frenzy stack, max 5 stacks (75 at cap). (Gear Level 100: +30/stack, Level 200: +45/stack.)",
-    rpg:"+10 bonus damage per 100 Strength, per stack.",
+    van:"+15 bonus damage per Frenzy stack, max 5 stacks (75 at cap). (Gear Level 50: +30/stack, Level 100: +45/stack.)",
     dev:DEV.SUB+" (Fires as a single cooldown-gated burst instead — next hit costs the same 3% HP and applies max stacks instantly.)" },
   { name:"Thorned Blade", id:"thorned_blade", archetype:"Duelist", slot:"Sword", boss:"ravager", skill:"Bramble Ward",
     act:"Passive: 50% chance to retaliate whenever you take melee damage (no cooldown)", cd:"None",
-    van:"Reflects +10 bonus damage and Poison I for 3s back at the attacker. (Gear Level 100: +15 dmg/4s Poison, Level 200: +30 dmg/5s Poison.)",
-    rpg:"+4 reflect damage per 100 Vitality.", dev:DEV.STD },
+    van:"Reflects +10 bonus damage and Poison I for 3s back at the attacker. (Gear Level 50: +15 dmg/4s Poison, Level 100: +30 dmg/5s Poison.)",
+    dev:DEV.STD },
   { name:"Yamato Thunder Sword", id:"bow2_yamato", archetype:"Assassin", slot:"Sword", boss:"zombified_piglin", skill:"Stormcaller",
     act:"On a fully-charged hit, chance to strike the target with lightning (no cooldown)", cd:"None",
-    van:"20% chance dealing +15 bonus damage and Slowness II (2s). While it's thundering in your world: guaranteed, +50% bonus damage, and a second bolt chains to the nearest enemy within 4 blocks. (Gear Level 100: 25% chance/+30 dmg, Level 200: 30% chance/+45 dmg.)",
-    rpg:"+10 bonus damage per 100 Dexterity, and +0.05% chance per 100 Dexterity.", dev:DEV.STD },
+    van:"20% chance dealing +15 bonus damage and Slowness II (2s). While it's thundering in your world: guaranteed, +50% bonus damage, and a second bolt chains to the nearest enemy within 4 blocks. (Gear Level 50: 25% chance/+30 dmg, Level 100: 30% chance/+45 dmg.)",
+    dev:DEV.STD },
   { name:"Arcanethyst", id:"arcanethyst", archetype:"Skirmisher", slot:"Axe", boss:"warden", skill:"Arcane Echo",
     act:"On a fully-charged hit, chance to store an Echo that replays part of this hit's damage ~0.75s later (no cooldown)", cd:"None",
-    van:"20% chance to echo 50% of the original hit's damage as bonus true damage. (Gear Level 100: 25% chance, Level 200: 30% chance.)",
-    rpg:"+10 bonus damage per 100 Dexterity, added to the echoed hit.", dev:DEV.STD },
+    van:"20% chance to echo 50% of the original hit's damage as bonus true damage. (Gear Level 50: 25% chance, Level 100: 30% chance.)",
+    dev:DEV.STD },
   { name:"Awakened Lichblade", id:"awakened_lichblade", archetype:"Duelist", slot:"Sword", boss:"witch", skill:"Withering Curse",
     act:"Every hit applies/refreshes a Curse mark on the target (4s, no cooldown, no chance)", cd:"None",
-    van:"-8% of the target's Max Health while cursed. (Gear Level 100: -12% Max Health, Level 200: -16% Max Health.)",
-    rpg:"+1% Max Health reduction per 100 Intelligence.", dev:DEV.STD },
+    van:"-8% of the target's Max Health while cursed. (Gear Level 50: -12% Max Health, Level 100: -16% Max Health.)",
+    dev:DEV.STD },
   { name:"Bloody Death", id:"bloodydeath", archetype:"Executioner", slot:"Sword", boss:"ravager", skill:"Death's Harvest",
     act:"On killing blow, unleash a life-drain nova (no cooldown — gated by landing a kill)", cd:"None",
-    van:"Drains 15% of each nearby enemy's (radius 5) current HP as bonus true damage, healing you for the total drained. (Gear Level 100: 20% drained, Level 200: 25% drained.)",
-    rpg:"+10 bonus damage per 100 Strength, per enemy hit by the nova.", dev:DEV.STD },
+    van:"Drains 15% of each nearby enemy's (radius 5) current HP as bonus true damage, healing you for the total drained. (Gear Level 50: 20% drained, Level 100: 25% drained.)",
+    dev:DEV.STD },
   { name:"Brimstone Claymore", id:"brimstone_claymore", archetype:"Vanguard", slot:"Sword", boss:"zombified_piglin", skill:"Molten Wake",
     act:"Every 3rd hit erupts a lingering fire zone at the target's feet (4s, no cooldown on the trigger)", cd:"None",
-    van:"The zone ticks 8 fire damage per second to anyone standing in it (radius 2). (Gear Level 100: 12/tick, Level 200: 16/tick.)",
-    rpg:"+10 tick damage per 100 Strength.", dev:DEV.STD },
+    van:"The zone ticks 8 fire damage per second to anyone standing in it (radius 2). (Gear Level 50: 12/tick, Level 100: 16/tick.)",
+    dev:DEV.STD },
   { name:"Demigod's Unholy Blade", id:"demigodsunholyblade", archetype:"Executioner", slot:"Sword", boss:"warden", skill:"Unholy Execution",
     act:"Passive: bonus damage scales up the lower the target's HP is (no cooldown, no chance)", cd:"None",
-    van:"+30 bonus true damage, scaling from 0 at 50% target HP to full value at 20% HP and below. (Gear Level 100: +60 full-scale, Level 200: +90 full-scale.)",
-    rpg:"+10 bonus damage per 100 Strength, at full scaling.", dev:DEV.STD },
+    van:"+30 bonus true damage, scaling from 0 at 50% target HP to full value at 20% HP and below. (Gear Level 50: +60 full-scale, Level 100: +90 full-scale.)",
+    dev:DEV.STD },
   { name:"Demigod's Unholy Halberd", id:"demigodsunholyhalberd", archetype:"Bruiser", slot:"Axe", boss:"witch", skill:"Impaling Reach",
     act:"Passive: every hit also strikes a second enemy directly behind the target in a line, if one is standing there (no cooldown)", cd:"None",
-    van:"The second enemy takes 60% of the primary hit's damage. (Gear Level 100: 70% of primary, Level 200: 80% of primary.)",
-    rpg:"+10 bonus damage per 100 Strength, added to the secondary hit only.", dev:DEV.STD },
+    van:"The second enemy takes 60% of the primary hit's damage. (Gear Level 50: 70% of primary, Level 100: 80% of primary.)",
+    dev:DEV.STD },
   { name:"Edge of the Astral Plane", id:"edgeoftheastralplane", archetype:"Assassin", slot:"Sword", boss:"ravager", skill:"Void Rend",
     act:"On a fully-charged hit, chance to open a void wound that ticks bonus damage over time (no cooldown)", cd:"None",
-    van:"20% chance to inflict a Bleed-like wound dealing 6/9/12 damage per second for 4s at Gear Level 1/100/200 (2 ticks/sec, non-stacking — a reproc just refreshes the 4s window). (Gear Level 100: 25% chance, Level 200: 30% chance.)",
-    rpg:"+2% chance per 100 Dexterity, added to the base roll. +2 wound damage per second per 100 Dexterity.", dev:DEV.STD },
+    van:"20% chance to inflict a Bleed-like wound dealing 6/9/12 damage per second for 4s at Gear Level 1/50/100 (2 ticks/sec, non-stacking — a reproc just refreshes the 4s window). (Gear Level 50: 25% chance, Level 100: 30% chance.)",
+    dev:DEV.STD },
   { name:"Ember Blade", id:"emberblade", archetype:"Berserker", slot:"Sword", boss:"zombified_piglin", skill:"Simmer",
     act:"Passive: consecutive hits build Simmer stacks (max 5, no cooldown). Taking damage cools the blade, clearing all stacks.", cd:"None",
-    van:"+10 bonus fire damage per Simmer stack, max 5 stacks (50 at cap). (Gear Level 100: +20/stack (100 at cap), Level 200: +30/stack (150 at cap).)",
-    rpg:"+10 bonus damage per 100 Strength, per stack.", dev:DEV.STD },
+    van:"+10 bonus fire damage per Simmer stack, max 5 stacks (50 at cap). (Gear Level 50: +20/stack (100 at cap), Level 100: +30/stack (150 at cap).)",
+    dev:DEV.STD },
   { name:"Excalibur", id:"excalibur", archetype:"Guardian", slot:"Sword", boss:"evoker", skill:"Smite the Unholy",
     act:"Passive: bonus damage against Undead-type enemies specifically (no cooldown, no chance)", cd:"None",
-    van:"+40 bonus damage vs. Undead targets (zombies, skeletons, withers, zombified piglins, etc). (Gear Level 100: +60 vs. Undead, Level 200: +80 vs. Undead.)",
-    rpg:"+10 bonus damage per 100 Strength, vs. Undead only.", dev:DEV.STD },
+    van:"+40 bonus damage vs. Undead targets (zombies, skeletons, withers, zombified piglins, etc). (Gear Level 50: +60 vs. Undead, Level 100: +80 vs. Undead.)",
+    dev:DEV.STD },
   { name:"Fallen God Spear", id:"fallengodspear", archetype:"Vanguard", slot:"Sword", boss:"warden", skill:"Skyfall Pin",
     act:"On a fully-charged hit, chance to root the target in place (no cooldown)", cd:"None",
-    van:"20% chance to root the target (Slowness VI, movement negated) for 1.5s, dealing +20 bonus damage. (Gear Level 100: 25% chance/+40 dmg, Level 200: 30% chance/+60 dmg.)",
-    rpg:"+10 bonus damage per 100 Strength.", dev:DEV.STD },
+    van:"20% chance to root the target (Slowness VI, movement negated) for 1.5s, dealing +20 bonus damage. (Gear Level 50: 25% chance/+40 dmg, Level 100: 30% chance/+60 dmg.)",
+    dev:DEV.STD },
   { name:"Hero Sword", id:"herosword", archetype:"Executioner", slot:"Sword", boss:"witch", skill:"Heroic Surge",
     act:"On killing blow, empowers you with bonus damage for 8s, refreshed by subsequent kills (no cooldown)", cd:"None",
-    van:"+20 bonus damage for 8s after a killing blow. (Gear Level 100: +30, Level 200: +40.)",
-    rpg:"+10 bonus damage per 100 Strength, while empowered.", dev:DEV.STD },
+    van:"+20 bonus damage for 8s after a killing blow. (Gear Level 50: +30, Level 100: +40.)",
+    dev:DEV.STD },
   { name:"Holy Moonlight Sword", id:"holymoonlightsword", archetype:"Guardian", slot:"Sword", boss:"witch", skill:"Lunar Ward",
     act:"Passive: bonus damage while it's night in your world (no cooldown, no chance)", cd:"None",
-    van:"+20 bonus damage at night. (Gear Level 100: +30, Level 200: +40.)",
-    rpg:"+10 bonus damage per 100 Strength, at night only.", dev:DEV.STD },
+    van:"+20 bonus damage at night. (Gear Level 50: +30, Level 100: +40.)",
+    dev:DEV.STD },
   { name:"Ice Whisper", id:"icewhisper", archetype:"Skirmisher", slot:"Axe", boss:"warden", skill:"Frostbitten Edge",
     act:"Every hit weakens the target's own damage output (always-on, no cooldown, no chance)", cd:"None",
     van:"Weakness V for 3s, refreshed on each hit.",
-    rpg:"+10 bonus damage per 100 Dexterity, added to this hit.", dev:DEV.STD },
+    dev:DEV.STD },
   { name:"Legendary Sword", id:"legendarysword", archetype:"Bruiser", slot:"Sword", boss:"warden", skill:"Legend's Might",
     act:"Passive: flat bonus damage on every hit, no gate at all", cd:"None",
-    van:"+20 bonus damage, every hit. (Gear Level 100: +40, Level 200: +60.)",
-    rpg:"+10 bonus damage per 100 Strength.", dev:DEV.STD },
+    van:"+20 bonus damage, every hit. (Gear Level 50: +40, Level 100: +60.)",
+    dev:DEV.STD },
   { name:"Magi Scythe", id:"magiscythe", archetype:"Executioner", slot:"Sword", boss:"piglin_brute", skill:"Soul Siphon",
     act:"On a fully-charged hit, chance to siphon a buff and life from the target (no cooldown)", cd:"None",
-    van:"15% chance to grant +4 flat bonus damage for 6s, and heal for 20% of this hit's damage dealt. (Gear Level 100: 20% chance/30% heal, Level 200: 25% chance/40% heal.)",
-    rpg:"+10 bonus damage per 100 Intelligence, added to this hit.", dev:DEV.STD },
+    van:"15% chance to grant +4 flat bonus damage for 6s, and heal for 20% of this hit's damage dealt. (Gear Level 50: 20% chance/30% heal, Level 100: 25% chance/40% heal.)",
+    dev:DEV.STD },
   { name:"Soul Render", id:"soulrender", archetype:"Executioner", slot:"Sword", boss:"witch", skill:"Rend the Soul",
     act:"Every hit applies/refreshes your own Soul Rend mark on the target (max 3 stacks, 4s each, no cooldown)", cd:"None",
-    van:"+15 bonus true damage per Soul Rend stack (max 3 = +45), plus Wither I (4s) per hit while stacked. (Gear Level 100: +20/stack (60 max), Level 200: +25/stack (75 max).)",
-    rpg:"+10 bonus damage per 100 Intelligence, per stack.", dev:DEV.STD },
+    van:"+15 bonus true damage per Soul Rend stack (max 3 = +45), plus Wither I (4s) per hit while stacked. (Gear Level 50: +20/stack (60 max), Level 100: +25/stack (75 max).)",
+    dev:DEV.STD },
   { name:"Soul Stealer", id:"soulstealer", archetype:"Assassin", slot:"Sword", boss:"zombified_piglin", skill:"Wraith's Mark",
     act:"On killing blow, arms your next hit with bonus true damage and lifesteal (no cooldown)", cd:"None",
-    van:"+50 bonus true damage on the next hit after a kill, plus 100% lifesteal on that hit. (Gear Level 100: +100, Level 200: +150.)",
-    rpg:"+10 bonus damage per 100 Dexterity, added to the armed hit.", dev:DEV.STD },
+    van:"+50 bonus true damage on the next hit after a kill, plus 100% lifesteal on that hit. (Gear Level 50: +100, Level 100: +150.)",
+    dev:DEV.STD },
   { name:"Star's Edge", id:"stars_edge", archetype:"Skirmisher", slot:"Sword", boss:"evoker", skill:"Mortal Edge",
     act:"Passive: bonus damage scales with the target's missing health (no cooldown, no chance)", cd:"None",
-    van:"+10 bonus damage at full health, ramping up to +30 bonus damage as the target nears death. (Gear Level 100: up to +45, Level 200: up to +60.)",
-    rpg:"+10 bonus damage per 100 Strength, scaling in as the target's health drops.", dev:DEV.STD },
+    van:"+10 bonus damage at full health, ramping up to +30 bonus damage as the target nears death. (Gear Level 50: up to +45, Level 100: up to +60.)",
+    dev:DEV.STD },
   { name:"Stormbringer", id:"stormbringer", archetype:"Vanguard", slot:"Sword", boss:"ravager", skill:"Gale Cutter",
     act:"On a fully-charged hit, chance to unleash a gust (no cooldown)", cd:"None",
-    van:"20% chance to knock up all enemies within radius 3 of the target, dealing +10 bonus damage. (Gear Level 100: 25% chance/+20 dmg, Level 200: 30% chance/+30 dmg.)",
-    rpg:"+10 bonus damage per 100 Strength.", dev:DEV.STD },
+    van:"20% chance to knock up all enemies within radius 3 of the target, dealing +10 bonus damage. (Gear Level 50: 25% chance/+20 dmg, Level 100: 30% chance/+30 dmg.)",
+    dev:DEV.STD },
   { name:"Storm's Edge", id:"storms_edge", archetype:"Skirmisher", slot:"Sword", boss:"ravager", skill:"Momentum",
     act:"Passive: bonus damage scales with how far you've moved since your last hit with this weapon (no cooldown, no chance)", cd:"None",
-    van:"Up to +20 bonus damage, scaling linearly with blocks moved (capped at 10 blocks). (Gear Level 100: up to +40, Level 200: up to +60.)",
-    rpg:"+10 bonus damage per 100 Strength, at full movement bonus.", dev:DEV.STD },
+    van:"Up to +20 bonus damage, scaling linearly with blocks moved (capped at 10 blocks). (Gear Level 50: up to +40, Level 100: up to +60.)",
+    dev:DEV.STD },
   { name:"Thunderbrand", id:"thunderbrand", archetype:"Bruiser", slot:"Sword", boss:"ravager", skill:"Branding Curse",
     act:"On a fully-charged hit, chance to brand the target (no cooldown)", cd:"None",
-    van:"20% chance to brand for 5s; while branded, 20% of any damage the target deals to anyone is reflected back onto itself. (Gear Level 100: 25% chance, Level 200: 30% chance.)",
-    rpg:"+10 bonus damage per 100 Strength, added to the branding hit itself.", dev:DEV.STD },
+    van:"20% chance to brand for 5s; while branded, 20% of any damage the target deals to anyone is reflected back onto itself. (Gear Level 50: 25% chance, Level 100: 30% chance.)",
+    dev:DEV.STD },
   { name:"Thunderbringer", id:"thunderbringer", archetype:"Vanguard", slot:"Sword", boss:"ravager", skill:"Overcharge",
     act:"Passive: every hit builds a Charge stack (max 5); at 5 stacks, auto-releases a chain to nearby enemies and resets (no cooldown)", cd:"None",
-    van:"+8 bonus damage per stack; at 5 stacks, chains to up to 3 nearby enemies (radius 4) for the accumulated total. (Gear Level 100: +12/stack, Level 200: +16/stack.)",
-    rpg:"+10 bonus damage per 100 Strength, per stack.", dev:DEV.STD },
+    van:"+8 bonus damage per stack; at 5 stacks, chains to up to 3 nearby enemies (radius 4) for the accumulated total. (Gear Level 50: +12/stack, Level 100: +16/stack.)",
+    dev:DEV.STD },
   { name:"True Creation Splitter", id:"truecreationsplitter", archetype:"Bruiser", slot:"Sword", boss:"warden", skill:"Genesis Cut",
     act:"On a fully-charged hit, chance to deal an instant second hit that also cleaves outward (no cooldown)", cd:"None",
-    van:"12% chance to deal a second hit (50% of the original) on the same target, and cleave that amount to every other hostile enemy within 5 blocks. (Gear Level 100: 16% chance, Level 200: 20% chance.)",
-    rpg:"+10 bonus damage per 100 Strength, added to the second hit and each cleave hit.", dev:DEV.STD },
+    van:"12% chance to deal a second hit (50% of the original) on the same target, and cleave that amount to every other hostile enemy within 5 blocks. (Gear Level 50: 16% chance, Level 100: 20% chance.)",
+    dev:DEV.STD },
   { name:"Watcher Claymore", id:"watcher_claymore", archetype:"Guardian", slot:"Sword", boss:"piglin_brute", skill:"Vigilant Eye",
     act:"Passive: bonus damage against a target currently targeting you (no cooldown, no chance)", cd:"None",
-    van:"+20 bonus damage vs. a mob whose AI target is you (players always count as engaged). (Gear Level 100: +30, Level 200: +40.)",
-    rpg:"+10 bonus damage per 100 Strength, when the bonus applies.", dev:DEV.STD },
+    van:"+20 bonus damage vs. a mob whose AI target is you (players always count as engaged). (Gear Level 50: +30, Level 100: +40.)",
+    dev:DEV.STD },
   { name:"Waxweaver", id:"waxweaver", archetype:"Duelist", slot:"Sword", boss:"witch", skill:"Bound in Wax",
     act:"Every hit stacks a Waxbound mark on the target (max 3, 4s each, no cooldown)", cd:"None",
-    van:"Mining Fatigue (amplifier = stack count), plus +10 bonus damage per stack. (Gear Level 100: +15/stack, Level 200: +20/stack.)",
-    rpg:"+10 bonus damage per 100 Strength, per stack.", dev:DEV.STD },
+    van:"Mining Fatigue (amplifier = stack count), plus +10 bonus damage per stack. (Gear Level 50: +15/stack, Level 100: +20/stack.)",
+    dev:DEV.STD },
   { name:"Whisperwind", id:"whisperwind", archetype:"Assassin", slot:"Sword", boss:"zombified_piglin", skill:"Silent Gale",
     act:"Passive: bonus damage and lifesteal while sneaking (no cooldown, no chance)", cd:"None",
-    van:"+15 bonus damage and 10% lifesteal while sneaking. (Gear Level 100: +25, Level 200: +35.)",
-    rpg:"+10 bonus damage per 100 Dexterity, while sneaking.",
+    van:"+15 bonus damage and 10% lifesteal while sneaking. (Gear Level 50: +25, Level 100: +35.)",
     dev:DEV.SUB+" (Deviants have no sneak state, so the bonus is unconditional for them.)" },
   { name:"Wick Piercer", id:"wickpiercer", archetype:"Duelist", slot:"Sword", boss:"evoker", skill:"Piercing Wick",
     act:"Passive: every hit pierces a portion of the target's Armor mitigation (no cooldown, no chance)", cd:"None",
-    van:"Pierces 20% of the target's Armor mitigation on this hit. (Gear Level 100: 30% pierced, Level 200: 40% pierced.)",
-    rpg:"+2% armor-mitigation pierced per 100 Strength.", dev:DEV.STD }
+    van:"Pierces 20% of the target's Armor mitigation on this hit. (Gear Level 50: 30% pierced, Level 100: 40% pierced.)",
+    dev:DEV.STD }
 ];
 
 // Armor sets — 4 pieces + a full-set bonus (14 sets, 56 pieces + 14 bonuses = 70 entries)
 const SETS = [
   { name:"Dragonsbane", key:"dragonsbane", boss:"piglin_brute", pieces:[
-      { slot:"Helmet",     itemName:"Dragonsbane Helmet",     skill:"Keen Eye", archetype:"Bruiser",         act:"Passive: always active while worn (melee + ranged)", van:"5% chance per hit to crit (1.5× damage). (Gear Level 100: x2, Level 200: x3.)", rpg:"+up to 45% chance, scaling with Luck (full bonus at a full-Luck build).", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"Dragonsbane Chestplate", skill:"Dragonhide Ward", archetype:"Bruiser",  act:"Automatic pulse every 20s while worn", van:"Absorption II pulse every 20s. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.2× Health-from-Vitality bonus ÷ 10, added hearts.", dev:DEV.STD },
-      { slot:"Leggings",   itemName:"Dragonsbane Leggings",   skill:"Steady Footing", archetype:"Bruiser",   act:"Passive: always active while worn", van:"20% knockback resistance. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your Dmg-Reduction bonus.", dev:DEV.STD },
-      { slot:"Boots",      itemName:"Dragonsbane Boots",      skill:"Hunter's Stride", archetype:"Bruiser",  act:"Passive: always active while worn", van:"Speed I, 4s, vs. marked/low-HP targets. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your Flee bonus, added seconds.", dev:DEV.STD }
+      { slot:"Helmet",     itemName:"Dragonsbane Helmet",     skill:"Keen Eye", archetype:"Bruiser",         act:"Passive: always active while worn (melee + ranged)", van:"5% chance per hit to crit (1.5× damage). (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Dragonsbane Chestplate", skill:"Dragonhide Ward", archetype:"Bruiser",  act:"Automatic pulse every 20s while worn", van:"Absorption II pulse every 20s. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Dragonsbane Leggings",   skill:"Steady Footing", archetype:"Bruiser",   act:"Passive: always active while worn", van:"20% knockback resistance. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Dragonsbane Boots",      skill:"Hunter's Stride", archetype:"Bruiser",  act:"Passive: always active while worn", van:"Speed I, 4s, vs. marked/low-HP targets. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD }
     ],
-    bonus:{ name:"Set: Dragonsbane", act:"Dmg bonus on melee-hitting a boss; Strength I on taking damage from a boss-tier target", van:"+15% damage vs. bosses (RPG World Bosses, vanilla Ender Dragon/Wither/Warden/Elder Guardian, and other high-HP mobs incl. third-party boss-bar mobs) + Strength I (8s) when a boss-tier target hits you (10s cooldown) — replaces the old Fire-Resistance-on-fire-damage bonus, folded into Ember Core/Molten Legguards' own procs instead. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Melee Damage, added to the %; +0.1× Melee Damage, added Strength seconds." } },
+    bonus:{ name:"Set: Dragonsbane", act:"Dmg bonus on melee-hitting a boss; Strength I on taking damage from a boss-tier target", van:"+15% damage vs. bosses (RPG World Bosses, vanilla Ender Dragon/Wither/Warden/Elder Guardian, and other high-HP mobs incl. third-party boss-bar mobs) + Strength I (8s) when a boss-tier target hits you (10s cooldown) — replaces the old Fire-Resistance-on-fire-damage bonus, folded into Ember Core/Molten Legguards' own procs instead. (Gear Level 50: x2, Level 100: x3.)" } },
 
   { name:"Champion Petra", key:"champion_petra", boss:"piglin_brute", pieces:[
-      { slot:"Helmet",     itemName:"Champion Petra Helmet",     skill:"Warlord's Focus", archetype:"Full Tank",  act:"Triggers when blast/splash-potion/magic damage lands (chance-based)", van:"40% chance to fully cancel blast, splash-potion, and magic damage. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+1% chance per 1000 Vitality.", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"Champion Petra Chestplate", skill:"Petravein Regen", archetype:"Full Tank",  act:"Automatic pulse every 15s while below 50% HP", van:"Regeneration I every 15s while below 50% HP. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.2× Health bonus ÷ 10, added seconds.", dev:DEV.STD },
-      { slot:"Leggings",   itemName:"Champion Petra Leggings",   skill:"Bulwark Stance", archetype:"Full Tank",   act:"Triggers on taking damage while sneaking", van:"20% damage reduction while sneaking. (Gear Level 100: 40%, Level 200: 60%.)", rpg:"+0.5× Dmg-Reduction bonus (total capped at 60%).", dev:DEV.STD },
-      { slot:"Boots",      itemName:"Champion Petra Boots",      skill:"Earthshaker Step", archetype:"Full Tank", act:"Triggers on landing", van:"Fall-landing AoE knockback + 4 damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Flee bonus, added radius.", dev:DEV.STD }
+      { slot:"Helmet",     itemName:"Champion Petra Helmet",     skill:"Warlord's Focus", archetype:"Full Tank",  act:"Triggers when blast/splash-potion/magic damage lands (chance-based)", van:"40% chance to fully cancel blast, splash-potion, and magic damage. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Champion Petra Chestplate", skill:"Petravein Regen", archetype:"Full Tank",  act:"Automatic pulse every 15s while below 50% HP", van:"Regeneration I every 15s while below 50% HP. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Champion Petra Leggings",   skill:"Bulwark Stance", archetype:"Full Tank",   act:"Triggers on taking damage while sneaking", van:"20% damage reduction while sneaking. (Gear Level 50: 40%, Level 100: 60%.)", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Champion Petra Boots",      skill:"Earthshaker Step", archetype:"Full Tank", act:"Triggers on landing", van:"Fall-landing AoE knockback + 4 damage. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD }
     ],
-    bonus:{ name:"Set: Champion's Resolve", act:"Triggers on kill", van:"Absorption I on kill. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus, added points." } },
+    bonus:{ name:"Set: Champion's Resolve", act:"Triggers on kill", van:"Absorption I on kill. (Gear Level 50: x2, Level 100: x3.)" } },
 
   { name:"Fox", key:"fox", boss:"zombified_piglin", pieces:[
-      { slot:"Helmet",     itemName:"Fox Helmet",     skill:"Fox Sense", archetype:"Skirmisher",   act:"Automatic pulse every 15s while worn", van:"Pings hostile mobs (Glowing) every 15s, 10-block range. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Crit bonus, added range.", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"Fox Chestplate", skill:"Nimble Core", archetype:"Skirmisher", act:"Triggers on taking damage (chance-based)", van:"5% chance to dodge a hit entirely. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 20, added chance.", dev:DEV.STD },
-      { slot:"Leggings",   itemName:"Fox Leggings",   skill:"Swift Legs", archetype:"Skirmisher",  act:"Triggers on taking damage (skipped if Speed already active)", van:"Speed I for 4s when hit. (Gear Level 100: 7s, Level 200: 10s.)", rpg:"+1s duration per 100 Agility.", dev:DEV.STD },
-      { slot:"Boots",      itemName:"Fox Boots",      skill:"Silent Paws", archetype:"Skirmisher", act:"Triggers on fall damage (40% chance)", van:"40% chance to negate fall damage; halved mob aggro radius. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+1% chance per 1000 Agility.", dev:DEV.STD }
+      { slot:"Helmet",     itemName:"Fox Helmet",     skill:"Fox Sense", archetype:"Skirmisher",   act:"Automatic pulse every 15s while worn", van:"Pings hostile mobs (Glowing) every 15s, 10-block range. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Fox Chestplate", skill:"Nimble Core", archetype:"Skirmisher", act:"Triggers on taking damage (chance-based)", van:"5% chance to dodge a hit entirely. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Fox Leggings",   skill:"Swift Legs", archetype:"Skirmisher",  act:"Triggers on taking damage (skipped if Speed already active)", van:"Speed I for 4s when hit. (Gear Level 50: 7s, Level 100: 10s.)", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Fox Boots",      skill:"Silent Paws", archetype:"Skirmisher", act:"Triggers on fall damage (40% chance)", van:"40% chance to negate fall damage; halved mob aggro radius. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD }
     ],
-    bonus:{ name:"Set: Fox's Fortune", act:"Triggers on taking damage (chance-based)", van:"5% independent chance to fully evade an attack. (Gear Level 100: x2, Level 200: x3.)", rpg:"+Agility share of your build ÷ 4, added chance." } },
+    bonus:{ name:"Set: Fox's Fortune", act:"Triggers on taking damage (chance-based)", van:"5% independent chance to fully evade an attack. (Gear Level 50: x2, Level 100: x3.)" } },
 
   { name:"Grimdark Gold", key:"grimdark_gold", boss:"zombified_piglin", pieces:[
-      { slot:"Helmet",     itemName:"Grimdark Gold Helmet",     skill:"Gilded Greed", archetype:"Juggernaut",    act:"Triggers on kill", van:"1% chance for bonus currency on kill. (Gear Level 100: 2% chance, Level 200: 3% chance.)", rpg:"+Luck share of your build ÷ 4, added chance.", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"Grimdark Gold Chestplate", skill:"Golden Bulwark", archetype:"Juggernaut",  act:"Triggers when hit for 6+ damage (6s cooldown)", van:"Absorption I when hit for 6+ damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 10, added points.", dev:DEV.STD },
-      { slot:"Leggings",   itemName:"Grimdark Gold Leggings",   skill:"Molten Legguards", archetype:"Juggernaut",act:"Triggers on taking damage (chance-based)", van:"40% chance to ignite an attacker on being hit. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+0.5× your Melee bonus, added chance.", dev:DEV.STD },
-      { slot:"Boots",      itemName:"Grimdark Gold Boots",      skill:"Heavy Steps", archetype:"Juggernaut",     act:"Passive: always active while worn", van:"15% knockback resistance. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Flee bonus.", dev:DEV.STD }
+      { slot:"Helmet",     itemName:"Grimdark Gold Helmet",     skill:"Gilded Greed", archetype:"Juggernaut",    act:"Triggers on kill", van:"1% chance for bonus currency on kill. (Gear Level 50: 2% chance, Level 100: 3% chance.)", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Grimdark Gold Chestplate", skill:"Golden Bulwark", archetype:"Juggernaut",  act:"Triggers when hit for 6+ damage (6s cooldown)", van:"Absorption I when hit for 6+ damage. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Grimdark Gold Leggings",   skill:"Molten Legguards", archetype:"Juggernaut",act:"Triggers on taking damage (chance-based)", van:"40% chance to ignite an attacker on being hit. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Grimdark Gold Boots",      skill:"Heavy Steps", archetype:"Juggernaut",     act:"Passive: always active while worn", van:"15% knockback resistance. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD }
     ],
-    bonus:{ name:"Set: Piglin's Fortune", act:"Triggers on killing a Piglin-type mob (chance-based)", van:"10% chance nether-mob kills drop bonus gold. (Gear Level 100: x2, Level 200: x3.)", rpg:"+Luck share of your build ÷ 4, added chance." } },
+    bonus:{ name:"Set: Piglin's Fortune", act:"Triggers on killing a Piglin-type mob (chance-based)", van:"10% chance nether-mob kills drop bonus gold. (Gear Level 50: x2, Level 100: x3.)" } },
 
   { name:"Grimdark Dark", key:"grimdark_netherite", altName:"a.k.a. “Grimdark Netherite” in drop-pool/GUI naming", boss:"zombified_piglin", pieces:[
-      { slot:"Helmet",     itemName:"Grimdark Dark Helmet",     skill:"Iron Will", archetype:"Full Tank",      act:"Triggers when Blindness would apply (40% chance to resist)", van:"40% chance to resist Blindness + 20% knockback resistance. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+Vitality share of your build ÷ 4, added chance.", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"Grimdark Dark Chestplate", skill:"Netherite Core", archetype:"Full Tank", act:"Passive — reduces every hit taken", van:"10% flat damage reduction on every hit. (Gear Level 100: x2, Level 200: x3.)", rpg:"+Vitality share of your build ÷ 4, added % (total capped at 60%).", dev:DEV.STD },
-      { slot:"Leggings",   itemName:"Grimdark Dark Leggings",   skill:"Grim Stability", archetype:"Full Tank", act:"Triggers when Slowness would apply (40% chance to resist)", van:"40% chance to resist Slowness. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+1% chance per 1000 Agility.", dev:DEV.STD },
-      { slot:"Boots",      itemName:"Grimdark Dark Boots",      skill:"Grounded", archetype:"Full Tank",       act:"Passive: always active while worn", van:"25% reduced knockback near ledges. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Flee bonus.", dev:DEV.STD }
+      { slot:"Helmet",     itemName:"Grimdark Dark Helmet",     skill:"Iron Will", archetype:"Full Tank",      act:"Triggers when Blindness would apply (40% chance to resist)", van:"40% chance to resist Blindness + 20% knockback resistance. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Grimdark Dark Chestplate", skill:"Netherite Core", archetype:"Full Tank", act:"Passive — reduces every hit taken", van:"10% flat damage reduction on every hit. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Grimdark Dark Leggings",   skill:"Grim Stability", archetype:"Full Tank", act:"Triggers when Slowness would apply (40% chance to resist)", van:"40% chance to resist Slowness. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Grimdark Dark Boots",      skill:"Grounded", archetype:"Full Tank",       act:"Passive: always active while worn", van:"25% reduced knockback near ledges. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD }
     ],
-    bonus:{ name:"Set: Grim Bulwark", act:"Automatic pulse every 60s while below 30% HP", van:"Resistance I, 5s, while below 30% HP (60s cooldown). (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus, added seconds." } },
+    bonus:{ name:"Set: Grim Bulwark", act:"Automatic pulse every 60s while below 30% HP", van:"Resistance I, 5s, while below 30% HP (60s cooldown). (Gear Level 50: x2, Level 100: x3.)" } },
 
   { name:"Halo", key:"halo", boss:"warden", pieces:[
-      { slot:"Helmet",     itemName:"Halo Helmet",     skill:"Halo Sight", archetype:"Guardian",     act:"Triggers when dropped to ≤20% HP (30s cooldown, chance-based)", van:"\"Guardian's Grace\": 40% chance for Resistance II (5s) + Absorption when critically low HP. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+1% chance per 1000 Vitality.", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"Halo Chestplate", skill:"Sanctified Core", archetype:"Guardian",act:"Automatic pulse every 10s while in combat", van:"Heals 1 heart every 10s while in combat. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.2× Health bonus ÷ 20, added healing.", dev:DEV.STD },
-      { slot:"Leggings",   itemName:"Halo Leggings",   skill:"Blessed Guard", archetype:"Guardian",  act:"Triggers when Poison/Wither would apply (40% chance to resist)", van:"40% chance to resist Poison and Wither. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+1% chance per 1000 Vitality.", dev:DEV.STD },
-      { slot:"Boots",      itemName:"Halo Boots",      skill:"Grace Step", archetype:"Guardian",     act:"Triggers on fall damage (40% chance)", van:"40% chance to negate fall damage + Slow Falling while sneak-falling. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+1% chance per 1000 Agility.", dev:DEV.STD }
+      { slot:"Helmet",     itemName:"Halo Helmet",     skill:"Halo Sight", archetype:"Guardian",     act:"Triggers when dropped to ≤20% HP (30s cooldown, chance-based)", van:"\"Guardian's Grace\": 40% chance for Resistance II (5s) + Absorption when critically low HP. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Halo Chestplate", skill:"Sanctified Core", archetype:"Guardian",act:"Automatic pulse every 10s while in combat", van:"Heals 1 heart every 10s while in combat. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Halo Leggings",   skill:"Blessed Guard", archetype:"Guardian",  act:"Triggers when Poison/Wither would apply (40% chance to resist)", van:"40% chance to resist Poison and Wither. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Halo Boots",      skill:"Grace Step", archetype:"Guardian",     act:"Triggers on fall damage (40% chance)", van:"40% chance to negate fall damage + Slow Falling while sneak-falling. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD }
     ],
-    bonus:{ name:"Set: Halo's Grace", act:"Automatic pulse every 20s while worn", van:"Cleanses a negative effect every 20s + Regeneration I. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus, added regen seconds." } },
+    bonus:{ name:"Set: Halo's Grace", act:"Automatic pulse every 20s while worn", van:"Cleanses a negative effect every 20s + Regeneration I. (Gear Level 50: x2, Level 100: x3.)" } },
 
   { name:"Ellegaard", key:"ellegaard", boss:"warden", pieces:[
-      { slot:"Helmet",     itemName:"Ellegaard Helmet",     skill:"Tinker's Sight", archetype:"Skirmisher",     act:"Automatic pulse every 20s while worn", van:"Reveals invisible enemies + highlights nearby mobs every 20s, 8-block range. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Crit bonus, added range.", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"Ellegaard Chestplate", skill:"Reinforced Plating", archetype:"Skirmisher",act:"Triggers when hit while below 50% HP", van:"Absorption I when hit below 50% HP. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 10, added points.", dev:DEV.STD },
-      { slot:"Leggings",   itemName:"Ellegaard Leggings",   skill:"Servo Legs", archetype:"Skirmisher",        act:"Triggers when you start sprinting (8s cooldown)", cd:"8s", van:"Speed II for 3s when you start sprinting. (Gear Level 100: 5s, Level 200: 7s.)", rpg:"+1s duration per 100 Agility.", dev:DEV.SUB },
-      { slot:"Boots",      itemName:"Ellegaard Boots",      skill:"Piston Step", archetype:"Skirmisher",       act:"Triggers when you jump", van:"+0.3 block jump height. (Gear Level 100: x2, Level 200: x3.)", rpg:"+Vitality share of your build ÷ 4 × 0.2, added height (up to 5 blocks total).", dev:DEV.STD }
+      { slot:"Helmet",     itemName:"Ellegaard Helmet",     skill:"Tinker's Sight", archetype:"Skirmisher",     act:"Automatic pulse every 20s while worn", van:"Reveals invisible enemies + highlights nearby mobs every 20s, 8-block range. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Ellegaard Chestplate", skill:"Reinforced Plating", archetype:"Skirmisher",act:"Triggers when hit while below 50% HP", van:"Absorption I when hit below 50% HP. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Ellegaard Leggings",   skill:"Servo Legs", archetype:"Skirmisher",        act:"Triggers when you start sprinting (8s cooldown)", cd:"8s", van:"Speed II for 3s when you start sprinting. (Gear Level 50: 5s, Level 100: 7s.)", dev:DEV.SUB },
+      { slot:"Boots",      itemName:"Ellegaard Boots",      skill:"Piston Step", archetype:"Skirmisher",       act:"Triggers when you jump", van:"+0.3 block jump height. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD }
     ],
-    bonus:{ name:"Set: Engineer's Mark", act:"Marks a random nearby monster every 10s; damaging it grants bonus damage", van:"Marks a random nearby monster (never a player/Deviant) every 10s; damaging the marked target deals bonus damage. Replaces the old CDR bonus, which did nothing for a player with no skill cooldowns to reduce. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your Melee bonus, added damage." } },
+    bonus:{ name:"Set: Engineer's Mark", act:"Marks a random nearby monster every 10s; damaging it grants bonus damage", van:"Marks a random nearby monster (never a player/Deviant) every 10s; damaging the marked target deals bonus damage. Replaces the old CDR bonus, which did nothing for a player with no skill cooldowns to reduce. (Gear Level 50: x2, Level 100: x3.)" } },
 
   { name:"Black Ninja", key:"black_n", boss:"witch", pieces:[
-      { slot:"Helmet",     itemName:"Black Ninja Helmet",     skill:"Shadow Veil", archetype:"Assassin", act:"Triggers when you start sneaking (8s cooldown)", cd:"8s", van:"Sneaking grants Resistance II for 3s. (Gear Level 100: x2, Level 200: x3.)", rpg:"+1s duration per 1000 Agility.", dev:DEV.SUB },
-      { slot:"Chestplate", itemName:"Black Ninja Chestplate", skill:"Umbral Guard", archetype:"Assassin", act:"Triggers on taking damage while sneaking", van:"15% damage reduction while sneaking. (Gear Level 100: 30%, Level 200: 45%.)", rpg:"+0.5× Dmg-Reduction bonus (total capped at 60%).", dev:DEV.STD },
-      { slot:"Leggings",   itemName:"Black Ninja Leggings",   skill:"Silent Step", archetype:"Assassin",  act:"Triggers on melee hit while sneaking (chance-based)", van:"40% chance to force a critical hit (1.5× damage) while sneaking. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+Luck share of your build ÷ 4, added chance.", dev:DEV.STD },
-      { slot:"Boots",      itemName:"Black Ninja Boots",      skill:"Shadow Dash", archetype:"Assassin",  act:"Triggers when you stop sneaking (6s cooldown)", cd:"6s", van:"Speed II burst on exiting sneak. (Gear Level 100: x2, Level 200: x3.)", rpg:"+1s duration per 100 Agility.", dev:DEV.SUB }
+      { slot:"Helmet",     itemName:"Black Ninja Helmet",     skill:"Shadow Veil", archetype:"Assassin", act:"Triggers when you start sneaking (8s cooldown)", cd:"8s", van:"Sneaking grants Resistance II for 3s. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.SUB },
+      { slot:"Chestplate", itemName:"Black Ninja Chestplate", skill:"Umbral Guard", archetype:"Assassin", act:"Triggers on taking damage while sneaking", van:"15% damage reduction while sneaking. (Gear Level 50: 30%, Level 100: 45%.)", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Black Ninja Leggings",   skill:"Silent Step", archetype:"Assassin",  act:"Triggers on melee hit while sneaking (chance-based)", van:"40% chance to force a critical hit (1.5× damage) while sneaking. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Black Ninja Boots",      skill:"Shadow Dash", archetype:"Assassin",  act:"Triggers when you stop sneaking (6s cooldown)", cd:"6s", van:"Speed II burst on exiting sneak. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.SUB }
     ],
-    bonus:{ name:"Set: Night's Embrace", act:"Triggers on your next hit after Shadow Veil's stealth window", van:"+6 damage on the first hit right after Shadow Veil. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Melee Damage, added." } },
+    bonus:{ name:"Set: Night's Embrace", act:"Triggers on your next hit after Shadow Veil's stealth window", van:"+6 damage on the first hit right after Shadow Veil. (Gear Level 50: x2, Level 100: x3.)" } },
 
   { name:"White Ninja", key:"white_n", boss:"witch", pieces:[
-      { slot:"Helmet",     itemName:"White Ninja Helmet",     skill:"Clear Mind", archetype:"Duelist",  act:"Triggers when Blindness/Nausea would apply (40% chance to resist)", van:"40% chance to resist Blindness and Nausea. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+1% chance per 1000 Intelligence.", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"White Ninja Chestplate", skill:"Light Guard", archetype:"Duelist", act:"Triggers when you take 6+ damage (5s cooldown)", van:"Absorption I when hit for 6+ damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 10, added points.", dev:DEV.STD },
-      { slot:"Leggings",   itemName:"White Ninja Leggings",   skill:"Swift Steps", archetype:"Duelist", act:"Automatic pulse every 15s while worn", van:"Speed I for 3s every 15s. (Gear Level 100: 6s, Level 200: 9s.)", rpg:"+1s duration per 100 Agility.", dev:DEV.STD },
-      { slot:"Boots",      itemName:"White Ninja Boots",      skill:"Featherfall", archetype:"Duelist", act:"Triggers on fall damage (40% chance)", van:"40% chance to negate fall damage. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+1% chance per 1000 Agility.", dev:DEV.STD }
+      { slot:"Helmet",     itemName:"White Ninja Helmet",     skill:"Clear Mind", archetype:"Duelist",  act:"Triggers when Blindness/Nausea would apply (40% chance to resist)", van:"40% chance to resist Blindness and Nausea. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"White Ninja Chestplate", skill:"Light Guard", archetype:"Duelist", act:"Triggers when you take 6+ damage (5s cooldown)", van:"Absorption I when hit for 6+ damage. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"White Ninja Leggings",   skill:"Swift Steps", archetype:"Duelist", act:"Automatic pulse every 15s while worn", van:"Speed I for 3s every 15s. (Gear Level 50: 6s, Level 100: 9s.)", dev:DEV.STD },
+      { slot:"Boots",      itemName:"White Ninja Boots",      skill:"Featherfall", archetype:"Duelist", act:"Triggers on fall damage (40% chance)", van:"40% chance to negate fall damage. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD }
     ],
-    bonus:{ name:"Set: Moonlit Focus", act:"Passive bonus during Minecraft night", van:"+8% crit chance during Minecraft night. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Crit bonus, added %." } },
+    bonus:{ name:"Set: Moonlit Focus", act:"Passive bonus during Minecraft night", van:"+8% crit chance during Minecraft night. (Gear Level 50: x2, Level 100: x3.)" } },
 
   { name:"Green Ninja", key:"green_n", boss:"ravager", pieces:[
-      { slot:"Helmet",     itemName:"Green Ninja Helmet",     skill:"Poison Ward", archetype:"Guardian",  act:"Triggers on each Poison damage tick (40% chance to cleanse + grant Regeneration)", van:"40% chance per tick to cure Poison outright and grant Regeneration for 10s. (Gear Level 100: 50% chance, 15s Regen; Level 200: 60% chance, 20s Regen.)", rpg:"+1s Regeneration duration per 100 Agility.", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"Green Ninja Chestplate", skill:"Verdant Core", archetype:"Guardian", act:"Automatic pulse every 8s while worn", van:"Regeneration I after 5+ consecutive seconds in combat. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.2× Health bonus ÷ 10, added seconds.", dev:DEV.STD },
-      { slot:"Leggings",   itemName:"Green Ninja Leggings",   skill:"Thicket Legs", archetype:"Guardian", act:"Passive: always active while worn", van:"Immune to thorns/cactus/berry damage + 10% knockback resist. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Dmg-Reduction bonus.", dev:DEV.STD },
-      { slot:"Boots",      itemName:"Green Ninja Boots",      skill:"Leaf Step", archetype:"Guardian",    act:"Triggers on every landing; foliage dodge is chance-based", van:"40% chance to negate fall damage on grass/foliage + Strength I (5s) on any landing. (Gear Level 100: 50% dodge chance, Level 200: 60% dodge chance.)", rpg:"+1% dodge chance per 1000 Agility; +1s Strength duration per 1000 Intelligence.", dev:DEV.STD }
+      { slot:"Helmet",     itemName:"Green Ninja Helmet",     skill:"Poison Ward", archetype:"Guardian",  act:"Triggers on each Poison damage tick (40% chance to cleanse + grant Regeneration)", van:"40% chance per tick to cure Poison outright and grant Regeneration for 10s. (Gear Level 50: 50% chance, 15s Regen; Level 100: 60% chance, 20s Regen.)", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Green Ninja Chestplate", skill:"Verdant Core", archetype:"Guardian", act:"Automatic pulse every 8s while worn", van:"Regeneration I after 5+ consecutive seconds in combat. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Green Ninja Leggings",   skill:"Thicket Legs", archetype:"Guardian", act:"Passive: always active while worn", van:"Immune to thorns/cactus/berry damage + 10% knockback resist. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Green Ninja Boots",      skill:"Leaf Step", archetype:"Guardian",    act:"Triggers on every landing; foliage dodge is chance-based", van:"40% chance to negate fall damage on grass/foliage + Strength I (5s) on any landing. (Gear Level 50: 50% dodge chance, Level 100: 60% dodge chance.)", dev:DEV.STD }
     ],
-    bonus:{ name:"Set: Nature's Blessing", act:"Triggers on melee hit", van:"Melee hits apply Poison I for 3s. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Melee Damage, added poison duration/tick." } },
+    bonus:{ name:"Set: Nature's Blessing", act:"Triggers on melee hit", van:"Melee hits apply Poison I for 3s. (Gear Level 50: x2, Level 100: x3.)" } },
 
   { name:"Blue Ninja", key:"blue_n", boss:"ravager", pieces:[
-      { slot:"Helmet",     itemName:"Blue Ninja Helmet",     skill:"Tidal Sight", archetype:"Vanguard", act:"Water Breathing/Vision while in water; root chance rolled on your melee hits", van:"Water Breathing + Night Vision underwater; 40% chance to apply Slowness II to your target on hit. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+1% chance per 1000 Vitality.", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"Blue Ninja Chestplate", skill:"Frost Core", archetype:"Vanguard",  act:"Triggers on taking damage (chance-based)", van:"10% chance to apply Slowness I to your attacker. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 20, added chance.", dev:DEV.STD },
-      { slot:"Leggings",   itemName:"Blue Ninja Leggings",   skill:"Tide Legs", archetype:"Vanguard",   act:"Swim speed while in water; knockback resist always active", van:"+30% swim speed + 20% knockback resistance. (Gear Level 100: x2, Level 200: x3.)", rpg:"+Vitality share of your build ÷ 4, added KB resist %.", dev:DEV.STD },
-      { slot:"Boots",      itemName:"Blue Ninja Boots",      skill:"Glide Step", archetype:"Vanguard",  act:"Depth Strider always active; Speed burst on landing", van:"Depth Strider III enchantment (a real vanilla enchant) + Speed I (3s) on landing. (Gear Level 100: 6s Speed, Level 200: 9s Speed.)", rpg:"+1s Speed duration per 100 Agility.", dev:DEV.STD }
+      { slot:"Helmet",     itemName:"Blue Ninja Helmet",     skill:"Tidal Sight", archetype:"Vanguard", act:"Water Breathing/Vision while in water; root chance rolled on your melee hits", van:"Water Breathing + Night Vision underwater; 40% chance to apply Slowness II to your target on hit. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Blue Ninja Chestplate", skill:"Frost Core", archetype:"Vanguard",  act:"Triggers on taking damage (chance-based)", van:"10% chance to apply Slowness I to your attacker. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Blue Ninja Leggings",   skill:"Tide Legs", archetype:"Vanguard",   act:"Swim speed while in water; knockback resist always active", van:"+30% swim speed + 20% knockback resistance. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Blue Ninja Boots",      skill:"Glide Step", archetype:"Vanguard",  act:"Depth Strider always active; Speed burst on landing", van:"Depth Strider III enchantment (a real vanilla enchant) + Speed I (3s) on landing. (Gear Level 50: 6s Speed, Level 100: 9s Speed.)", dev:DEV.STD }
     ],
-    bonus:{ name:"Set: Tidal Focus", act:"Automatic pulse every 20s while worn", van:"Frost nova every 20s: Slowness II, 4-block radius. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× your Splash Damage bonus, added radius/duration." } },
+    bonus:{ name:"Set: Tidal Focus", act:"Automatic pulse every 20s while worn", van:"Frost nova every 20s: Slowness II, 4-block radius. (Gear Level 50: x2, Level 100: x3.)" } },
 
   { name:"Red Ninja", key:"red_n", boss:"evoker", pieces:[
-      { slot:"Helmet",     itemName:"Red Ninja Helmet",     skill:"Blood Focus", archetype:"Berserker",  act:"Passive while below 50% HP", van:"+10% damage while below 50% HP. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Crit bonus, added %.", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"Red Ninja Chestplate", skill:"Ember Core", archetype:"Berserker",   act:"Automatic pulse every 15s while below 50% HP", van:"Regeneration I for 8s, every 15s while below 50% HP. (Gear Level 100: Regeneration II for 16s, Level 200: Regeneration III for 24s.)", rpg:"+1 Regeneration level per 1000 Agility.", dev:DEV.STD },
-      { slot:"Leggings",   itemName:"Red Ninja Leggings",   skill:"Scarlet Legs", archetype:"Berserker", act:"Passive while below the HP% threshold", van:"Speed I while below 10% HP. (Gear Level 100: below 15% HP, Level 200: below 20% HP.)", rpg:"+1% HP threshold per 100 Agility.", dev:DEV.STD },
-      { slot:"Boots",      itemName:"Red Ninja Boots",      skill:"Cinder Step", archetype:"Berserker",  act:"Triggers on taking damage (skipped if Speed already active)", van:"Speed I for 4s when hit. (Gear Level 100: 7s, Level 200: 10s.)", rpg:"+1s duration per 100 Agility.", dev:DEV.STD }
+      { slot:"Helmet",     itemName:"Red Ninja Helmet",     skill:"Blood Focus", archetype:"Berserker",  act:"Passive while below 50% HP", van:"+10% damage while below 50% HP. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Red Ninja Chestplate", skill:"Ember Core", archetype:"Berserker",   act:"Automatic pulse every 15s while below 50% HP", van:"Regeneration I for 8s, every 15s while below 50% HP. (Gear Level 50: Regeneration II for 16s, Level 100: Regeneration III for 24s.)", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Red Ninja Leggings",   skill:"Scarlet Legs", archetype:"Berserker", act:"Passive while below the HP% threshold", van:"Speed I while below 10% HP. (Gear Level 50: below 15% HP, Level 100: below 20% HP.)", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Red Ninja Boots",      skill:"Cinder Step", archetype:"Berserker",  act:"Triggers on taking damage (skipped if Speed already active)", van:"Speed I for 4s when hit. (Gear Level 50: 7s, Level 100: 10s.)", dev:DEV.STD }
     ],
-    bonus:{ name:"Set: Crimson Fury", act:"Triggers on melee hit while below 50% HP", van:"+10% melee lifesteal while below 50% HP. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Melee Damage, added lifesteal %." } },
+    bonus:{ name:"Set: Crimson Fury", act:"Triggers on melee hit while below 50% HP", van:"+10% melee lifesteal while below 50% HP. (Gear Level 50: x2, Level 100: x3.)" } },
 
   { name:"Adamantium", key:"adamantium", boss:"ravager", pieces:[
-      { slot:"Helmet",     itemName:"Adamantium Helmet",     skill:"Adamant Will", archetype:"Juggernaut", act:"Triggers when Weakness/Mining Fatigue would apply (40% chance to resist)", van:"40% chance to resist Weakness and Mining Fatigue. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+1% chance per 1000 Vitality.", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"Adamantium Chestplate", skill:"Adamant Core", archetype:"Juggernaut", act:"Automatic pulse every 10s while worn", van:"Regenerating Absorption pool, 4 points max. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 10, added max pool.", dev:DEV.STD },
-      { slot:"Leggings",   itemName:"Adamantium Leggings",   skill:"Adamant Legs", archetype:"Juggernaut", act:"Passive: always active while worn", van:"Full knockback immunity + 1 reflected damage to melee attackers. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.1× reflected damage per 100 Vitality.", dev:DEV.STD },
-      { slot:"Boots",      itemName:"Adamantium Boots",      skill:"Adamant Step", archetype:"Juggernaut", act:"Triggers when attacked (40% chance to negate)", van:"40% chance to negate mob stomp/trample damage. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+1% chance per 1000 Vitality.", dev:DEV.STD }
+      { slot:"Helmet",     itemName:"Adamantium Helmet",     skill:"Adamant Will", archetype:"Juggernaut", act:"Triggers when Weakness/Mining Fatigue would apply (40% chance to resist)", van:"40% chance to resist Weakness and Mining Fatigue. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Adamantium Chestplate", skill:"Adamant Core", archetype:"Juggernaut", act:"Automatic pulse every 10s while worn", van:"Regenerating Absorption pool, 4 points max. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Adamantium Leggings",   skill:"Adamant Legs", archetype:"Juggernaut", act:"Passive: always active while worn", van:"Full knockback immunity + 1 reflected damage to melee attackers. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Adamantium Boots",      skill:"Adamant Step", archetype:"Juggernaut", act:"Triggers when attacked (40% chance to negate)", van:"40% chance to negate mob stomp/trample damage. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD }
     ],
-    bonus:{ name:"Set: Adamantine Fortress", act:"Automatic pulse every 25s while worn", van:"Resistance I every 25s. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Dmg-Reduction bonus, added seconds." } },
+    bonus:{ name:"Set: Adamantine Fortress", act:"Automatic pulse every 25s while worn", van:"Resistance I every 25s. (Gear Level 50: x2, Level 100: x3.)" } },
 
   { name:"Grimdark Diamond", key:"grimdark_diamond", boss:"evoker", pieces:[
-      { slot:"Helmet",     itemName:"Grimdark Diamond Helmet",     skill:"Mind Ward", archetype:"Skirmisher",    act:"Rolled every second of Levitation / every Wither damage tick", van:"40% chance per second/tick to cleanse Levitation and Wither. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+1% chance per 1000 Vitality.", dev:DEV.STD },
-      { slot:"Chestplate", itemName:"Grimdark Diamond Chestplate", skill:"Spectral Core", archetype:"Skirmisher",act:"Triggers on taking projectile damage (chance-based)", van:"10% chance to negate incoming projectile damage. (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus ÷ 20, added chance.", dev:DEV.STD },
-      { slot:"Leggings",   itemName:"Grimdark Diamond Leggings",   skill:"Arcane Legs", archetype:"Skirmisher",  act:"Triggers when Slowness/Weakness would apply (40% chance to resist)", van:"40% chance to resist Slowness and Weakness. Replaces the old dead \"+10% cooldown reduction\" lore, which had no backing code. (Gear Level 100: 50% chance, Level 200: 60% chance.)", rpg:"+1% chance per 500 Intelligence.", dev:DEV.STD },
-      { slot:"Boots",      itemName:"Grimdark Diamond Boots",      skill:"Phase Step", archetype:"Skirmisher",   act:"Triggers on taking damage (chance-based)", van:"15% chance per hit to blink 3 blocks away + 1s of full damage immunity. (Gear Level 100: 20% chance, Level 200: 25% chance.)", rpg:"+0.5× Flee bonus, added chance.", dev:DEV.STD }
+      { slot:"Helmet",     itemName:"Grimdark Diamond Helmet",     skill:"Mind Ward", archetype:"Skirmisher",    act:"Rolled every second of Levitation / every Wither damage tick", van:"40% chance per second/tick to cleanse Levitation and Wither. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD },
+      { slot:"Chestplate", itemName:"Grimdark Diamond Chestplate", skill:"Spectral Core", archetype:"Skirmisher",act:"Triggers on taking projectile damage (chance-based)", van:"10% chance to negate incoming projectile damage. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD },
+      { slot:"Leggings",   itemName:"Grimdark Diamond Leggings",   skill:"Arcane Legs", archetype:"Skirmisher",  act:"Triggers when Slowness/Weakness would apply (40% chance to resist)", van:"40% chance to resist Slowness and Weakness. Replaces the old dead \"+10% cooldown reduction\" lore, which had no backing code. (Gear Level 50: 50% chance, Level 100: 60% chance.)", dev:DEV.STD },
+      { slot:"Boots",      itemName:"Grimdark Diamond Boots",      skill:"Phase Step", archetype:"Skirmisher",   act:"Triggers on taking damage (chance-based)", van:"15% chance per hit to blink 3 blocks away + 1s of full damage immunity. (Gear Level 50: 20% chance, Level 100: 25% chance.)", dev:DEV.STD }
     ],
-    bonus:{ name:"Set: Spectral Diamond Aura", act:"Automatic pulse every 20s while worn", van:"Absorption I + 10s Regeneration I every 20s (cooldown starts after regen ends). (Gear Level 100: x2, Level 200: x3.)", rpg:"+0.5× Health bonus applied to the Absorption; +Vitality share of your build ÷ 4, added regen seconds." } }
+    bonus:{ name:"Set: Spectral Diamond Aura", act:"Automatic pulse every 20s while worn", van:"Absorption I + 10s Regeneration I every 20s (cooldown starts after regen ends). (Gear Level 50: x2, Level 100: x3.)" } }
 ];
 
 // Future encyclopedia sections — populated as each system gets written up.
@@ -1211,33 +1202,14 @@ const BOSS_GUIDE = {
 const WB_TRAVERSAL_SHARED = "All World Bosses share one Traversal ability — a telegraphed high jump (Piglin Brute/Zombified Piglin/Ravager) or a teleport-step through 1-2 blocks of terrain (Warden/Evoker/Witch) that closes distance on its target. Off a 25s cooldown it has a 35% chance to fire on each check; it also fires immediately, skipping that roll, if it loses line of sight on its target for 4+ seconds while close by — the counter to boxing it in with blocks. Landing a jump deals 1.5× melee stat + knockback to anyone caught underneath.";
 
 // ── Gear Upgrading (RollableStat.java / GearLevelSystem.java / AscendingGUI(Listener).java / GearRegistry.java) ──
-// A drop's Gear Level is a weighted roll between 1 and the killing mob's level at the kill (1-200
-// ceiling) — never a guaranteed match to the mob's own level. The roll is skewed toward the low
-// end (random^2), so median rolls land around 25% of the mob's level and only ~5% of rolls land
-// in the top 10% of the range. Each stat's actual value is 100% deterministic from the item's
-// rolled Level — perLevelValue × Level, no separate roll. "@200" below is each stat's value if it
-// were leveled all the way to the cap.
+// Enchantment Stones are a pure vanilla-world-exclusive feature — they have ZERO effect on any
+// "_rpg" map (world_rpg, world_rpg_siege); power there comes entirely from the separate
+// STR/AGI/VIT/DEX/INT/LUK core-stat system (see the Classes & Stats guide). Each stat's value is
+// 100% deterministic from its own stone's Level — perLevelValue × Level, no separate roll, no
+// ratio against a hypothetical full multi-socket build. "@20" below is each stat's value at a
+// single stone's own max Level (20) — reached by ONE fully-leveled stone alone, independent of
+// every other socket.
 const ROLLABLE_STATS = [
-  { name: "Crit Chance",        at200: "+80 flat (Crit Power)" },
-  { name: "Crit Damage",        at200: "+100 flat" },
-  { name: "Melee Damage",       at200: "+40 flat" },
-  { name: "Ranged Damage",      at200: "+40 flat" },
-  { name: "Splash Damage",      at200: "+80 flat" },
-  { name: "Attack Speed",       at200: "+20%" },
-  { name: "Lifesteal",          at200: "+15%" },
-  { name: "Hit Rate",           at200: "+32.0 flat" },
-  { name: "Flee",               at200: "+8.0 flat" },
-  { name: "Damage Reduction",   at200: "+8 flat" },
-  { name: "Max Health",         at200: "+100 flat" }
-];
-
-// Vanilla-world (any map without "_rpg" in its name) counterpart values — see
-// RollableStat#vanillaTargetAtMax / GearRegistry#vanillaScaledStat. Linear-proportional:
-// a player's/Deviant's raw summed stat (across all equipped gear) is scaled from 0 up to
-// this target as it approaches the same reference max the RPG-world "@ Lv.40" column uses
-// (a single stat maxed across 6 gear slots at Level 40 each — Deviants only have 5 slots,
-// so a maxed Deviant naturally tops out at 5/6 of these numbers).
-const VANILLA_WORLD_STATS = [
   { name: "Crit Chance",        target: "20% chance to crit" },
   { name: "Crit Damage",        target: "+4.8 flat, on a crit" },
   { name: "Melee Damage",       target: "+6 flat" },
@@ -1275,8 +1247,7 @@ function itemCard(it, opts){
   opts = opts || {};
   const rows = [];
   if (it.archetype && ARCHETYPES[it.archetype] && ARCHETYPES[it.archetype].weapon) rows.push(`<div class="row build"><span class="tag">Build</span><span class="val">${escapeHtml(it.archetype + " \u2014 " + ARCHETYPES[it.archetype].weapon)}</span></div>`);
-  rows.push(`<div class="row vanilla"><span class="tag">Vanilla</span><span class="val">${escapeHtml(it.van)}</span></div>`);
-  rows.push(`<div class="row rpg"><span class="tag">+RPG</span><span class="val">${escapeHtml(it.rpg)}</span></div>`);
+  rows.push(`<div class="row vanilla"><span class="tag">Effect</span><span class="val">${escapeHtml(it.van)}</span></div>`);
   rows.push(`<div class="row deviant"><span class="tag">Deviant</span><span class="val">${escapeHtml(it.dev)}</span></div>`);
   const skillBlock = it.skill
     ? `<div class="skill-name">${escapeHtml(it.skill)}</div><div class="activation">${escapeHtml(it.act)}</div>`
@@ -1300,8 +1271,7 @@ function itemCard(it, opts){
 function pieceCard(p, set){
   const rows = [];
   if (p.archetype && ARCHETYPES[p.archetype] && ARCHETYPES[p.archetype].armor) rows.push(`<div class="row build"><span class="tag">Build</span><span class="val">${escapeHtml(p.archetype + " \u2014 " + ARCHETYPES[p.archetype].armor)}</span></div>`);
-  rows.push(`<div class="row vanilla"><span class="tag">Vanilla</span><span class="val">${escapeHtml(p.van)}</span></div>`);
-  rows.push(`<div class="row rpg"><span class="tag">+RPG</span><span class="val">${escapeHtml(p.rpg)}</span></div>`);
+  rows.push(`<div class="row vanilla"><span class="tag">Effect</span><span class="val">${escapeHtml(p.van)}</span></div>`);
   rows.push(`<div class="row deviant"><span class="tag">Deviant</span><span class="val">${escapeHtml(p.dev)}</span></div>`);
   const iconId = set && set.key ? `${set.key}_${p.slot.toLowerCase()}` : null;
   const icon = iconId && GEAR_ICONS[iconId] ? `<img src="${GEAR_ICONS[iconId]}" width="28" height="28" style="image-rendering:pixelated;flex-shrink:0;border-radius:4px" alt="">` : "";
@@ -1321,8 +1291,7 @@ function pieceCard(p, set){
 
 function bonusCard(b){
   const rows = [];
-  rows.push(`<div class="row vanilla"><span class="tag">Vanilla</span><span class="val">${escapeHtml(b.van)}</span></div>`);
-  rows.push(`<div class="row rpg"><span class="tag">+RPG</span><span class="val">${escapeHtml(b.rpg)}</span></div>`);
+  rows.push(`<div class="row vanilla"><span class="tag">Effect</span><span class="val">${escapeHtml(b.van)}</span></div>`);
   rows.push(`<div class="row deviant"><span class="tag">Deviant</span><span class="val">${DEV.SET}</span></div>`);
   return `<div class="card bonus">
       <div class="card-head">
@@ -1529,28 +1498,24 @@ function renderMoreSoon(){
 function renderUpgradeGuide(){
   const el = document.getElementById("content");
 
-  const statPool = ROLLABLE_STATS.map(s => `<div class="stat-pill"><span class="stat-name">${escapeHtml(s.name)}</span><span class="stat-target">${escapeHtml(s.at200)} @ Lv.40</span></div>`).join("");
-  const vanillaStatPool = VANILLA_WORLD_STATS.map(s => `<div class="stat-pill"><span class="stat-name">${escapeHtml(s.name)}</span><span class="stat-target">${escapeHtml(s.target)}</span></div>`).join("");
+  const statPool = ROLLABLE_STATS.map(s => `<div class="stat-pill"><span class="stat-name">${escapeHtml(s.name)}</span><span class="stat-target">${escapeHtml(s.target)} @ Lv.20</span></div>`).join("");
 
   el.innerHTML = `
     <div class="view-title">Upgrading Gear</div>
-    <div class="guide-lead">Gear drops <strong>empty</strong> now — power comes entirely from socketing standalone <strong>Enchantment Stone</strong> items into a gear piece's open sockets, via the <strong>Combine Forge</strong> (<code>/ascenditem</code>). Each stone represents one stat at its own Level (capped at <strong>40</strong>); an item's displayed <strong>Gear Level</strong> is the <em>sum</em> of its currently-socketed stones' Levels — with up to 5 sockets at 40 each, the ceiling works out to exactly <strong>200</strong>. This page covers how the whole system fits together.</div>
+    <div class="guide-lead">Gear drops <strong>empty</strong> now — power comes entirely from socketing standalone <strong>Enchantment Stone</strong> items into a gear piece's open sockets, via the <strong>Combine Forge</strong> (<code>/ascenditem</code>). Each stone represents one stat at its own Level (capped at <strong>20</strong>); an item's displayed <strong>Gear Level</strong> is the <em>sum</em> of its currently-socketed stones' Levels — with up to 5 sockets at 20 each, the ceiling works out to exactly <strong>100</strong>. Enchantment Stones are a <strong>pure vanilla-world-exclusive</strong> feature — they have zero effect on any <code>_rpg</code> map (world_rpg, world_rpg_siege); power there comes entirely from the separate STR/AGI/VIT/DEX/INT/LUK core-stat system (see the Classes &amp; Stats guide). This page covers how the whole system fits together.</div>
 
     <div class="guide-h2">1. Enchantment Stones and empty-socketed gear</div>
-    <div class="guide-p">Enchantment Stones are a separate droppable item, one per kill at most, picked randomly from the stat pool below and rolled at a weighted Level between 1 and <code>min(40, mob level ÷ 5)</code> — so only a Level-200 kill can produce a stone anywhere near the full 40 cap. Drop chance scales with the mob's tier: <strong>Normal 1%</strong>, <strong>Leader 5%</strong>, <strong>Boss 10%</strong>, <strong>World Boss 100%</strong> (guaranteed). Stones are locked to whoever gets kill credit, just like a rare gear drop, and can't be used in crafting, anvils, or grindstones.</div>
+    <div class="guide-p">Enchantment Stones are a separate droppable item, one per kill at most, picked randomly from the stat pool below and rolled at a weighted Level between 1 and <code>min(20, mob level ÷ 5)</code> — so only a Level-100 kill can produce a stone anywhere near the full 20 cap. Drop chance scales with the mob's tier: <strong>Normal 1%</strong>, <strong>Leader 5%</strong>, <strong>Boss 10%</strong>, <strong>World Boss 100%</strong> (guaranteed). Stones are locked to whoever gets kill credit, just like a rare gear drop, and can't be used in crafting, anvils, or grindstones.</div>
     <div class="stat-pool-grid">${statPool}</div>
-    <div class="guide-p" style="margin-top:8px"><strong>Only World Bosses drop actual gear</strong> — Normal/Leader/Boss kills drop stones only. A World Boss's gear drops with <strong>0-5 open sockets</strong> (never any stones pre-filled) — the higher the boss's own Level, the better the odds of more sockets: bucket = <code>min(4, (boss Level−1)÷40)</code> splits the 1-200 range into five 40-wide bands, then socket count is a uniform roll from 0 up to <code>bucket+1</code>. Even a maxed-out boss can still drop a 0-socket piece — it's still weighted low. Because a single stone/line now caps at 40 (a fifth of the old 200 ceiling), reaching a stat's full listed "@ Lv.40" target from one stone alone is the new ceiling — real power comes from filling several sockets with different stats, not stacking one.</div>
+    <div class="guide-p" style="margin-top:8px"><strong>Only World Bosses drop actual gear</strong> — Normal/Leader/Boss kills drop stones only. A World Boss's gear drops with <strong>0-5 open sockets</strong> (never any stones pre-filled) — the higher the boss's own Level, the better the odds of more sockets: bucket = <code>min(4, (boss Level−1)÷40)</code> splits the 1-200 range into five 40-wide bands, then socket count is a uniform roll from 0 up to <code>bucket+1</code>. Even a maxed-out boss can still drop a 0-socket piece — it's still weighted low. Each stat scales <em>linearly</em> and <em>directly</em> with its own stone's Level, up to the listed "@ Lv.20" target — reached in full by <strong>one</strong> fully-leveled stone alone, no ratio against a hypothetical full build and no need to fill every socket. Since gear itself carries no built-in stats, more sockets mean more <em>different</em> stats stacked together, not a bigger share of one — though nothing stops two separate pieces from each carrying their own copy of the <em>same</em> stat, in which case their contributions add together past the single-stone target. Hit Rate and Flee have no vanilla accuracy/evasion equivalent, so they're repurposed into flat damage/defense bonuses. This applies to both players and Deviants, and can be toggled off entirely via <code>/featuretoggle</code> ("Vanilla-World Gear Stats").</div>
     <div class="callout"><strong>Skinned vs. non-skinned gear.</strong> The 77 unique-named world-boss items (Halo Chestplate, Riesling Crossbow, etc.) are <em>skinned</em> gear — Repair always requires the <strong>exact same gear item</strong> as material, and Socket Unlock/Socket-a-Stone care about it too. Plain-looking Diamond/Netherite drops (no custom name or model) are <em>non-skinned</em> gear — matched by equipment slot and tier instead: a Diamond piece only takes Diamond material, a Netherite piece takes Diamond <em>or</em> Netherite. Both kinds share the same Combine Forge and socket system.</div>
-    <div class="callout"><strong>Crit Chance isn't a direct %-point bonus.</strong> It adds to a flat "Crit Power" number that gets compared against the defender's Crit Resist Power at the moment of the hit: <code>10% + (attacker's Crit Power − defender's Crit Resist Power) × 2%</code>, clamped 0-100%. Equal Power on both sides always lands at a 10% baseline. Crit Resist Power itself is a <em>core-stat</em> mechanic ((LUK+AGI+VIT)÷30, see the Classes &amp; Stats guide) — it's no longer part of the Enchantment Stone pool, so gear can boost your Crit Power but not your Crit Resist Power directly. Cooldown Reduction and Crit Dmg Negate were removed from the stone pool the same way — both still exist as core-stat-derived mechanics, just not gear-boostable anymore. Other flat bonuses (ice element, Archer Skill 3, Gamble trait) are added directly on top of the crit-chance result, not run through the formula. <strong>Lifesteal Chance</strong> was removed from the stone pool for the same reason as those — being a 30%-roll-gated proc, it was strictly worse in expected value than an equivalent amount of guaranteed Lifesteal, so no build ever benefited from choosing it. The lsChance proc mechanic itself still exists, just from trait/skill sources only (Bloodlust, Swordsman Skill 2, Archer Skill 3, some gear skills).</div>
-
-    <div class="callout"><strong>Socketed stones also work on vanilla (non-RPG) maps — at much smaller numbers.</strong> Taking gear with socketed Enchantment Stones onto any map without <code>_rpg</code> in its name (a hub, a plain survival world) no longer does nothing: each stat scales <em>linearly</em> from 0 up to a small vanilla-appropriate target as your raw stat total approaches the same reference max the "@ Lv.40" numbers above use (a single stat maxed across all 6 of a player's gear slots at Level 40 each — a Deviant only has 5 slots, so a fully-decked Deviant tops out at 5/6 of these numbers). Hit Rate and Flee have no vanilla accuracy/evasion equivalent, so they're repurposed here into flat damage/defense bonuses instead of their RPG-world meaning. This applies to both players and Deviants, and can be toggled off entirely via <code>/featuretoggle</code> ("Vanilla-World Gear Stats").</div>
-    <div class="stat-pool-grid">${vanillaStatPool}</div>
+    <div class="callout"><strong>Crit Chance (gear) vs. Crit Power (world_rpg).</strong> On <code>_rpg</code> maps, crit odds come entirely from a separate core-stat "Crit Power" formula: <code>10% + (attacker's Crit Power − defender's Crit Resist Power) × 2%</code>, clamped 0-100%, both Powers derived from LUK/AGI/VIT (see the Classes &amp; Stats guide) — Enchantment Stones (including a Crit Chance stone) contribute nothing to it, since stones are vanilla-only. On vanilla maps, a Crit Chance stone is instead a real, direct 0-1 probability of its own (up to 20% at Level 20), independent of that formula entirely. Cooldown Reduction, Crit Resist, and Crit Dmg Negate were removed from the stone pool entirely — those effects still exist as core-stat-derived <code>_rpg</code>-world mechanics, just never gear-boostable. <strong>Lifesteal Chance</strong> was removed from the stone pool the same way — being a 30%-roll-gated proc, it was strictly worse in expected value than an equivalent amount of guaranteed Lifesteal, so no build ever benefited from choosing it. The lsChance proc mechanic itself still exists, just from trait/skill sources only (Bloodlust, Swordsman Skill 2, Archer Skill 3, some gear skills).</div>
 
     <div class="guide-h2">2. Gear breaks on death</div>
     <div class="guide-p">Dying anywhere <strong>except the Siege and MOBA maps</strong> breaks every gear-id item you're carrying — anywhere in your inventory, equipped or not — and resets every Deviant you own (summoned or sitting in inventory as a skull) to <strong>level 1</strong>, breaking any gear-id item equipped on that Deviant too (see Deviants §4). Siege and MOBA manage their own death rules and are exempt, and plain vanilla items are never affected. A broken piece:</div>
     <div class="step-list">
       <div class="step"><span class="num">1</span><span class="txt">Stays fully wearable/holdable — breaking never blocks equipping. You can freely take it off, put it back on, or keep using it.</span></div>
-      <div class="step"><span class="num">2</span><span class="txt">Stops contributing anything RPG-side while worn: its RollableStat bonuses, its <strong>+RPG</strong> weapon damage scaling, its unique skill/activation, and any set bonus it was part of all go silent — only its plain vanilla stats (base armor points, base weapon damage) remain.</span></div>
+      <div class="step"><span class="num">2</span><span class="txt">Stops contributing anything RPG-side while worn: its RollableStat bonuses, its unique skill/activation, and any set bonus it was part of all go silent — only its plain vanilla stats (base armor points, base weapon damage) remain.</span></div>
       <div class="step"><span class="num">3</span><span class="txt">Shows a red "BROKEN — Repair Required" lore line until fixed via the Combine Forge's <strong>Repair</strong> mode (see §3).</span></div>
     </div>
 
@@ -1611,7 +1576,7 @@ function renderUpgradeGuide(){
     </div>
 
     <div class="guide-h2">5. Vanilla skill effects also scale</div>
-    <div class="guide-p">Every named world-boss item's own unique skill (documented in the <strong>Gear</strong> tab, the "Vanilla" row on each card) scales with that specific item's Gear Level: <strong>×1</strong> below Level 100, <strong>×2</strong> at Level 100+, <strong>×3</strong> at Level 200. Where the effect is a fixed potion tier instead of a raw number (e.g. Speed I, Regeneration I), it upgrades a tier at each threshold (I → II → III) instead of multiplying. Full-set bonuses use the <em>lowest</em> Level among all 4 worn pieces, so leveling only one piece can't cheese a stronger set bonus. A handful of purely binary effects (permanent Fire Resistance, full knockback immunity, etc.) have nothing to scale and stay as-is. Even a totally unsocketed item still shows <strong>Level: 1</strong> and its skill still fires at base (×1) — only a <em>broken</em> item goes silent, never merely an empty one.</div>
+    <div class="guide-p">Every named world-boss item's own unique skill (documented in the <strong>Gear</strong> tab, the "Effect" row on each card) scales with that specific item's Gear Level: <strong>×1</strong> below Level 100, <strong>×2</strong> at Level 100+, <strong>×3</strong> at Level 200. Where the effect is a fixed potion tier instead of a raw number (e.g. Speed I, Regeneration I), it upgrades a tier at each threshold (I → II → III) instead of multiplying. Full-set bonuses use the <em>lowest</em> Level among all 4 worn pieces, so leveling only one piece can't cheese a stronger set bonus. A handful of purely binary effects (permanent Fire Resistance, full knockback immunity, etc.) have nothing to scale and stay as-is. Even a totally unsocketed item still shows <strong>Level: 1</strong> and its skill still fires at base (×1) — only a <em>broken</em> item goes silent, never merely an empty one.</div>
 
     <div class="guide-h2">6. Refreshing old items</div>
     <div class="guide-p"><code>/refreshgear</code> sweeps your whole inventory (hotbar, storage, armor, off hand) and, for any item that predates the current socket system, <strong>clears its old Level/stat data entirely</strong> and converts it to a fresh, empty-socketed item with a modest random <strong>0 or 1</strong> starting socket — old stat data can't be turned into real stones after the fact, since stones didn't exist yet when it dropped. This only happens once per item; running the command again is a no-op. If that same item happens to be broken, converting it also repairs it as a one-time courtesy, so you don't need to separately track down Repair material for something that's only broken because it's old. For already-converted items, the command just re-syncs flavor-text wording to the latest balance pass — your sockets and stones are untouched.</div>
@@ -1780,9 +1745,9 @@ function renderContent(){
 
   if (state.query.trim()) {
     const q = state.query.trim().toLowerCase();
-    const matchItem = i => [i.name, i.skill, i.van, i.rpg, i.dev, i.slot].join(" ").toLowerCase().includes(q);
-    const matchPiece = p => [p.itemName, p.skill, p.van, p.rpg].join(" ").toLowerCase().includes(q);
-    const matchBonus = (s,b) => [s.name, b.name, b.van, b.rpg].join(" ").toLowerCase().includes(q);
+    const matchItem = i => [i.name, i.skill, i.van, i.dev, i.slot].join(" ").toLowerCase().includes(q);
+    const matchPiece = p => [p.itemName, p.skill, p.van].join(" ").toLowerCase().includes(q);
+    const matchBonus = (s,b) => [s.name, b.name, b.van].join(" ").toLowerCase().includes(q);
 
     const items = ITEMS.filter(matchItem);
     const pieces = [];
