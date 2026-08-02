@@ -303,8 +303,8 @@
   <main class="content" id="content"></main>
 
   <footer class="credit">
-    Gear section compiled from ItemUtils.java (item &amp; armor definitions), GearSkillListener.java (skill logic, cooldowns, activation triggers), GearInfoGui.java (in‑game /gearinfo lore text), WorldBossGearDropTable.java (boss/material/biome assignments) and GearRecipeRegistry.java (the 129 crafting recipes) — reflects what's implemented, not aspirational text. "RPG" rows are the bonus added on top of the flat vanilla effect, scaled by the stat named (Intelligence, Strength, Vitality share, etc.); "Flat‑only" means the vanilla effect doesn't scale with stats at all.
-    <br>Upgrading section compiled from RollableStat.java (stat pool, per-level values, stone Material/color), EnchantmentStoneItem.java/EnchantmentStoneListener.java (stone item &amp; no-craft block), GearLevelSystem.java (socket/Level/lore rendering, broken-state lore, /refreshgear clear-and-convert), GearRegistry.java (Gear Level, socket &amp; broken-flag PDC), CraftingMaterialRegistry.java (Core Item/Material/Socket Stone PDC identity), AscendingGUI.java/AscendingGUIListener.java (Combine Forge's five modes: Socket a Stone, Socket Unlock, Level a Stone, Remove Stone, Repair), DeadMobListener.java (Core Item/Material/Socket Stone/stone drop chances), GearBiomeCraftingListener.java (biome-gated crafting), GearBreakUtil.java/DeviantDeathResetUtil.java/PlayerDeathListener.java (death-breaks-gear/resets-deviants trigger) and GearSkillListener.java's vBase/vSetBase/vAmplifier tiering helpers.
+    Gear section compiled from ItemUtils.java (item &amp; armor definitions), GearSkillListener.java (skill logic, cooldowns, activation triggers), GearInfoGui.java (in‑game /gearinfo lore text), WorldBossGearDropTable.java (boss/material assignments) and GearRecipeRegistry.java (the 129 crafting recipes) — reflects what's implemented, not aspirational text. "RPG" rows are the bonus added on top of the flat vanilla effect, scaled by the stat named (Intelligence, Strength, Vitality share, etc.); "Flat‑only" means the vanilla effect doesn't scale with stats at all.
+    <br>Upgrading section compiled from RollableStat.java (stat pool, per-level values, stone Material/color), EnchantmentStoneItem.java/EnchantmentStoneListener.java (stone item &amp; no-craft block), GearLevelSystem.java (socket/Level/lore rendering, broken-state lore, /refreshgear clear-and-convert), GearRegistry.java (Gear Level, socket &amp; broken-flag PDC), CraftingMaterialRegistry.java (Core Item/Material/Socket Stone PDC identity), AscendingGUI.java/AscendingGUIListener.java (Combine Forge's five modes: Socket a Stone, Socket Unlock, Level a Stone, Remove Stone, Repair), DeadMobListener.java (Core Item/Material/Socket Stone/stone drop chances), GearRecipeDiscoveryListener.java (recipe unlock on join), GearBreakUtil.java/DeviantDeathResetUtil.java/PlayerDeathListener.java (death-breaks-gear/resets-deviants trigger) and GearSkillListener.java's vBase/vSetBase/vAmplifier tiering helpers.
     <br>World Bosses section compiled directly from OverworldStructureEventManager.java/OverworldStructureEventConfig.java (Territory Event trigger, phase timeline, boss pool &amp; leveling, loot rules), the per-boss skill managers (PiglinBruteSkillManager.java, ZombifiedPiglinSkillManager.java, RavagerSkillManager.java, EvokerSkillManager.java, WardenSkillManager.java/WardenChargeTask.java, WitchSkillManager.java), WorldBossTraversalManager.java (shared traversal ability &amp; anti-cheese combat lock, now world-agnostic outside MOBA) and MonsterStatCalculator.java (tier/level PDC helpers). The in-game /worldbossguide GUI text was resynced alongside this page — both describe Territory Events as how players actually encounter a World Boss, and still cover each boss's full current skill kit, including the four "mass seize" abilities (Molten Manacle, Feeding Frenzy, Resonant Grasp, Tectonic Impale).
     <br>Deviants section compiled from Deviant.java/DeviantType.java (data model &amp; weapon restrictions), DeviantGenerator.java (stat/skill/element/trait rolls), DeviantStatCalculator.java (every derived-stat formula), DeviantLevelingService.java/AbyssAutoConverter.java (Abyss XP &amp; Level curve), DeviantDeathResetUtil.java (owner-death level/gear reset), DeviantSkillManager.java (skill effects &amp; cooldowns), DeviantSummonService.java/DeviantSummonCooldown.java (summon limits &amp; cooldowns) and DeviantGuiManager.java (buy/equip GUIs &amp; arena targeting).
   </footer>
@@ -684,8 +684,8 @@ const ITEMS = [
     van:"Normal vanilla digging + Telekinesis (blocks go straight to your inventory instead of dropping).", dev:"Works identically on a Deviant (no skill to trigger)." },
 
   // Sword/Bow/Axe skill prototypes — each carries its own unique, original skill (not shared
-  // with any other item on this list). Still test-only: obtainable in-game only via
-  // /futuregeartest, not the real drop pools — boss values below are flavor/documentation only.
+  // with any other item on this list). Promoted from /futuregeartest-only to real craftable
+  // drop-pool gear on 2026-07-27 — boss values below are the real recipe/drop assignment now.
   { name:"Bloodthirst", id:"ztbow_bloodthirst", archetype:"Berserker", slot:"Sword", boss:"zombified_piglin", skill:"Blood Drain",
     act:"Right-click to enter Blood Drain for 30s (cooldown 30s once it ends). Every hit while active applies a 10s bleed on the target (refreshed, not stacked, by later hits).", cd:"30s (starts once the 30s stance ends)",
     van:"Bleed deals 10% of that hit's damage over its 10s duration; each bleed tick heals you back for the same amount, as long as you're still wielding this weapon. (Gear Level 50: 20% of hit damage, Level 100: 30% of hit damage.)",
@@ -1201,6 +1201,135 @@ const ROLLABLE_STATS = [
   { name: "Max Health",         target: "+10 flat" }
 ];
 
+// The Core Item + 15 boss-specific Materials — every one of the 129 gear recipes needs the
+// Core Item plus 2 Materials, each drawn from a different boss's set (see ItemUtils.java/WorldBossGearDropTable.java).
+const CRAFTING_CORE = { name: "World Boss Heartstone", slot: "Core Item — required by every recipe",
+  desc: "A crystallized fragment of a World Boss's essence. 50% chance to drop 1-3 per eligible attacker, from any World Boss." };
+const CRAFTING_MATERIALS = [
+  { name: "Molten Piglin Tusk",     slot: "Material — Cindermaw (Piglin Brute)",      desc: "A tusk still radiating forge-heat." },
+  { name: "Cindermaw Scale",        slot: "Material — Cindermaw (Piglin Brute)",      desc: "A scale that never cools." },
+  { name: "Bloodforged Gold Shard", slot: "Material — Cindermaw (Piglin Brute)",      desc: "Gold quenched in battle, not water." },
+  { name: "Goldrot Marrow",         slot: "Material — Goldrot (Zombified Piglin)",    desc: "Marrow gone strange with rot and riches." },
+  { name: "Withered Gold Dust",     slot: "Material — Goldrot (Zombified Piglin)",    desc: "Fine dust, dull with decay." },
+  { name: "Bonecrusher Hide",       slot: "Material — Bonecrusher (Ravager)",         desc: "Thick hide, scarred from countless charges." },
+  { name: "Splintered Horn",        slot: "Material — Bonecrusher (Ravager)",         desc: "Cracked clean through by its own force." },
+  { name: "Warpath Sinew",          slot: "Material — Bonecrusher (Ravager)",         desc: "Tough as the ground it charged across." },
+  { name: "Hexweaver Totem Shard",  slot: "Material — Hexweaver (Evoker)",            desc: "A shard still humming with illager magic." },
+  { name: "Illusory Ichor",         slot: "Material — Hexweaver (Evoker)",            desc: "Shifts color when you're not looking." },
+  { name: "Direwail Sculk Node",    slot: "Material — Direwail (Warden)",             desc: "Pulses faintly with a heartbeat that isn't yours." },
+  { name: "Resonant Echo Shard",    slot: "Material — Direwail (Warden)",             desc: "Carries a sound from somewhere far below." },
+  { name: "Deep Dark Marrow",       slot: "Material — Direwail (Warden)",             desc: "Cold, dense, and faintly luminous." },
+  { name: "Hexbrewer's Bile",       slot: "Material — Hexbrewer (Witch)",             desc: "Bottled straight from the cauldron." },
+  { name: "Cauldron-Bound Essence", slot: "Material — Hexbrewer (Witch)",             desc: "Won't stay corked for long." }
+];
+const SOCKET_STONES = [
+  { name: "Tier 1 Socket Stone", slot: "World Boss level 1-20",  desc: "Unlocks socket slot 1 on a crafted gear item." },
+  { name: "Tier 2 Socket Stone", slot: "World Boss level 21-40", desc: "Unlocks socket slot 2 on a crafted gear item." },
+  { name: "Tier 3 Socket Stone", slot: "World Boss level 41-60", desc: "Unlocks socket slot 3 on a crafted gear item." },
+  { name: "Tier 4 Socket Stone", slot: "World Boss level 61-80", desc: "Unlocks socket slot 4 on a crafted gear item." },
+  { name: "Tier 5 Socket Stone", slot: "World Boss level 81+",   desc: "Unlocks socket slot 5 on a crafted gear item." }
+];
+
+// ---------- per-item recipes (mirrors GearRecipeRegistry.java exactly) ----------
+//
+// GearRecipeRegistry picks each item's 2 cross-boss materials + 1-3 currencies deterministically
+// from a running index (see registerAll/pickCrossBossMaterials/pickCurrencies), walking the 6
+// bosses in a fixed order and, within each boss, WorldBossGearDropTable.POOLS's literal item
+// order. RECIPE_BOSS_ORDER and RECIPE_POOL_ORDER below reproduce those two orderings exactly
+// (armor pieces are tokened "<set.key>|<slot>" since POOLS lists each piece separately) so
+// computeRecipe() below always agrees with the real in-game /gearinfo recipe for the same item.
+// If a gear item's boss pool position ever changes in WorldBossGearDropTable.java, update the
+// matching token's position here to match.
+const RECIPE_BOSS_ORDER = ["piglin_brute", "zombified_piglin", "ravager", "evoker", "warden", "witch"];
+const RECIPE_CURRENCY_NAMES = ["Diamond", "Gold Ingot", "Lapis Lazuli", "Emerald", "Iron Ingot", "Copper Ingot", "Ender Pearl"];
+
+const RECIPE_POOL_ORDER = {
+  piglin_brute: [
+    "dragonslayingblade", "composite_bow",
+    "dragonsbane|Helmet", "dragonsbane|Chestplate", "dragonsbane|Leggings", "dragonsbane|Boots",
+    "champion_petra|Helmet", "champion_petra|Chestplate", "champion_petra|Leggings", "champion_petra|Boots",
+    "kalam0n_pa", "kalam0n_a", "kalam0n_h", "kalam0n_s",
+    "ztbow_dagger", "ztbow_ender_blade", "ztbow_golden_splitter", "ztbow_royal_slash", "ztbow_daedric",
+    "magiscythe", "watcher_claymore"
+  ],
+  zombified_piglin: [
+    "fox|Helmet", "fox|Chestplate", "fox|Leggings", "fox|Boots",
+    "grimdark_gold|Helmet", "grimdark_gold|Chestplate", "grimdark_gold|Leggings", "grimdark_gold|Boots",
+    "grimdark_netherite|Helmet", "grimdark_netherite|Chestplate", "grimdark_netherite|Leggings", "grimdark_netherite|Boots",
+    "netherite_crossbow", "ztbow_spade", "ztbow_bloodthirst", "ztbow_yamato", "bow2_yamato",
+    "brimstone_claymore", "emberblade", "soulstealer", "whisperwind"
+  ],
+  ravager: [
+    "adamantium|Helmet", "adamantium|Chestplate", "adamantium|Leggings", "adamantium|Boots",
+    "green_n|Helmet", "green_n|Chestplate", "green_n|Leggings", "green_n|Boots",
+    "blue_n|Helmet", "blue_n|Chestplate", "blue_n|Leggings", "blue_n|Boots",
+    "assassination_bow", "creation_weaver", "ztbow_dante", "ztbow_danteawk", "ztbow_wolfblade",
+    "thorned_blade", "bloodydeath", "edgeoftheastralplane", "stormbringer", "storms_edge",
+    "thunderbrand", "thunderbringer"
+  ],
+  evoker: [
+    "red_n|Helmet", "red_n|Chestplate", "red_n|Leggings", "red_n|Boots",
+    "grimdark_diamond|Helmet", "grimdark_diamond|Chestplate", "grimdark_diamond|Leggings", "grimdark_diamond|Boots",
+    "cyber_katana", "flamatic_katana", "ztbow_soft_pick", "ztbow_blue_rose", "ztbow_grim",
+    "ztbow_holy_greatsword", "ztbow_holy_sword", "ztbow_infinity", "excalibur", "stars_edge", "wickpiercer"
+  ],
+  warden: [
+    "halo|Helmet", "halo|Chestplate", "halo|Leggings", "halo|Boots",
+    "ellegaard|Helmet", "ellegaard|Chestplate", "ellegaard|Leggings", "ellegaard|Boots",
+    "mythic_blade", "creationsplitter", "ztbow_hoe", "ztbow_bloodvein", "ztbow_demonic_greatsword",
+    "ztbow_demonic_sword", "ztbow_lumberjack", "frostmorne", "arcanethyst", "demigodsunholyblade",
+    "fallengodspear", "icewhisper", "legendarysword", "truecreationsplitter"
+  ],
+  witch: [
+    "dark_blade", "toxic_longsword", "warbow", "riesling_crossbow",
+    "black_n|Helmet", "black_n|Chestplate", "black_n|Leggings", "black_n|Boots",
+    "white_n|Helmet", "white_n|Chestplate", "white_n|Leggings", "white_n|Boots",
+    "ztbow_lucky_pick", "ztbow_corrupted_greatsword", "ztbow_death_bringer", "murasama",
+    "awakened_lichblade", "demigodsunholyhalberd", "herosword", "holymoonlightsword",
+    "soulrender", "waxweaver"
+  ]
+};
+
+const CRAFTING_MATERIALS_BY_BOSS = {};
+Object.keys(BOSSES).forEach(bossId => {
+  CRAFTING_MATERIALS_BY_BOSS[bossId] = CRAFTING_MATERIALS
+    .filter(m => m.slot.includes(`(${BOSSES[bossId].name})`))
+    .map(m => m.name);
+});
+
+/** Mirrors GearRecipeRegistry.pickCrossBossMaterials/pickCurrencies exactly. `token` is the
+ *  item's own `id`, or "<set.key>|<slot>" for an armor piece. Returns null if the token isn't
+ *  in RECIPE_POOL_ORDER[bossId] (out of sync with WorldBossGearDropTable.java). */
+function computeRecipe(bossId, token){
+  const order = RECIPE_POOL_ORDER[bossId];
+  const poolIndex = order ? order.indexOf(token) : -1;
+  if (poolIndex < 0) return null;
+  const bIdx = RECIPE_BOSS_ORDER.indexOf(bossId);
+  let itemSeed = poolIndex;
+  for (let k = 0; k < bIdx; k++) itemSeed += RECIPE_POOL_ORDER[RECIPE_BOSS_ORDER[k]].length;
+
+  const materials = [];
+  for (let k = 0; k < 2; k++) {
+    const materialBoss = RECIPE_BOSS_ORDER[(itemSeed + k) % RECIPE_BOSS_ORDER.length];
+    const pool = CRAFTING_MATERIALS_BY_BOSS[materialBoss];
+    materials.push({ boss: materialBoss, name: pool[(itemSeed + k) % pool.length] });
+  }
+
+  const count = 1 + (poolIndex % 3);
+  const start = (bIdx * 2 + poolIndex) % RECIPE_CURRENCY_NAMES.length;
+  const currencies = [];
+  for (let k = 0; k < count; k++) currencies.push(RECIPE_CURRENCY_NAMES[(start + k) % RECIPE_CURRENCY_NAMES.length]);
+
+  return { materials, currencies };
+}
+
+function recipeLineHtml(bossId, token){
+  const r = computeRecipe(bossId, token);
+  if (!r) return "";
+  const matText = r.materials.map(m => `${escapeHtml(m.name)} (${escapeHtml(BOSSES[m.boss].name)})`).join(", ");
+  return `<div class="drop-line">Recipe: Core Item + ${matText} + ${escapeHtml(r.currencies.join(", "))}</div>`;
+}
+
 // ---------- rendering ----------
 
 function escapeHtml(s){ return (s==null?"":String(s)).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
@@ -1230,7 +1359,8 @@ function itemCard(it, opts){
   const skillBlock = it.skill
     ? `<div class="skill-name">${escapeHtml(it.skill)}</div><div class="activation">${escapeHtml(it.act)}</div>`
     : `<div class="activation">${escapeHtml(it.act)}</div>`;
-  const dropLine = opts.showBoss ? `<div class="drop-line">${bossDot(it.boss)}Crafted using ${BOSSES[it.boss].name}'s materials</div>` : "";
+  const dropLine = opts.showBoss ? `<div class="drop-line">${bossDot(it.boss)}Drops from ${BOSSES[it.boss].name}</div>` : "";
+  const recipeLine = it.id ? recipeLineHtml(it.boss, it.id) : "";
   const icon = it.id && GEAR_ICONS[it.id] ? `<img src="${GEAR_ICONS[it.id]}" width="28" height="28" style="image-rendering:pixelated;flex-shrink:0;border-radius:4px" alt="">` : "";
   return `<div class="card">
       <div class="card-head">
@@ -1243,6 +1373,7 @@ function itemCard(it, opts){
       ${skillBlock}
       <div class="rows">${rows.join("")}</div>
       ${dropLine}
+      ${recipeLine}
     </div>`;
 }
 
@@ -1253,6 +1384,7 @@ function pieceCard(p, set){
   rows.push(`<div class="row deviant"><span class="tag">Deviant</span><span class="val">${escapeHtml(p.dev)}</span></div>`);
   const iconId = set && set.key ? `${set.key}_${p.slot.toLowerCase()}` : null;
   const icon = iconId && GEAR_ICONS[iconId] ? `<img src="${GEAR_ICONS[iconId]}" width="28" height="28" style="image-rendering:pixelated;flex-shrink:0;border-radius:4px" alt="">` : "";
+  const recipeLine = set && set.key ? recipeLineHtml(set.boss, `${set.key}|${p.slot}`) : "";
   return `<div class="card">
       <div class="card-head">
         <div style="display:flex;align-items:center;gap:8px;min-width:0">
@@ -1264,6 +1396,7 @@ function pieceCard(p, set){
       <div class="skill-name">${escapeHtml(p.skill)}</div>
       <div class="activation">${escapeHtml(p.act)}</div>
       <div class="rows">${rows.join("")}</div>
+      ${recipeLine}
     </div>`;
 }
 
@@ -1455,7 +1588,7 @@ function renderRitualOverview(){
     <div class="guide-p">
       <strong>Guaranteed (100%):</strong> one Enchantment Stone.<br>
       <strong>50% chance:</strong> 1-3 Core Items — the universal ingredient every gear recipe needs one of.<br>
-      <strong>Guaranteed (100%):</strong> 1-3 of one boss-specific crafting Material (see the Upgrading Gear guide for which materials belong to which boss).<br>
+      <strong>Guaranteed (100%):</strong> 1-3 of one boss-specific crafting Material — a single recipe now needs Materials from 2 different bosses, so plan on fighting more than one (see the Upgrading Gear guide for which materials belong to which boss).<br>
       <strong>20% chance:</strong> one Socket Stone, its tier set by the boss's own level band (level 1-20 → Tier 1, 21-40 → Tier 2, 41-60 → Tier 3, 61-80 → Tier 4, 81+ → Tier 5).<br>
       <strong>50% chance:</strong> one cosmetic elytra skin from its drop pool (Tier 2 skins need the boss to be level 80+).
     </div>
@@ -1484,10 +1617,9 @@ function renderUpgradeGuide(){
     <div class="view-title">Upgrading Gear</div>
     <div class="guide-lead">World-boss gear is <strong>crafted</strong>, not looted directly — bosses drop the ingredients, and every one of the 129 unique-named items is assembled at a vanilla crafting table. Crafted gear starts with <strong>0 open sockets</strong>; power comes entirely from two post-craft steps at the <strong>Combine Forge</strong> (<code>/ascenditem</code>): unlocking sockets with tiered <strong>Socket Stones</strong>, then filling them with standalone <strong>Enchantment Stone</strong> items. Each stone represents one stat at its own Level (capped at <strong>20</strong>); an item's displayed <strong>Gear Level</strong> is the <em>sum</em> of its currently-socketed stones' Levels — with up to 5 sockets at 20 each, the ceiling works out to exactly <strong>100</strong>. Both stone types are a <strong>pure vanilla-world-exclusive</strong> feature — they have zero effect on any <code>_rpg</code> map (world_rpg_siege); power there comes entirely from the separate STR/AGI/VIT/DEX/INT/LUK core-stat system (see the Classes &amp; Stats guide). This page covers how the whole system fits together.</div>
 
-    <div class="guide-h2">1. Crafting gear: Core Item, Materials, currency, and biome energy</div>
-    <div class="guide-p">Every one of the 129 gear items has its own crafting-table recipe: <strong>1 Core Item</strong> (a universal ingredient shared by every recipe) + <strong>2 boss-specific Materials</strong> + <strong>1-3 ore-currency items</strong> (Diamond, Gold Ingot, Lapis Lazuli, Emerald, Iron Ingot, Copper Ingot, or Ender Pearl — never Netherite), all placed in the crafting grid together. Check <code>/gearinfo</code> on any item to see its exact recipe.</div>
-    <div class="guide-p">World Bosses drop the ingredients, independently per player who damaged them (Deviant damage counts toward its owner): the <strong>Core Item</strong> has a 50% chance to drop 1-3 at a time, and each boss <strong>always</strong> drops 1-3 of one of its own 2-3 assigned Materials. The 15 Materials are split across the 6 bosses — Cindermaw (Piglin Brute), Bonecrusher (Ravager), and Direwail (Warden) each have 3; Goldrot (Zombified Piglin), Hexweaver (Evoker), and Hexbrewer (Witch) each have 2.</div>
-    <div class="guide-p" style="margin-top:8px"><strong>Every recipe also requires its boss's own biome "energy"</strong> — you must be physically standing in one of that boss's 2-3 themed biomes for the crafting table to actually produce the item (the ingredients can be correctly placed anywhere, but the result stays blocked outside the right biome, with an on-screen reminder of what's needed). Cindermaw/Goldrot recipes need Nether biomes (Nether Wastes, Crimson Forest, Basalt Deltas, Soul Sand Valley); Bonecrusher needs open plains (Savanna, Plains, Windswept Hills); Hexweaver needs dark forest biomes (Dark Forest, Old Growth Spruce Taiga); Direwail needs deep-cave biomes (Deep Dark, Lush Caves, Dripstone Caves); Hexbrewer needs swamp biomes (Swamp, Mangrove Swamp).</div>
+    <div class="guide-h2">1. Crafting gear: Core Item, Materials, and currency</div>
+    <div class="guide-p">Every one of the 129 gear items has its own crafting-table recipe: <strong>1 Core Item</strong> (a universal ingredient shared by every recipe) + <strong>2 Materials, each from a different world boss</strong> + <strong>1-3 ore-currency items</strong> (Diamond, Gold Ingot, Lapis Lazuli, Emerald, Iron Ingot, Copper Ingot, or Ender Pearl — never Netherite), all placed in the crafting grid together — no biome or other location requirement. Check <code>/gearinfo</code> on any item to see its exact recipe.</div>
+    <div class="guide-p">World Bosses drop the ingredients, independently per player who damaged them (Deviant damage counts toward its owner): the <strong>Core Item</strong> has a 50% chance to drop 1-3 at a time, and each boss <strong>always</strong> drops 1-3 of one of its own 2-3 assigned Materials. The 15 Materials are split across the 6 bosses — Cindermaw (Piglin Brute), Bonecrusher (Ravager), and Direwail (Warden) each have 3; Goldrot (Zombified Piglin), Hexweaver (Evoker), and Hexbrewer (Witch) each have 2. Since a single recipe's 2 Materials always come from 2 different bosses, crafting one gear item means fighting at least two different World Boss types.</div>
 
     <div class="guide-h2">2. Socket Stones and Enchantment Stones</div>
     <div class="guide-p">A freshly-crafted item has <strong>0 sockets</strong> — every one of its 5 slots has to be individually unlocked with a tiered <strong>Socket Stone</strong> at the Combine Forge's <strong>Socket Unlock</strong> mode: a Tier 1 stone unlocks slot 1, Tier 2 unlocks slot 2, and so on up to Tier 5 — exactly <strong>1 matching-tier stone per slot</strong>, no accumulating cost. A Socket Stone's tier is set by the level of the World Boss that dropped it (level 1-20 → Tier 1, 21-40 → Tier 2, 41-60 → Tier 3, 61-80 → Tier 4, 81+ → Tier 5), at a flat <strong>20% drop chance</strong> per eligible player per kill — so higher-level bosses are the only source of the higher tiers a maxed item needs.</div>
@@ -1555,7 +1687,7 @@ function renderUpgradeGuide(){
 
     <div class="guide-h2">5. A worked example</div>
     <div class="step-list">
-      <div class="step"><span class="num">1</span><span class="txt">Gather a Core Item, 2 matching Materials, and 1-3 matching currency items from a boss (see §1), stand in one of its required biomes, and craft the gear item — it comes out with <strong>0 sockets</strong>, all empty.</span></div>
+      <div class="step"><span class="num">1</span><span class="txt">Gather a Core Item, 2 matching Materials from 2 different world bosses, and 1-3 matching currency items (see §1), and craft the gear item — it comes out with <strong>0 sockets</strong>, all empty.</span></div>
       <div class="step"><span class="num">2</span><span class="txt">Kill more of that boss (or any level-appropriate boss) for Socket Stones — a Tier 1 stone from a level 1-20 kill, then a Tier 2 stone from a level 21-40+ kill, and so on.</span></div>
       <div class="step"><span class="num">3</span><span class="txt">Use <strong>Socket Unlock</strong> to feed the Tier 1 stone in, opening slot 1; repeat with the Tier 2 stone for slot 2, and so on up to Tier 5.</span></div>
       <div class="step"><span class="num">4</span><span class="txt">Separately, kills across all tiers have a chance to drop Enchantment Stones — say a Melee Damage stone at Level 6 (worth 40/40 × 6 = 6 at this Level) and, later, another at Level 14.</span></div>
@@ -1763,7 +1895,7 @@ function renderContent(){
     const items = itemsForBoss(state.view.id);
     const sets = setsForBoss(state.view.id);
     let html = `<div class="view-title">${b.name}'s craftable gear</div>
-      <div class="view-desc">Everything craftable using this boss's Core Item + Materials + a Socket Stone at a crafting table — see the Upgrading Gear guide for the full recipe/biome system.</div>`;
+      <div class="view-desc">Everything craftable using this boss's Core Item + Materials + a Socket Stone at a crafting table — see the Upgrading Gear guide for the full recipe system.</div>`;
     if (items.length) html += `<div class="grid" style="margin-bottom:22px">${items.map(i=>itemCard(i)).join("")}</div>`;
     sets.forEach(s => html += setBlock(s));
     el.innerHTML = html;
