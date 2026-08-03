@@ -281,6 +281,51 @@
 
   .empty { color: var(--text-dim); font-size: 13px; padding: 30px 4px; }
 
+  .section-img {
+    display: block; width: 100%; max-height: 260px; object-fit: cover;
+    border-radius: 12px; border: 1px solid var(--border);
+    margin: 2px 0 16px; background: var(--surface-2);
+  }
+  .section-img-ph {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; height: 150px;
+    border: 1px dashed var(--border); border-radius: 12px;
+    background: var(--chip-bg); color: var(--text-dim);
+    font-size: 12px; margin: 2px 0 16px; text-align: center; flex-direction: column;
+  }
+  .section-img-ph .fname {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 11.5px; color: var(--accent);
+  }
+
+  .doc-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 6px 0 20px; }
+  .doc-table th, .doc-table td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .doc-table th { color: var(--text-dim); font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
+  .doc-table td code { background: var(--chip-bg); border-radius: 4px; padding: 1px 5px; font-size: 11.5px; }
+  .doc-table .tbl-wrap { overflow-x: auto; }
+  .badge-op {
+    display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .04em; color: var(--accent); background: var(--chip-bg);
+    border-radius: 5px; padding: 1px 6px; white-space: nowrap;
+  }
+  .badge-player {
+    display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .04em; color: var(--build); background: var(--chip-bg);
+    border-radius: 5px; padding: 1px 6px; white-space: nowrap;
+  }
+
+  .feature-card {
+    border: 1px solid var(--border); border-radius: 10px;
+    background: var(--surface); box-shadow: var(--shadow);
+    padding: 13px 14px 14px; display: flex; flex-direction: column; gap: 6px;
+  }
+  .feature-card h4 { margin: 0; font-size: 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .feature-card p { margin: 0; color: var(--text-dim); font-size: 12.5px; }
+  .off-badge {
+    flex: none; font-size: 10px; font-weight: 700; text-transform: uppercase;
+    color: var(--text-dim); background: var(--chip-bg); border-radius: 5px; padding: 2px 7px;
+  }
+
   @media (max-width: 760px) {
     .app { grid-template-columns: 1fr; }
     nav.side { border-right: none; border-bottom: 1px solid var(--border); }
@@ -291,7 +336,7 @@
   <header class="top">
     <div>
       <h1>RPG Plugin Encyclopedia</h1>
-      <div class="sub">A living reference for every system in the plugin. Gear, Upgrading, World Bosses, and Deviants are fully documented below; more sections land here as they're written up.</div>
+      <div class="sub">A living reference for every system in the plugin — a plugin overview, a full player guide (core and optional features), and an admin guide to every command and config file. More sections land here as they're written up.</div>
     </div>
     <div class="search-wrap">
       <input id="search" type="text" placeholder="Search a name, skill, or effect…" autocomplete="off">
@@ -307,6 +352,7 @@
     <br>Upgrading section compiled from RollableStat.java (stat pool, per-level values, stone Material/color), EnchantmentStoneItem.java/EnchantmentStoneListener.java (stone item &amp; no-craft block), GearLevelSystem.java (socket/Level/lore rendering, broken-state lore, /refreshgear clear-and-convert), GearRegistry.java (Gear Level, socket &amp; broken-flag PDC), CraftingMaterialRegistry.java (Core Item/Material/Socket Stone PDC identity), AscendingGUI.java/AscendingGUIListener.java (Combine Forge's five modes: Socket a Stone, Socket Unlock, Level a Stone, Remove Stone, Repair), DeadMobListener.java (Core Item/Material/Socket Stone/stone drop chances), GearRecipeDiscoveryListener.java (recipe unlock on join), GearBreakUtil.java/DeviantDeathResetUtil.java/PlayerDeathListener.java (death-breaks-gear/resets-deviants trigger) and GearSkillListener.java's vBase/vSetBase/vAmplifier tiering helpers.
     <br>World Bosses section compiled directly from OverworldStructureEventManager.java/OverworldStructureEventConfig.java (Territory Event trigger, phase timeline, boss pool &amp; leveling, loot rules), the per-boss skill managers (PiglinBruteSkillManager.java, ZombifiedPiglinSkillManager.java, RavagerSkillManager.java, EvokerSkillManager.java, WardenSkillManager.java/WardenChargeTask.java, WitchSkillManager.java), WorldBossTraversalManager.java (shared traversal ability &amp; anti-cheese combat lock, now world-agnostic outside MOBA) and MonsterStatCalculator.java (tier/level PDC helpers). The in-game /worldbossguide GUI text was resynced alongside this page — both describe Territory Events as how players actually encounter a World Boss, and still cover each boss's full current skill kit, including the four "mass seize" abilities (Molten Manacle, Feeding Frenzy, Resonant Grasp, Tectonic Impale).
     <br>Deviants section compiled from Deviant.java/DeviantType.java (data model &amp; weapon restrictions), DeviantGenerator.java (stat/skill/element/trait rolls), DeviantStatCalculator.java (every derived-stat formula), DeviantLevelingService.java/AbyssAutoConverter.java (Abyss XP &amp; Level curve), DeviantDeathResetUtil.java (owner-death level/gear reset), DeviantSkillManager.java (skill effects &amp; cooldowns), DeviantSummonService.java/DeviantSummonCooldown.java (summon limits &amp; cooldowns) and DeviantGuiManager.java (buy/equip GUIs &amp; arena targeting).
+    <br>Extras and Admin Guide sections compiled from FeatureRegistry.java/features.yml (the toggle system itself), each gated feature's own source file (OreBankCommand, CurrencyConverter/ConvertToCurrency/PayOreCommand, JunkCommand/JunkShopCommand, PotionStackingListener, OreBreakListener, ResourcePackListener/resourcepack.yml, DamageListener's vanilla-world-stats/revive-system toggles), plugin.yml and Riftforged.java (the full command list), and OverworldStructureEventConfig.java/structure_events_overworld_config.yml (Territory Events tuning) — reflects what's actually wired up in code, not any older/stale doc. A "Utilities" page previously documented an "Item Frame Lock" feature that has no matching code anywhere in the current source (no class, no feature id, no plugin.yml entry) and was removed from this guide rather than carried forward as unverified.
   </footer>
 </div>
 
@@ -1014,9 +1060,158 @@ const SETS = [
 // Future encyclopedia sections — populated as each system gets written up.
 const UPCOMING_SECTIONS = [
   { name: "Classes & Stats", hint: "Attribute point system (Strength, Agility, Vitality, Intelligence, Dexterity, Luck) and derived stats." },
-  { name: "Economy", hint: "Auction house, bank, trading." },
   { name: "Siege & MOBA", hint: "PvP siege mode and the MOBA game mode." },
   { name: "Custom Enchants", hint: "Plugin-added enchantments beyond vanilla." }
+];
+
+function sectionImg(name, alt){
+  return `<img class="section-img" src="images/${name}.png" alt="${escapeHtml(alt)}"
+    onerror="this.outerHTML='&lt;div class=&quot;section-img-ph&quot;&gt;&lt;span&gt;placeholder image — drop file at&lt;/span&gt;&lt;span class=&quot;fname&quot;&gt;docs/images/${name}.png&lt;/span&gt;&lt;/div&gt;'">`;
+}
+
+// ── Additional (toggleable) Features — /featuretoggle, all default OFF on a fresh install.
+//    Core, always-on systems (Territory Events; Gear/Elytra/Crafting/Ascension) live under their
+//    own Gear/Upgrading/Bosses tabs above, not here. See docs/feature-toggles.md for the source list. ──
+const ADDITIONAL_FEATURES = [
+  {
+    id: "deviant", name: "Deviant System", featureId: "deviant",
+    summary: "The whole pet/mount companion system — buying, equipping, summoning, dueling, and arenas.",
+    body: `<div class="guide-p">Fully documented in its own <strong>Deviants</strong> tab — this entry just notes that the whole system (every <code>/deviant*</code> command, plus the skull item's summon/despawn right-click) is gated by this one toggle. Disabling it live despawns every currently-summoned Deviant server-wide.</div>
+      <button class="jump-link" data-goto-section="deviants">Open the full Deviants guide →</button>`
+  },
+  {
+    id: "orebank", name: "Bank", featureId: "orebank",
+    summary: "The /orebank deposit/withdraw GUI for moving currency items into and out of your wallet balance.",
+    body: `<div class="guide-p"><strong>/orebank withdraw</strong> or <strong>/orebank deposit</strong> opens a GUI for converting between physical currency items in your inventory (Diamond, Gold Ingot, Lapis Lazuli, Emerald, Iron Ingot, Copper Ingot, Ender Pearl, Netherite Ingot) and the matching balance field on your profile.</div>
+      <div class="callout"><strong>Doesn't gate the wallet itself.</strong> Turning Bank off only removes the <code>/orebank</code> convenience GUI — the underlying currency balance still exists and is still used by everything else (Deviant purchases, gear/crafting costs, Currency Utilities below). Players just lose one way of shuffling items into/out of it.</div>`
+  },
+  {
+    id: "currency_utils", name: "Currency Utilities", featureId: "currency_utils",
+    summary: "/payore, /convertMaterial, and /convertCurrency — paying other players and converting items ↔ balance.",
+    body: `<div class="guide-p">Three commands share this one toggle:</div>
+      <div class="step-list">
+        <div class="step"><span class="num">1</span><span class="txt"><strong>/payore &lt;player&gt; &lt;currency&gt; &lt;amount&gt;</strong> — pays another online player directly out of your wallet balance.</span></div>
+        <div class="step"><span class="num">2</span><span class="txt"><strong>/convertMaterial &lt;currency&gt;</strong> — converts every matching, plain (no custom lore) currency item in your inventory into wallet balance, 1:1.</span></div>
+        <div class="step"><span class="num">3</span><span class="txt"><strong>/convertCurrency &lt;currency&gt; &lt;amount&gt;</strong> — converts wallet balance back into physical items, 1:1, stacked into as many full 64-stacks as will fit (spare inventory space permitting).</span></div>
+      </div>
+      <div class="guide-p">Supported currency names: <code>diamond</code>, <code>gold</code>, <code>lapis</code>, <code>emerald</code>, <code>iron</code>, <code>copper</code>, <code>enderpearl</code>, <code>netherite</code>.</div>`
+  },
+  {
+    id: "junkshop", name: "Junk Shop", featureId: "junkshop",
+    summary: "Turn unwanted items into junk points via /junk, then cash them in for diamonds via /junkshop.",
+    body: `<div class="step-list">
+        <div class="step"><span class="num">1</span><span class="txt"><strong>/junk</strong> opens a 36-slot disposal inventory — whatever's left inside when you close it converts 1 item : 1 junk point, added to your profile.</span></div>
+        <div class="step"><span class="num">2</span><span class="txt"><strong>/junkshop</strong> opens the sell GUI. At <strong>1000+</strong> junk points, clicking "Sell All Junk" pays out <code>floor(junk ÷ 1000)</code> Diamonds and zeroes your junk balance. Diamonds drop on the ground if your inventory is full instead of being lost.</span></div>
+      </div>
+      <div class="guide-p">Both commands share one toggle since they're two halves of the same loop — junk in, diamonds out.</div>`
+  },
+  {
+    id: "potion_totem_stacking", name: "Potion/Totem Stacking", featureId: "potion_totem_stacking",
+    summary: "Lets potions and Totems of Undying stack to 64, and gives potions a shared 1-second use cooldown.",
+    body: `<div class="guide-p">A background sweep (every 10 ticks, all online players) normalizes item data components directly — no client mod required:</div>
+      <div class="step-list">
+        <div class="step"><span class="num">1</span><span class="txt"><strong>Potions</strong> (drinkable, splash, and lingering) get max stack size raised to <strong>64</strong> and a shared <strong>1-second</strong> use cooldown group, so chugging one doesn't lock out drinking a different potion type right after.</span></div>
+        <div class="step"><span class="num">2</span><span class="txt"><strong>Totems of Undying</strong> stack to <strong>64</strong> with no added cooldown — they aren't "used" the way a potion is, so there's nothing to throttle.</span></div>
+      </div>
+      <div class="callout">This normalizes items regardless of how they entered play (loot, brewing, commands, trades) since it rewrites the stack/cooldown data directly rather than hooking one specific event.</div>`
+  },
+  {
+    id: "orebreakrewards", name: "Ore Break Rewards", featureId: "orebreakrewards",
+    summary: "A pickaxe enchant-lore trait (\"Ores Hunter\") that has a chance to bonus-yield extra ore drops.",
+    body: `<div class="guide-p">Mining a block whose name ends in <code>_ORE</code> with a pickaxe carrying an <strong>Ores Hunter</strong> lore line (and no Silk Touch) rolls a flat <strong>30% chance</strong> per break to add that pickaxe's Ores Hunter level to every non-block item the break drops (capped at 99 per stack).</div>
+      <div class="guide-p" style="margin-top:-6px">This only affects items already dropping from the break — it doesn't conjure ore out of nothing, and it's skipped entirely if the pickaxe has Silk Touch (which already changes what drops).</div>`
+  },
+  {
+    id: "resource_pack", name: "Resource Pack", featureId: "resource_pack",
+    summary: "Self-hosts the plugin's bundled texture/model pack and serves it to joining players automatically.",
+    body: `<div class="guide-p">When enabled, the plugin extracts its jar-embedded pack zip, serves it over HTTP from the server itself, and applies it to every player on join — no external pack host required. See <code>resourcepack.yml</code> in the Admin Guide's Config Files page for the port/URL/required/prompt settings.</div>
+      <div class="callout">This is what applies every custom gear/elytra skin's actual texture. With it off, world-boss gear and elytra skins still work mechanically, they just render as their base vanilla item (e.g. a plain Diamond Sword) instead of the custom model.</div>`
+  },
+  {
+    id: "vanilla_world_gear_stats", name: "Vanilla-World Gear Stats", featureId: "vanilla_world_gear_stats",
+    summary: "Whether Enchantment Stone RollableStat bonuses (and their vanilla-world crit-chance/lifesteal math) apply outside \"_rpg\" worlds.",
+    body: `<div class="guide-p">World-boss gear's socketed Enchantment Stones (see the Upgrading Gear guide) always carry their stats — this toggle only controls whether those bonuses actually <em>apply</em> in combat happening outside an <code>_rpg</code>-named world. On <code>_rpg</code> maps, the separate core-stat (STR/AGI/DEX/VIT/INT/LUK) system governs combat instead and is unaffected either way.</div>
+      <div class="guide-p" style="margin-top:-6px">Applies identically to Deviants wielding socketed gear, not just players.</div>`
+  },
+  {
+    id: "revive_system", name: "Revive System", featureId: "revive_system",
+    summary: "A downed-and-revive mechanic that gives a fatally-hit player a 60-second window to be saved by a teammate.",
+    body: `<div class="guide-p">Instead of dying outright, a fatal hit puts the player into a <strong>downed state</strong>: invulnerable, forced-sneaking, blind, weak, slowed, and glowing so allies can spot them, with the title <em>"YOU ARE DOWN! DON'T MOVE! WAIT FOR YOUR TEAM."</em></div>
+      <div class="step-list">
+        <div class="step"><span class="num">1</span><span class="txt"><strong>Revive:</strong> a teammate sneaks, empty-handed, within 2 blocks and right-clicks the downed player to start a revive channel.</span></div>
+        <div class="step"><span class="num">2</span><span class="txt"><strong>Give up early:</strong> the downed player can switch their held item to end the state immediately instead of waiting.</span></div>
+        <div class="step"><span class="num">3</span><span class="txt"><strong>Timeout:</strong> after 60 seconds with no revive, the downed state ends and the player actually dies.</span></div>
+      </div>
+      <div class="callout">Already skips itself on Siege-mode worlds regardless of this toggle — Siege has its own separate downed/death system.</div>`
+  }
+];
+
+// ── Admin Guide — commands (plugin.yml/Riftforged.java) and config files (data-folder yml). ──
+const PLAYER_COMMANDS = [
+  { cmd: "/riftboard", does: "Opens the Rift Board — every discovered Territory Event structure, its level/boss/cleared status, and a tracking compass on click." },
+  { cmd: "/updatestats", does: "Opens the main RPG GUI to allocate STR/AGI/DEX/VIT/INT/LUK attribute points." },
+  { cmd: "/ascenditem", does: "Opens the Combine Forge mode-select GUI (Socket a Stone, Socket Unlock, Level a Stone, Remove Stone, Repair)." },
+  { cmd: "/gearinfo", does: "Opens the in-game gear encyclopedia GUI, browsable by armor set or weapon category." },
+  { cmd: "/elytragear", does: "Opens the elytra quick-swap loadout GUI (1 skin slot + 10 auto-refilling firework rocket slots)." },
+  { cmd: "/refreshgear", does: "Regenerates the skill-lore text on every gear item in your whole inventory, migrating old tooltip formats." },
+  { cmd: "/worldbossguide", does: "(aliases /wbg, /bossguide) Opens a reference GUI for every World Boss — stats, skills, drops, strategy.", featureId: null },
+  { cmd: "/deviant", does: "(alias /dv) buy / equip / guide — buy a Deviant, equip your held skull, or open the stat/skill reference GUI.", featureId: "deviant" },
+  { cmd: "/deviantduel", does: "Challenge another online player's summoned Deviant to a 1v1 duel.", featureId: "deviant" },
+  { cmd: "/deviantduelaccept", does: "Accepts a pending Deviant duel challenge.", featureId: "deviant" },
+  { cmd: "/orebank", does: "deposit / withdraw — GUI to move currency items into/out of your wallet balance.", featureId: "orebank" },
+  { cmd: "/payore", does: "Pay another online player currency directly from your wallet balance.", featureId: "currency_utils" },
+  { cmd: "/convertMaterial", does: "(usage /convert &lt;currency&gt;) Convert held currency items into wallet balance, 1:1.", featureId: "currency_utils" },
+  { cmd: "/convertCurrency", does: "(usage /convertcurrency &lt;currency&gt; &lt;amount&gt;) Convert wallet balance back into physical items, 1:1.", featureId: "currency_utils" },
+  { cmd: "/junk", does: "Opens the junk-disposal inventory — leftover items become junk points on close.", featureId: "junkshop" },
+  { cmd: "/junkshop", does: "Opens the sell GUI — 1000 junk points → 1 diamond.", featureId: "junkshop" },
+  { cmd: "/sdw", does: "Toggles your personal boss-health/stamina warning indicator." }
+];
+const ADMIN_COMMANDS = [
+  { cmd: "/featuretoggle", perm: "Riftforged.featuretoggle (OP default)", does: "Opens the dialog GUI to enable/disable every optional feature listed in features.yml." },
+  { cmd: "/givegear", perm: "isOp() + GIVING_ENABLED code toggle", does: "(usage &lt;player&gt; &lt;item|set|allswords|allbows|allaxes&gt; [amount]) Gives any of the 129 world-boss gear items, a full armor set, or a bulk weapon-type batch — each rolled through the same Gear Level/RollableStat system as a real drop." },
+  { cmd: "/futuregeartest", perm: "permission-default: op (plugin.yml)", does: "Browses not-yet-released test-skin batches; clicking gives the skin for visual QA. Has its own GIVING_ENABLED code toggle." },
+  { cmd: "/swingdebug", perm: "isOp()", does: "(usage &lt;player&gt;) Toggles a chat+console breakdown of a target player's melee swing-charge/attack-cooldown timing." },
+  { cmd: "/riftscanoverworld", perm: "none in code — debug tool", does: "Forces an immediate Territory Event structure scan at the caller's location, bypassing the need to place a \"claimed\" sign." },
+  { cmd: "/deviantarena", perm: "deviant.admin (checked in code)", does: "(usage create|delete|list|info|end) Manage Deviant team-battle arenas; create places holograms/team zones at the sender's location." },
+  { cmd: "/viewitem", perm: "Riftforged.viewitem (OP default) — buggy", does: "(usage &lt;playerName&gt;) Meant to open another player's live inventory for viewing, but its in-code permission check is logically broken (effectively locked to one hardcoded name) — treat as non-functional until fixed in code." }
+];
+const CONFIG_FILES = [
+  {
+    id: "territory-events", name: "structure_events_overworld_config.yml", also: "Territory Events tuning",
+    body: `<div class="guide-p">Every knob for the phased mob-invasion + World Boss event (see the Bosses tab's "Territory Events & Loot Rules" page for the player-facing rules this config drives). All keys sit under a top-level <code>structure-events-overworld.</code> namespace, and missing keys silently backfill from the bundled default (<code>copyDefaults(true)</code>) — safe to hand-edit only the keys you actually want to change.</div>
+      <div class="tbl-wrap"><table class="doc-table"><thead><tr><th>Key group</th><th>Covers</th></tr></thead><tbody>
+        <tr><td><code>world-names</code></td><td>Which worlds Territory Events can trigger in.</td></tr>
+        <tr><td><code>scan.*</code></td><td>Trigger radius around a placed sign, and the exact trigger word (default "claimed").</td></tr>
+        <tr><td><code>guards.*</code></td><td>Spawn radius band, armor-chance, escort counts per phase, chunk-scaling cap, and the 60-minute respawn cooldown.</td></tr>
+        <tr><td><code>loot.*</code></td><td>Every loot-chest roll: enchant books, emeralds/diamonds, golden apples/carrots, gold ingots, totems, rockets, splash potions, Enchantment Stone/Core/Socket Stone/elytra chances, celebration duration.</td></tr>
+        <tr><td><code>pacing.*</code></td><td>Phase spawn duration and the delay between phases.</td></tr>
+        <tr><td><code>abandon.*</code></td><td>How often to check for an empty area, and the radius that counts as "still engaged."</td></tr>
+        <tr><td><code>broadcast-radius-blocks</code></td><td>How far level-up/level-down/abandon messages reach.</td></tr>
+        <tr><td><code>mob-pool</code> / <code>boss-pool</code></td><td>Which entity types can spawn as guards, and which 6 can roll as the World Boss.</td></tr>
+        <tr><td><code>gear-tiers</code></td><td>The Leather→Netherite guard-armor rungs, keyed by structure level.</td></tr>
+        <tr><td><code>structures</code></td><td>Which vanilla structure types are eligible to be claimed.</td></tr>
+        <tr><td><code>leveling.*</code></td><td>The 1-99 level curve: HP/damage scaling exponents, boss flat-HP-per-level, the progressive unlock ceiling, and the level-up/level-down jump chances documented in the player-facing Bosses page.</td></tr>
+      </tbody></table></div>`
+  },
+  {
+    id: "resourcepack", name: "resourcepack.yml", also: "Resource Pack feature",
+    body: `<div class="guide-p">Settings for the self-hosted pack server (gated by the <strong>Resource Pack</strong> feature toggle):</div>
+      <div class="tbl-wrap"><table class="doc-table"><thead><tr><th>Key</th><th>Purpose</th></tr></thead><tbody>
+        <tr><td><code>bind-port</code></td><td>Local port the pack is served from (default <code>8082</code>).</td></tr>
+        <tr><td><code>public-url</code></td><td>The URL players actually fetch — must be reachable from outside the server's own machine, or the join-time prompt fails. Falls back to a pinned GitHub release mirror if left as the placeholder.</td></tr>
+        <tr><td><code>required</code></td><td>Whether accepting the pack is mandatory to stay connected.</td></tr>
+        <tr><td><code>prompt</code></td><td>The chat message shown alongside the pack prompt on join.</td></tr>
+      </tbody></table></div>`
+  },
+  {
+    id: "deviant-arenas", name: "deviant_arenas.yml", also: "/deviantarena admin command",
+    body: `<div class="guide-p">Written by <strong>/deviantarena create</strong>, not typically hand-edited. One entry per arena under <code>arenas.&lt;name&gt;</code>: <code>center</code>, <code>radius</code>, <code>countdown_seconds</code>, <code>team_spacing</code>, and the red/blue team angle ranges used to place spawns around the arena circle.</div>`
+  },
+  {
+    id: "spigot-caps", name: "spigot.yml (server root — not a plugin file)", also: "high-level monster/gear attribute ceilings",
+    body: `<div class="guide-p">Not owned by the plugin, but written to on every startup: raises <code>settings.attribute.maxHealth.max</code> and <code>settings.attribute.attackDamage.max</code> to 100,000,000 and <code>settings.attribute.movementSpeed.max</code> to 10.0, so high-level Territory Event bosses and heavily-socketed gear don't silently clamp at vanilla's default attribute ceiling.</div>
+      <div class="callout">Takes effect on the <strong>next server restart</strong> after being written — a value change won't apply mid-session.</div>`
+  }
 ];
 
 // ── World Bosses (OverworldStructureEventManager.java / per-boss SkillManager classes /
@@ -1428,7 +1623,7 @@ function setBlock(set, opts){
     </div>`;
 }
 
-const state = { section: "gear", view: { type: "boss", id: "piglin_brute" }, query: "" };
+const state = { section: "overview", view: { type: "overview", id: "all" }, query: "" };
 
 function itemsForBoss(bossId){ return ITEMS.filter(i => i.boss === bossId); }
 function setsForBoss(bossId){ return SETS.filter(s => s.boss === bossId); }
@@ -1437,13 +1632,45 @@ function renderNav(){
   const nav = document.getElementById("nav");
 
   let html = `<div class="section-tabs">
+      <button class="section-tab ${state.section === 'overview' ? 'active' : ''}" data-section="overview">Overview</button>
       <button class="section-tab ${state.section === 'gear' ? 'active' : ''}" data-section="gear">Gear</button>
       <button class="section-tab ${state.section === 'upgrade' ? 'active' : ''}" data-section="upgrade">Upgrading</button>
       <button class="section-tab ${state.section === 'bosses' ? 'active' : ''}" data-section="bosses">Bosses</button>
       <button class="section-tab ${state.section === 'deviants' ? 'active' : ''}" data-section="deviants">Deviants</button>
-      <button class="section-tab ${state.section === 'utilities' ? 'active' : ''}" data-section="utilities">Utilities</button>
+      <button class="section-tab ${state.section === 'extras' ? 'active' : ''}" data-section="extras">Extras</button>
+      <button class="section-tab ${state.section === 'admin' ? 'active' : ''}" data-section="admin">Admin Guide</button>
       <button class="section-tab ${state.section === 'more' ? 'active' : ''}" data-section="more">More soon</button>
     </div>`;
+
+  if (state.section === "extras") {
+    html += `<div class="nav-heading">Additional Features</div>`;
+    const activeOv = state.view.type === "extras-overview" ? "active" : "";
+    html += `<button class="nav-btn ${activeOv}" data-type="extras-overview" data-id="all">Overview &amp; /featuretoggle</button>`;
+    for (const f of ADDITIONAL_FEATURES) {
+      const active = state.view.type === "feature" && state.view.id === f.id ? "active" : "";
+      html += `<button class="nav-btn ${active}" data-type="feature" data-id="${f.id}">${escapeHtml(f.name)}</button>`;
+    }
+    nav.innerHTML = html;
+    attachNavHandlers(nav);
+    return;
+  }
+
+  if (state.section === "admin") {
+    html += `<div class="nav-heading">Admin Guide</div>`;
+    const pages = [
+      ["toggles", "Feature Toggles"],
+      ["commands", "Commands Reference"],
+      ["configs", "Config Files"],
+      ["livetest", "Live vs. Test Toggles"]
+    ];
+    for (const [id, label] of pages) {
+      const active = state.view.type === "admin" && state.view.id === id ? "active" : "";
+      html += `<button class="nav-btn ${active}" data-type="admin" data-id="${id}">${label}</button>`;
+    }
+    nav.innerHTML = html;
+    attachNavHandlers(nav);
+    return;
+  }
 
   if (state.section === "bosses") {
     html += `<div class="nav-heading">World Bosses</div>`;
@@ -1494,8 +1721,11 @@ function renderNav(){
 }
 
 const SECTION_DEFAULT_VIEW = {
+  overview: { type: "overview", id: "all" },
   gear: { type: "boss", id: "piglin_brute" },
-  bosses: { type: "wbdetail", id: "piglin_brute" }
+  bosses: { type: "wbdetail", id: "piglin_brute" },
+  extras: { type: "extras-overview", id: "all" },
+  admin: { type: "admin", id: "toggles" }
 };
 
 function attachNavHandlers(nav){
@@ -1541,6 +1771,7 @@ function renderBossDetail(bossId){
   el.innerHTML = `
     <div class="view-title">${escapeHtml(b.name)}</div>
     <div class="wb-epithet">Named on spawn as "<strong style="color:var(--text)">${escapeHtml(g.epithet)}, the ${escapeHtml(b.name)}</strong>" — ${escapeHtml(g.role)}</div>
+    ${sectionImg("boss_" + bossId, b.name)}
 
     <div class="guide-h2" style="margin-top:4px">How to Encounter</div>
     <div class="guide-p">Never spawns on demand — it's one of six possible World Bosses a Territory Event's Phase 3 finale can roll. See <a href="#" class="jump-link" data-goto="wbritual">Territory Events &amp; Loot Rules</a> for the full trigger, phase timeline, and drop table.</div>
@@ -1565,6 +1796,7 @@ function renderRitualOverview(){
   el.innerHTML = `
     <div class="view-title">Territory Events &amp; Loot Rules</div>
     <div class="guide-lead">World Bosses no longer spawn on demand via a ritual — they're the climax of an <strong>Overworld Territory Event</strong>: claim a wilderness structure, survive its escalating guard waves, then bring down whichever World Boss that structure rolls. Every rule on this page applies identically to all 6 possible bosses — see each boss's own page for its specific skill kit and strategy.</div>
+    ${sectionImg("territory_events_hero", "Territory Event structure siege")}
 
     <div class="guide-h2" style="margin-top:0">How a Territory Event starts</div>
     <div class="step-list">
@@ -1615,6 +1847,7 @@ function renderUpgradeGuide(){
 
   el.innerHTML = `
     <div class="view-title">Upgrading Gear</div>
+    ${sectionImg("upgrading_hero", "Combine Forge upgrading gear")}
     <div class="guide-lead">World-boss gear is <strong>crafted</strong>, not looted directly — bosses drop the ingredients, and every one of the 129 unique-named items is assembled at a vanilla crafting table. Crafted gear starts with <strong>0 open sockets</strong>; power comes entirely from two post-craft steps at the <strong>Combine Forge</strong> (<code>/ascenditem</code>): unlocking sockets with tiered <strong>Socket Stones</strong>, then filling them with standalone <strong>Enchantment Stone</strong> items. Each stone represents one stat at its own Level (capped at <strong>20</strong>); an item's displayed <strong>Gear Level</strong> is the <em>sum</em> of its currently-socketed stones' Levels — with up to 5 sockets at 20 each, the ceiling works out to exactly <strong>100</strong>. Both stone types are a <strong>pure vanilla-world-exclusive</strong> feature — they have zero effect on any <code>_rpg</code> map (world_rpg_siege); power there comes entirely from the separate STR/AGI/VIT/DEX/INT/LUK core-stat system (see the Classes &amp; Stats guide). This page covers how the whole system fits together.</div>
 
     <div class="guide-h2">1. Crafting gear: Core Item, Materials, and currency</div>
@@ -1703,29 +1936,6 @@ function renderUpgradeGuide(){
   `;
 }
 
-function renderUtilitiesGuide(){
-  const el = document.getElementById("content");
-
-  el.innerHTML = `
-    <div class="view-title">Item Frame Lock</div>
-    <div class="guide-lead">A per-frame password lock for item frames — protects a specific frame's item and the block it's mounted on from anyone who doesn't know the password. Toggled server-wide via <strong>/featuretoggle → Item Frame Lock</strong>; if it's off, item frames behave like vanilla.</div>
-
-    <div class="guide-h2">1. Locking a frame</div>
-    <div class="guide-p">Rename a <strong>Stick</strong> in an anvil to <code>lock &lt;password&gt;</code> (e.g. <code>lock hunter2</code>), then right-click the item frame you want to protect. The frame locks to that password, you get action-bar confirmation, and the stick itself is untouched — reuse it, or make more sticks with the same password to share access.</div>
-
-    <div class="guide-h2">2. Unlocking a frame</div>
-    <div class="guide-p">Rename a Stick to <code>unlock &lt;password&gt;</code> and right-click the locked frame. The correct password clears the lock; a wrong one is rejected with an "Incorrect password" message and the frame stays locked.</div>
-
-    <div class="guide-h2">3. What locking protects</div>
-    <div class="step-list">
-      <div class="step"><span class="num">1</span><span class="txt"><strong>The held item</strong> — right-clicking a locked frame with anything other than the correct unlock stick does nothing: no rotating, no swapping, no removing, no placing a new item in.</span></div>
-      <div class="step"><span class="num">2</span><span class="txt"><strong>The frame itself</strong> — attacking a locked frame to break it is blocked, including damage from lava or fire.</span></div>
-      <div class="step"><span class="num">3</span><span class="txt"><strong>The block it's mounted on</strong> — breaking the block behind a locked frame is blocked, so you can't pop the frame off by removing its support.</span></div>
-    </div>
-
-    <div class="callout"><strong>This is a griefing deterrent, not encryption.</strong> The password is stored as plain text on the frame — it stops casual right-clicks and opportunistic breaking, not a determined attacker with server access. Staff holding the <code>itemframelock.bypass</code> permission can always break, attack, or unlock a locked frame without the password.</div>
-  `;
-}
 
 // ── Deviants (deviant/Deviant.java, DeviantType.java, DeviantGenerator.java,
 //    DeviantStatCalculator.java, DeviantLevelingService.java, DeviantSkillManager.java,
@@ -1798,6 +2008,7 @@ function renderDeviantsGuide(){
 
   el.innerHTML = `
     <div class="view-title">Deviants</div>
+    ${sectionImg("deviants_hero", "Deviant companion mob")}
     <div class="guide-lead">A Deviant is a fully autonomous companion mob — not a mount you ride. You buy one, it lives inside a mob-head "skull" item, and summoning it spawns a real mob that follows you and fights on its own AI, entirely off its own stats. Its base stats, class, skill, element, and trait are all rolled once at purchase and never change — there's no reroll, so gearing and leveling are how you actually improve one.</div>
 
     <div class="guide-h2" style="margin-top:0">1. Getting one</div>
@@ -1850,11 +2061,161 @@ function renderDeviantsGuide(){
   `;
 }
 
+function renderOverview(){
+  const el = document.getElementById("content");
+  const featureCount = ADDITIONAL_FEATURES.length;
+  el.innerHTML = `
+    <div class="view-title">Riftforged</div>
+    <div class="guide-lead">A Paper/Bukkit plugin that adds a full custom RPG layer on top of vanilla Minecraft — attribute stats, world-boss gear with unique skills and armor-set bonuses, Deviants (player-piloted mob companions), an economy, siege and MOBA game modes, land claims, item ascension, custom enchants, and more. This guide covers everything a player or admin needs: what's always on, what's optional, and how to configure it.</div>
+    ${sectionImg("overview_hero", "Riftforged overview")}
+
+    <div class="guide-h2" style="margin-top:0">Core vs. optional features</div>
+    <div class="guide-p">Two systems are the plugin's flagship, <strong>always-on</strong> features — every install has them, with no on/off switch:</div>
+    <div class="step-list">
+      <div class="step"><span class="num">1</span><span class="txt"><strong>Territory Events</strong> — claim a wilderness structure, survive its escalating guard waves, then bring down whichever World Boss that structure rolls. <button class="jump-link" data-goto-section="bosses">Open the Bosses guide →</button></span></div>
+      <div class="step"><span class="num">2</span><span class="txt"><strong>Gear, Elytra &amp; Crafting</strong> — world-boss gear with unique skills and set bonuses, elytra skins, and the Combine Forge upgrade system. <button class="jump-link" data-goto-section="gear">Open the Gear guide →</button> <button class="jump-link" data-goto-section="upgrade">Open the Upgrading guide →</button></span></div>
+    </div>
+    <div class="guide-p">Everything else — Deviants, Bank, Currency Utilities, Junk Shop, Potion/Totem Stacking, Ore Break Rewards, the self-hosted Resource Pack, Vanilla-World Gear Stats, and the Revive System — is <strong>optional</strong>: off by default on a fresh install, and toggled per-server by an admin via <code>/featuretoggle</code>. <button class="jump-link" data-goto-section="extras">Open the Extras guide →</button></div>
+    <div class="callout"><strong>${featureCount} optional systems</strong> currently exist. A brand-new server starts with all of them disabled — nothing optional turns itself on.</div>
+
+    <div class="guide-h2">How this guide is organized</div>
+    <div class="mode-grid">
+      <div class="mode-card"><h4>Player Guide</h4><ul>
+        <li><strong>Gear / Upgrading / Bosses</strong> — the core loot-and-progression loop.</li>
+        <li><strong>Deviants</strong> — the companion-mob system.</li>
+        <li><strong>Extras</strong> — every optional feature, what it does, and the command(s) it adds.</li>
+      </ul></div>
+      <div class="mode-card"><h4>Admin Guide</h4><ul>
+        <li><strong>Feature Toggles</strong> — how <code>/featuretoggle</code> and <code>features.yml</code> work.</li>
+        <li><strong>Commands Reference</strong> — every command, player-facing and admin-only.</li>
+        <li><strong>Config Files</strong> — every admin-tunable yml and what each key does.</li>
+        <li><strong>Live vs. Test Toggles</strong> — the give/test-command safety switches.</li>
+      </ul></div>
+    </div>
+    <div class="guide-p" style="margin-top:4px">Use the search bar (top right) to jump straight to a gear item, skill, or effect by name — it searches the Gear tab's data directly.</div>
+  `;
+}
+
+function featureCard(f){
+  return `<div class="feature-card">
+      <h4>${escapeHtml(f.name)} <span class="off-badge">off by default</span></h4>
+      <p>${escapeHtml(f.summary)}</p>
+      <button class="jump-link" data-type="feature" data-id="${f.id}" onclick="state.view={type:'feature',id:'${f.id}'};render();event.stopPropagation();">Read more →</button>
+    </div>`;
+}
+
+function renderExtrasOverview(){
+  const el = document.getElementById("content");
+  el.innerHTML = `
+    <div class="view-title">Extras — Additional (Toggleable) Features</div>
+    <div class="guide-lead">Everything on this tab is optional: <strong>disabled by default</strong> on a fresh install, and switched on per-feature by an admin via <strong>/featuretoggle</strong> (an in-game dialog GUI, OP-only). Nothing here is required to play — Territory Events and Gear/Upgrading/Bosses are the only always-on systems.</div>
+    ${sectionImg("extras_overview", "Additional features overview")}
+    <div class="guide-h2" style="margin-top:0">Turning a feature on</div>
+    <div class="guide-p">An OP runs <strong>/featuretoggle</strong>, picks a feature from the dialog, and flips it — takes effect immediately, no restart needed. See the Admin Guide's <button class="jump-link" data-type="admin" data-id="toggles" onclick="state.section='admin';state.view={type:'admin',id:'toggles'};render();event.stopPropagation();">Feature Toggles page →</button> for the full mechanics.</div>
+    <div class="guide-h2">Every optional feature</div>
+    <div class="grid">${ADDITIONAL_FEATURES.map(featureCard).join("")}</div>
+  `;
+}
+
+function renderFeaturePage(id){
+  const el = document.getElementById("content");
+  const f = ADDITIONAL_FEATURES.find(x => x.id === id);
+  el.innerHTML = `
+    <div class="view-title">${escapeHtml(f.name)}</div>
+    <div class="guide-lead">${escapeHtml(f.summary)}</div>
+    ${sectionImg("feature_" + f.id, f.name)}
+    <div class="callout"><strong>Off by default.</strong> Enable it with <code>/featuretoggle</code> → <strong>${escapeHtml(f.name)}</strong> (feature id <code>${escapeHtml(f.featureId)}</code>).</div>
+    ${f.body}
+  `;
+}
+
+function adminConfigCard(c){
+  return `<div class="set-block">
+      <div class="set-block-head"><h3>${escapeHtml(c.name)}</h3><span class="boss-pill">${escapeHtml(c.also)}</span></div>
+      ${sectionImg("admin_config_" + c.id, c.name)}
+      ${c.body}
+    </div>`;
+}
+
+function renderAdminGuide(id){
+  const el = document.getElementById("content");
+
+  if (id === "toggles") {
+    el.innerHTML = `
+      <div class="view-title">Feature Toggles</div>
+      <div class="guide-lead">Optional systems are gated by a central <strong>FeatureRegistry</strong>, persisted to <code>features.yml</code> in the plugin's data folder, and flipped in-game via <strong>/featuretoggle</strong> — an OP-only dialog GUI listing every registered feature with its current state.</div>
+      ${sectionImg("admin_feature_toggles", "Feature toggles GUI")}
+      <div class="guide-h2" style="margin-top:0">How it works</div>
+      <div class="step-list">
+        <div class="step"><span class="num">1</span><span class="txt">Each optional system registers itself with a unique <strong>feature id</strong> and a display name at startup, always with an explicit <strong>default of <code>false</code></strong> — so a fresh install (no <code>features.yml</code> yet) starts with every optional feature disabled.</span></div>
+        <div class="step"><span class="num">2</span><span class="txt">An existing install keeps whatever's already saved in <code>features.yml</code> — the default only ever applies to a key that's missing entirely, so upgrading the plugin never silently re-disables something an admin already turned on.</span></div>
+        <div class="step"><span class="num">3</span><span class="txt">Flipping a toggle in <strong>/featuretoggle</strong> takes effect immediately, live, with no restart — each gated command/listener checks its own toggle at the top of every call.</span></div>
+      </div>
+      <div class="guide-h2">Every registered optional feature</div>
+      <div class="tbl-wrap"><table class="doc-table"><thead><tr><th>Feature</th><th>Feature id</th><th>Gates</th></tr></thead><tbody>
+        ${ADDITIONAL_FEATURES.map(f => `<tr><td>${escapeHtml(f.name)}</td><td><code>${escapeHtml(f.featureId)}</code></td><td>${escapeHtml(f.summary)}</td></tr>`).join("")}
+      </tbody></table></div>
+      <div class="callout"><strong>Cross-feature note.</strong> Deviant purchases work fine with Bank disabled — Deviant costs are paid straight out of the wallet balance (falling back to physical Emerald items), never through <code>/orebank</code>. Bank off just removes the deposit/withdraw convenience GUI, not the wallet itself.</div>
+    `;
+    return;
+  }
+
+  if (id === "commands") {
+    el.innerHTML = `
+      <div class="view-title">Commands Reference</div>
+      <div class="guide-lead">Every command the plugin registers. <span class="badge-player">player</span> commands work for anyone once their feature (if any) is enabled; <span class="badge-op">admin</span> commands are OP-gated, either by a permission node or a hard <code>isOp()</code> check in code.</div>
+      ${sectionImg("admin_commands", "Commands reference")}
+      <div class="guide-h2" style="margin-top:0">Player commands</div>
+      <div class="tbl-wrap"><table class="doc-table"><thead><tr><th>Command</th><th>Does</th></tr></thead><tbody>
+        ${PLAYER_COMMANDS.map(c => `<tr><td><code>${escapeHtml(c.cmd)}</code>${c.featureId ? ` <span class="boss-pill">${escapeHtml(c.featureId)}</span>` : ""}</td><td>${c.does}</td></tr>`).join("")}
+      </tbody></table></div>
+      <div class="guide-h2">Admin / OP-only commands</div>
+      <div class="tbl-wrap"><table class="doc-table"><thead><tr><th>Command</th><th>Permission</th><th>Does</th></tr></thead><tbody>
+        ${ADMIN_COMMANDS.map(c => `<tr><td><code>${escapeHtml(c.cmd)}</code></td><td>${escapeHtml(c.perm)}</td><td>${c.does}</td></tr>`).join("")}
+      </tbody></table></div>
+      <div class="callout"><strong>/viewitem is currently broken.</strong> Its in-code permission check is logically inverted and effectively locks the command to one hardcoded player name regardless of OP status — flagged here rather than silently documented as working.</div>
+    `;
+    return;
+  }
+
+  if (id === "configs") {
+    el.innerHTML = `
+      <div class="view-title">Config Files</div>
+      <div class="guide-lead">Admin-tunable yml files, all in the plugin's data folder unless noted otherwise. <code>features.yml</code> (feature on/off state) is covered on the Feature Toggles page, not repeated here.</div>
+      ${sectionImg("admin_config_files", "Config files overview")}
+      ${CONFIG_FILES.map(adminConfigCard).join("")}
+      <div class="callout"><strong>siege_config.yml exists but is unwired.</strong> A full schema ships in the jar's bundled resources (siege-mode world name, world border, platform, wave spawns, queue settings) but nothing in the current codebase reads it — treat it as dead until a real Siege config system is built, not a live setting.</div>
+    `;
+    return;
+  }
+
+  // livetest
+  el.innerHTML = `
+    <div class="view-title">Live vs. Test Toggles</div>
+    <div class="guide-lead">Some admin give/test commands have a hardcoded boolean switch in their source file — exactly one of a "live"/"test" line is left uncommented, the other stays commented out next to it as a reminder of the alternate value. This keeps give-commands off on the production server by default, without deleting the tooling needed to test on a dev server.</div>
+    ${sectionImg("admin_live_test_toggles", "Live vs test toggles")}
+    <div class="guide-h2" style="margin-top:0">Which commands this covers</div>
+    <div class="guide-p"><code>GIVING_ENABLED</code> in <strong>GiveGearCommand.java</strong> (<code>/givegear</code>) and <strong>FutureGearTestGui.java</strong> (<code>/futuregeartest</code>) — any future admin give/test command should follow the same pattern and get added here.</div>
+    <div class="guide-h2">The trigger phrases</div>
+    <div class="step-list">
+      <div class="step"><span class="num">1</span><span class="txt"><strong>"Live update"</strong> — the jar is about to go on the live server. Every such toggle gets flipped to its live/disabled value (<code>GIVING_ENABLED = false</code>) before the build ships.</span></div>
+      <div class="step"><span class="num">2</span><span class="txt"><strong>"Test build"</strong> — the opposite: every toggle flips to its test/enabled value (<code>GIVING_ENABLED = true</code>) so admins can use give/test commands on the test server, then the jar is rebuilt and redeployed.</span></div>
+    </div>
+    <div class="callout"><strong>Default assumption is always prod.</strong> Absent one of the two trigger phrases above, the repo is treated as being in its live-server-safe state — these toggles are never flipped on a whim.</div>
+  `;
+}
+
 function renderContent(){
   const el = document.getElementById("content");
 
+  if (state.section === "overview") { renderOverview(); return; }
   if (state.section === "upgrade") { renderUpgradeGuide(); return; }
-  if (state.section === "utilities") { renderUtilitiesGuide(); return; }
+  if (state.section === "extras") {
+    if (state.view.type === "feature") renderFeaturePage(state.view.id);
+    else renderExtrasOverview();
+    return;
+  }
+  if (state.section === "admin") { renderAdminGuide(state.view.id); return; }
   if (state.section === "deviants") { renderDeviantsGuide(); return; }
   if (state.section === "bosses") {
     if (state.view.type === "wbdetail") renderBossDetail(state.view.id);
@@ -1953,6 +2314,16 @@ document.getElementById("content").addEventListener("click", e => {
     e.preventDefault();
     state.section = "gear";
     state.view = { type: "boss", id: gotoGear.dataset.gotoGear };
+    document.getElementById("search").value = "";
+    state.query = "";
+    render();
+    return;
+  }
+  const gotoSection = e.target.closest("[data-goto-section]");
+  if (gotoSection) {
+    e.preventDefault();
+    state.section = gotoSection.dataset.gotoSection;
+    state.view = SECTION_DEFAULT_VIEW[state.section] || { type: state.section, id: "all" };
     document.getElementById("search").value = "";
     state.query = "";
     render();
