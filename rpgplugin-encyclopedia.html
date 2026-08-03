@@ -336,7 +336,7 @@
   <header class="top">
     <div>
       <h1>RPG Plugin Encyclopedia</h1>
-      <div class="sub">A living reference for every system in the plugin — a plugin overview, a full player guide (core and optional features), and an admin guide to every command and config file. More sections land here as they're written up.</div>
+      <div class="sub">A living reference for every system in the plugin, in three parts: an Overview, a full Player Guide (core and optional features), and an Admin Guide to every command and config file.</div>
     </div>
     <div class="search-wrap">
       <input id="search" type="text" placeholder="Search a name, skill, or effect…" autocomplete="off">
@@ -350,7 +350,7 @@
   <footer class="credit">
     Gear section compiled from ItemUtils.java (item &amp; armor definitions), GearSkillListener.java (skill logic, cooldowns, activation triggers), GearInfoGui.java (in‑game /gearinfo lore text), WorldBossGearDropTable.java (boss/material assignments) and GearRecipeRegistry.java (the 129 crafting recipes) — reflects what's implemented, not aspirational text. "RPG" rows are the bonus added on top of the flat vanilla effect, scaled by the stat named (Intelligence, Strength, Vitality share, etc.); "Flat‑only" means the vanilla effect doesn't scale with stats at all.
     <br>Upgrading section compiled from RollableStat.java (stat pool, per-level values, stone Material/color), EnchantmentStoneItem.java/EnchantmentStoneListener.java (stone item &amp; no-craft block), GearLevelSystem.java (socket/Level/lore rendering, broken-state lore, /refreshgear clear-and-convert), GearRegistry.java (Gear Level, socket &amp; broken-flag PDC), CraftingMaterialRegistry.java (Core Item/Material/Socket Stone PDC identity), AscendingGUI.java/AscendingGUIListener.java (Combine Forge's five modes: Socket a Stone, Socket Unlock, Level a Stone, Remove Stone, Repair), DeadMobListener.java (Core Item/Material/Socket Stone/stone drop chances), GearRecipeDiscoveryListener.java (recipe unlock on join), GearBreakUtil.java/DeviantDeathResetUtil.java/PlayerDeathListener.java (death-breaks-gear/resets-deviants trigger) and GearSkillListener.java's vBase/vSetBase/vAmplifier tiering helpers.
-    <br>World Bosses section compiled directly from OverworldStructureEventManager.java/OverworldStructureEventConfig.java (Territory Event trigger, phase timeline, boss pool &amp; leveling, loot rules), the per-boss skill managers (PiglinBruteSkillManager.java, ZombifiedPiglinSkillManager.java, RavagerSkillManager.java, EvokerSkillManager.java, WardenSkillManager.java/WardenChargeTask.java, WitchSkillManager.java), WorldBossTraversalManager.java (shared traversal ability &amp; anti-cheese combat lock, now world-agnostic outside MOBA) and MonsterStatCalculator.java (tier/level PDC helpers). The in-game /worldbossguide GUI text was resynced alongside this page — both describe Territory Events as how players actually encounter a World Boss, and still cover each boss's full current skill kit, including the four "mass seize" abilities (Molten Manacle, Feeding Frenzy, Resonant Grasp, Tectonic Impale).
+    <br>World Bosses section compiled directly from OverworldStructureEventManager.java/OverworldStructureEventConfig.java (Territory Event trigger, phase timeline, boss pool &amp; leveling, loot rules), the per-boss skill managers (PiglinBruteSkillManager.java, ZombifiedPiglinSkillManager.java, RavagerSkillManager.java, EvokerSkillManager.java, WardenSkillManager.java/WardenChargeTask.java, WitchSkillManager.java), WorldBossTraversalManager.java (shared traversal ability &amp; anti-cheese combat lock, world-agnostic) and MonsterStatCalculator.java (tier/level PDC helpers). The in-game /worldbossguide GUI text was resynced alongside this page — both describe Territory Events as how players actually encounter a World Boss, and still cover each boss's full current skill kit, including the four "mass seize" abilities (Molten Manacle, Feeding Frenzy, Resonant Grasp, Tectonic Impale).
     <br>Deviants section compiled from Deviant.java/DeviantType.java (data model &amp; weapon restrictions), DeviantGenerator.java (stat/skill/element/trait rolls), DeviantStatCalculator.java (every derived-stat formula), DeviantLevelingService.java/AbyssAutoConverter.java (Abyss XP &amp; Level curve), DeviantDeathResetUtil.java (owner-death level/gear reset), DeviantSkillManager.java (skill effects &amp; cooldowns), DeviantSummonService.java/DeviantSummonCooldown.java (summon limits &amp; cooldowns) and DeviantGuiManager.java (buy/equip GUIs &amp; arena targeting).
     <br>Extras and Admin Guide sections compiled from FeatureRegistry.java/features.yml (the toggle system itself), each gated feature's own source file (OreBankCommand, CurrencyConverter/ConvertToCurrency/PayOreCommand, JunkCommand/JunkShopCommand, PotionStackingListener, OreBreakListener, ResourcePackListener/resourcepack.yml, DamageListener's vanilla-world-stats/revive-system toggles), plugin.yml and Riftforged.java (the full command list), and OverworldStructureEventConfig.java/structure_events_overworld_config.yml (Territory Events tuning) — reflects what's actually wired up in code, not any older/stale doc. A "Utilities" page previously documented an "Item Frame Lock" feature that has no matching code anywhere in the current source (no class, no feature id, no plugin.yml entry) and was removed from this guide rather than carried forward as unverified.
   </footer>
@@ -1057,13 +1057,6 @@ const SETS = [
     bonus:{ name:"Set: Spectral Diamond Aura", act:"Automatic pulse every 20s while worn", van:"Absorption I + 10s Regeneration I every 20s (cooldown starts after regen ends). (Gear Level 50: x2, Level 100: x3.)" } }
 ];
 
-// Future encyclopedia sections — populated as each system gets written up.
-const UPCOMING_SECTIONS = [
-  { name: "Classes & Stats", hint: "Attribute point system (Strength, Agility, Vitality, Intelligence, Dexterity, Luck) and derived stats." },
-  { name: "Siege & MOBA", hint: "PvP siege mode and the MOBA game mode." },
-  { name: "Custom Enchants", hint: "Plugin-added enchantments beyond vanilla." }
-];
-
 function sectionImg(name, alt){
   return `<img class="section-img" src="images/${name}.png" alt="${escapeHtml(alt)}"
     onerror="this.outerHTML='&lt;div class=&quot;section-img-ph&quot;&gt;&lt;span&gt;placeholder image — drop file at&lt;/span&gt;&lt;span class=&quot;fname&quot;&gt;docs/images/${name}.png&lt;/span&gt;&lt;/div&gt;'">`;
@@ -1082,7 +1075,11 @@ const ADDITIONAL_FEATURES = [
   {
     id: "orebank", name: "Bank", featureId: "orebank",
     summary: "The /orebank deposit/withdraw GUI for moving currency items into and out of your wallet balance.",
-    body: `<div class="guide-p"><strong>/orebank withdraw</strong> or <strong>/orebank deposit</strong> opens a GUI for converting between physical currency items in your inventory (Diamond, Gold Ingot, Lapis Lazuli, Emerald, Iron Ingot, Copper Ingot, Ender Pearl, Netherite Ingot) and the matching balance field on your profile.</div>
+    body: `<div class="guide-p">Stop hauling stacks of diamonds around — bank them.</div>
+      <div class="step-list">
+        <div class="step"><span class="num">1</span><span class="txt">Run <strong>/orebank deposit</strong> and drop in Diamond, Gold Ingot, Lapis Lazuli, Emerald, Iron Ingot, Copper Ingot, Ender Pearl, or Netherite Ingot — it converts straight into your wallet balance.</span></div>
+        <div class="step"><span class="num">2</span><span class="txt">Run <strong>/orebank withdraw</strong> any time to convert wallet balance back into physical items.</span></div>
+      </div>
       <div class="callout"><strong>Doesn't gate the wallet itself.</strong> Turning Bank off only removes the <code>/orebank</code> convenience GUI — the underlying currency balance still exists and is still used by everything else (Deviant purchases, gear/crafting costs, Currency Utilities below). Players just lose one way of shuffling items into/out of it.</div>`
   },
   {
@@ -1118,7 +1115,11 @@ const ADDITIONAL_FEATURES = [
   {
     id: "orebreakrewards", name: "Ore Break Rewards", featureId: "orebreakrewards",
     summary: "A pickaxe enchant-lore trait (\"Ores Hunter\") that has a chance to bonus-yield extra ore drops.",
-    body: `<div class="guide-p">Mining a block whose name ends in <code>_ORE</code> with a pickaxe carrying an <strong>Ores Hunter</strong> lore line (and no Silk Touch) rolls a flat <strong>30% chance</strong> per break to add that pickaxe's Ores Hunter level to every non-block item the break drops (capped at 99 per stack).</div>
+    body: `<div class="guide-p">Turns any pickaxe carrying the right trait into a small ore-multiplier, no crafting required.</div>
+      <div class="step-list">
+        <div class="step"><span class="num">1</span><span class="txt">Get a pickaxe with an <strong>Ores Hunter</strong> lore line (and no Silk Touch — the two don't combine).</span></div>
+        <div class="step"><span class="num">2</span><span class="txt">Mine any block whose name ends in <code>_ORE</code>. Each break rolls a flat <strong>30% chance</strong> to add that pickaxe's Ores Hunter level to every non-block item the break drops (capped at 99 per stack).</span></div>
+      </div>
       <div class="guide-p" style="margin-top:-6px">This only affects items already dropping from the break — it doesn't conjure ore out of nothing, and it's skipped entirely if the pickaxe has Silk Touch (which already changes what drops).</div>`
   },
   {
@@ -1130,7 +1131,12 @@ const ADDITIONAL_FEATURES = [
   {
     id: "vanilla_world_gear_stats", name: "Vanilla-World Gear Stats", featureId: "vanilla_world_gear_stats",
     summary: "Whether Enchantment Stone RollableStat bonuses (and their vanilla-world crit-chance/lifesteal math) apply outside \"_rpg\" worlds.",
-    body: `<div class="guide-p">World-boss gear's socketed Enchantment Stones (see the Upgrading Gear guide) always carry their stats — this toggle only controls whether those bonuses actually <em>apply</em> in combat happening outside an <code>_rpg</code>-named world. On <code>_rpg</code> maps, the separate core-stat (STR/AGI/DEX/VIT/INT/LUK) system governs combat instead and is unaffected either way.</div>
+    body: `<div class="guide-p">World-boss gear's socketed Enchantment Stones (see the Upgrading Gear guide) always carry their stats — this toggle just decides where those stats actually matter in combat.</div>
+      <div class="step-list">
+        <div class="step"><span class="num">1</span><span class="txt"><strong>On</strong> — a player's or Deviant's socketed stone bonuses apply in any combat happening outside an <code>_rpg</code>-named world.</span></div>
+        <div class="step"><span class="num">2</span><span class="txt"><strong>Off</strong> — those bonuses stay dormant outside <code>_rpg</code> worlds; the stones are still socketed, they just don't do anything there.</span></div>
+        <div class="step"><span class="num">3</span><span class="txt"><strong>Either way</strong> — on an <code>_rpg</code> map, the separate core-stat (STR/AGI/DEX/VIT/INT/LUK) system governs combat instead, completely unaffected by this toggle.</span></div>
+      </div>
       <div class="guide-p" style="margin-top:-6px">Applies identically to Deviants wielding socketed gear, not just players.</div>`
   },
   {
@@ -1141,8 +1147,7 @@ const ADDITIONAL_FEATURES = [
         <div class="step"><span class="num">1</span><span class="txt"><strong>Revive:</strong> a teammate sneaks, empty-handed, within 2 blocks and right-clicks the downed player to start a revive channel.</span></div>
         <div class="step"><span class="num">2</span><span class="txt"><strong>Give up early:</strong> the downed player can switch their held item to end the state immediately instead of waiting.</span></div>
         <div class="step"><span class="num">3</span><span class="txt"><strong>Timeout:</strong> after 60 seconds with no revive, the downed state ends and the player actually dies.</span></div>
-      </div>
-      <div class="callout">Already skips itself on Siege-mode worlds regardless of this toggle — Siege has its own separate downed/death system.</div>`
+      </div>`
   }
 ];
 
@@ -1376,8 +1381,8 @@ const WB_TRAVERSAL_SHARED = "All World Bosses share one Traversal ability — a 
 
 // ── Gear Upgrading (RollableStat.java / GearLevelSystem.java / AscendingGUI(Listener).java / GearRegistry.java) ──
 // Enchantment Stones are a pure vanilla-world-exclusive feature — they have ZERO effect on any
-// "_rpg" map (world_rpg_siege); power there comes entirely from the separate
-// STR/AGI/VIT/DEX/INT/LUK core-stat system (see the Classes & Stats guide). Each stat's value is
+// "_rpg" map; power there comes entirely from the separate
+// STR/AGI/VIT/DEX/INT/LUK core-stat system. Each stat's value is
 // 100% deterministic from its own stone's Level — perLevelValue × Level, no separate roll, no
 // ratio against a hypothetical full multi-socket build. "@20" below is each stat's value at a
 // single stone's own max Level (20) — reached by ONE fully-leveled stone alone, independent of
@@ -1628,19 +1633,32 @@ const state = { section: "overview", view: { type: "overview", id: "all" }, quer
 function itemsForBoss(bossId){ return ITEMS.filter(i => i.boss === bossId); }
 function setsForBoss(bossId){ return SETS.filter(s => s.boss === bossId); }
 
+// The 5 areas nested under the "Player Guide" top-level tab, in sidebar order.
+const PLAYER_GUIDE_AREAS = [
+  ["gear", "Gear"],
+  ["upgrade", "Upgrading"],
+  ["bosses", "Bosses"],
+  ["deviants", "Deviants"],
+  ["extras", "Extras"]
+];
+
 function renderNav(){
   const nav = document.getElementById("nav");
+  const inPlayerGuide = PLAYER_GUIDE_AREAS.some(([id]) => id === state.section);
 
   let html = `<div class="section-tabs">
       <button class="section-tab ${state.section === 'overview' ? 'active' : ''}" data-section="overview">Overview</button>
-      <button class="section-tab ${state.section === 'gear' ? 'active' : ''}" data-section="gear">Gear</button>
-      <button class="section-tab ${state.section === 'upgrade' ? 'active' : ''}" data-section="upgrade">Upgrading</button>
-      <button class="section-tab ${state.section === 'bosses' ? 'active' : ''}" data-section="bosses">Bosses</button>
-      <button class="section-tab ${state.section === 'deviants' ? 'active' : ''}" data-section="deviants">Deviants</button>
-      <button class="section-tab ${state.section === 'extras' ? 'active' : ''}" data-section="extras">Extras</button>
+      <button class="section-tab ${inPlayerGuide ? 'active' : ''}" data-section="playerguide">Player Guide</button>
       <button class="section-tab ${state.section === 'admin' ? 'active' : ''}" data-section="admin">Admin Guide</button>
-      <button class="section-tab ${state.section === 'more' ? 'active' : ''}" data-section="more">More soon</button>
     </div>`;
+
+  if (inPlayerGuide) {
+    html += `<div class="nav-heading">Player Guide</div>`;
+    for (const [id, label] of PLAYER_GUIDE_AREAS) {
+      const active = state.section === id ? "active" : "";
+      html += `<button class="nav-btn ${active}" data-player-area="${id}">${label}</button>`;
+    }
+  }
 
   if (state.section === "extras") {
     html += `<div class="nav-heading">Additional Features</div>`;
@@ -1731,14 +1749,26 @@ const SECTION_DEFAULT_VIEW = {
 function attachNavHandlers(nav){
   nav.querySelectorAll(".section-tab").forEach(btn => {
     btn.addEventListener("click", () => {
-      state.section = btn.dataset.section;
+      // "Player Guide" itself isn't a real state.section value — it's a container for the
+      // 5 areas below, so clicking the top-level tab drops you into its first area (Gear).
+      let target = btn.dataset.section === "playerguide" ? "gear" : btn.dataset.section;
+      state.section = target;
       document.getElementById("search").value = "";
       state.query = "";
       if (SECTION_DEFAULT_VIEW[state.section]) state.view = SECTION_DEFAULT_VIEW[state.section];
       render();
     });
   });
-  nav.querySelectorAll(".nav-btn").forEach(btn => {
+  nav.querySelectorAll(".nav-btn[data-player-area]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      state.section = btn.dataset.playerArea;
+      document.getElementById("search").value = "";
+      state.query = "";
+      if (SECTION_DEFAULT_VIEW[state.section]) state.view = SECTION_DEFAULT_VIEW[state.section];
+      render();
+    });
+  });
+  nav.querySelectorAll(".nav-btn:not([data-player-area])").forEach(btn => {
     btn.addEventListener("click", () => {
       state.view = { type: btn.dataset.type, id: btn.dataset.id };
       document.getElementById("search").value = "";
@@ -1795,8 +1825,8 @@ function renderRitualOverview(){
   const el = document.getElementById("content");
   el.innerHTML = `
     <div class="view-title">Territory Events &amp; Loot Rules</div>
-    <div class="guide-lead">World Bosses no longer spawn on demand via a ritual — they're the climax of an <strong>Overworld Territory Event</strong>: claim a wilderness structure, survive its escalating guard waves, then bring down whichever World Boss that structure rolls. Every rule on this page applies identically to all 6 possible bosses — see each boss's own page for its specific skill kit and strategy.</div>
-    ${sectionImg("territory_events_hero", "Territory Event structure siege")}
+    <div class="guide-lead">No summoning ritual, no shortcut — a World Boss is the payoff of an <strong>Overworld Territory Event</strong>: claim a wilderness structure, survive its escalating guard waves, then bring down whichever World Boss that structure rolls. Every rule on this page applies identically to all 6 possible bosses — see each boss's own page for its specific skill kit and strategy.</div>
+    ${sectionImg("territory_events_hero", "Territory Event structure takeover")}
 
     <div class="guide-h2" style="margin-top:0">How a Territory Event starts</div>
     <div class="step-list">
@@ -1805,6 +1835,13 @@ function renderRitualOverview(){
       <div class="step"><span class="num">3</span><span class="txt"><strong>Phase 3 — the boss.</strong> Another 60 seconds on, the structure's World Boss spawns (with its own escort) behind the same particle-vortex ritual effect as the old summoning rite, and is announced the same way.</span></div>
     </div>
     <div class="guide-p">Leaving the area (no player within the abandon radius) or the structure's chunk unloading ends the event early — mobs are cleaned up, no loot chest, but the same 60-minute cooldown still starts.</div>
+
+    <div class="guide-h2">Winning the fight</div>
+    <div class="step-list">
+      <div class="step"><span class="num">1</span><span class="txt"><strong>Spot the telegraph.</strong> Every scripted boss ability announces itself first — a charge-up, a particle ring, a roar — before it actually lands. Check that boss's own page under Skills &amp; Abilities for the exact telegraph timing per skill.</span></div>
+      <div class="step"><span class="num">2</span><span class="txt"><strong>Dodge or counter it.</strong> Each boss has its own tells and punish windows — step off a line attack, clear a blast ring before it closes, interrupt a channel by bursting its HP threshold. See that boss's Strategy section for the specific play.</span></div>
+      <div class="step"><span class="num">3</span><span class="txt"><strong>Finish it and loot.</strong> Stay in the fight until the kill — every player who damaged the boss gets their own personal drop rolls (Loot rules below), on top of the shared chest that spawns where it fell.</span></div>
+    </div>
 
     <div class="guide-h2">Boss &amp; level rules</div>
     <div class="guide-p">Each structure rolls its <strong>own</strong> World Boss type and level the very first time it's ever triggered, then <strong>permanently remembers both</strong> — the same boss and level come back at that structure every time after that.</div>
@@ -1831,15 +1868,6 @@ function renderRitualOverview(){
   `;
 }
 
-function renderMoreSoon(){
-  const el = document.getElementById("content");
-  el.innerHTML = `<div class="view-title">More sections are on the way</div>
-    <div class="view-desc">These get their own fully-detailed pages here as they're written up — same treatment as Gear: every effect, every number, vanilla vs. RPG.</div>
-    <div class="placeholder-grid">
-      ${UPCOMING_SECTIONS.map(s => `<div class="placeholder-card"><div class="name">${escapeHtml(s.name)}</div>${escapeHtml(s.hint)}</div>`).join("")}
-    </div>`;
-}
-
 function renderUpgradeGuide(){
   const el = document.getElementById("content");
 
@@ -1848,7 +1876,16 @@ function renderUpgradeGuide(){
   el.innerHTML = `
     <div class="view-title">Upgrading Gear</div>
     ${sectionImg("upgrading_hero", "Combine Forge upgrading gear")}
-    <div class="guide-lead">World-boss gear is <strong>crafted</strong>, not looted directly — bosses drop the ingredients, and every one of the 129 unique-named items is assembled at a vanilla crafting table. Crafted gear starts with <strong>0 open sockets</strong>; power comes entirely from two post-craft steps at the <strong>Combine Forge</strong> (<code>/ascenditem</code>): unlocking sockets with tiered <strong>Socket Stones</strong>, then filling them with standalone <strong>Enchantment Stone</strong> items. Each stone represents one stat at its own Level (capped at <strong>20</strong>); an item's displayed <strong>Gear Level</strong> is the <em>sum</em> of its currently-socketed stones' Levels — with up to 5 sockets at 20 each, the ceiling works out to exactly <strong>100</strong>. Both stone types are a <strong>pure vanilla-world-exclusive</strong> feature — they have zero effect on any <code>_rpg</code> map (world_rpg_siege); power there comes entirely from the separate STR/AGI/VIT/DEX/INT/LUK core-stat system (see the Classes &amp; Stats guide). This page covers how the whole system fits together.</div>
+    <div class="guide-lead">World-boss gear isn't found finished — it's earned and built. You craft it, then grow it: every one of the 129 unique-named items is assembled at a vanilla crafting table from boss-dropped ingredients, and comes out with <strong>0 open sockets</strong>. From there, power comes entirely from two post-craft steps at the <strong>Combine Forge</strong> (<code>/ascenditem</code>): unlocking sockets with tiered <strong>Socket Stones</strong>, then filling them with standalone <strong>Enchantment Stone</strong> items. Each stone represents one stat at its own Level (capped at <strong>20</strong>); an item's displayed <strong>Gear Level</strong> is the <em>sum</em> of its currently-socketed stones' Levels — with up to 5 sockets at 20 each, the ceiling works out to exactly <strong>100</strong>. Both stone types are a <strong>pure vanilla-world-exclusive</strong> feature — they have zero effect on any <code>_rpg</code> map; power there comes entirely from the separate STR/AGI/VIT/DEX/INT/LUK core-stat system. This page covers how the whole system fits together, start to max.</div>
+
+    <div class="guide-h2" style="margin-top:0">Quickstart: socket your first Enchantment Stone</div>
+    <div class="step-list">
+      <div class="step"><span class="num">1</span><span class="txt">Craft or already own a gear item (see §1 below) — a fresh craft starts with 0 sockets, all closed.</span></div>
+      <div class="step"><span class="num">2</span><span class="txt">Get a matching-tier <strong>Socket Stone</strong> from a World Boss kill, then open <strong>/ascenditem</strong> → <strong>Socket Unlock</strong> and feed it in to open your item's first socket.</span></div>
+      <div class="step"><span class="num">3</span><span class="txt">Get any loose <strong>Enchantment Stone</strong> from a kill (Normal 1%, Leader 5%, Boss 10%, World Boss 100% drop chance).</span></div>
+      <div class="step"><span class="num">4</span><span class="txt">Open <strong>/ascenditem</strong> → <strong>Socket a Stone</strong>, and socket it into your item's newly-opened slot — guaranteed, no chance roll. Your item's Gear Level ticks up by that stone's Level immediately.</span></div>
+    </div>
+    <div class="guide-p" style="margin-top:-6px">That's the whole loop — see §5 below for a longer worked example that also covers leveling a stone up before socketing it.</div>
 
     <div class="guide-h2">1. Crafting gear: Core Item, Materials, and currency</div>
     <div class="guide-p">Every one of the 129 gear items has its own crafting-table recipe: <strong>1 Core Item</strong> (a universal ingredient shared by every recipe) + <strong>2 Materials, each from a different world boss</strong> + <strong>1-3 ore-currency items</strong> (Diamond, Gold Ingot, Lapis Lazuli, Emerald, Iron Ingot, Copper Ingot, or Ender Pearl — never Netherite), all placed in the crafting grid together — no biome or other location requirement. Check <code>/gearinfo</code> on any item to see its exact recipe.</div>
@@ -1860,10 +1897,10 @@ function renderUpgradeGuide(){
     <div class="stat-pool-grid">${statPool}</div>
     <div class="guide-p" style="margin-top:8px">Each stat scales <em>linearly</em> and <em>directly</em> with its own stone's Level, up to the listed "@ Lv.20" target — reached in full by <strong>one</strong> fully-leveled stone alone, no ratio against a hypothetical full build and no need to fill every socket. Since gear itself carries no built-in stats, more sockets mean more <em>different</em> stats stacked together, not a bigger share of one — though nothing stops two separate pieces from each carrying their own copy of the <em>same</em> stat, in which case their contributions add together past the single-stone target. Hit Rate and Flee have no vanilla accuracy/evasion equivalent, so they're repurposed into flat damage/defense bonuses. This applies to both players and Deviants, and can be toggled off entirely via <code>/featuretoggle</code> ("Vanilla-World Gear Stats").</div>
     <div class="callout"><strong>Skinned vs. non-skinned gear.</strong> The 129 unique-named world-boss items (Halo Chestplate, Riesling Crossbow, etc.) are <em>skinned</em> gear — Repair always requires the <strong>exact same gear item</strong> as material, and Socket-a-Stone cares about it too. Plain-looking Diamond/Netherite drops (no custom name or model) are <em>non-skinned</em> gear — matched by equipment slot and tier instead: a Diamond piece only takes Diamond material, a Netherite piece takes Diamond <em>or</em> Netherite. Both kinds share the same Combine Forge and socket system.</div>
-    <div class="callout"><strong>Crit Chance (gear) vs. Crit Power (<code>_rpg</code> maps).</strong> On <code>_rpg</code> maps, crit odds come entirely from a separate core-stat "Crit Power" formula: <code>10% + (attacker's Crit Power − defender's Crit Resist Power) × 2%</code>, clamped 0-100%, both Powers derived from LUK/AGI/VIT (see the Classes &amp; Stats guide) — Enchantment Stones (including a Crit Chance stone) contribute nothing to it, since stones are vanilla-only. On vanilla maps, a Crit Chance stone is instead a real, direct 0-1 probability of its own (up to 20% at Level 20), independent of that formula entirely. Cooldown Reduction, Crit Resist, and Crit Dmg Negate were removed from the stone pool entirely — those effects still exist as core-stat-derived <code>_rpg</code>-world mechanics, just never gear-boostable. <strong>Lifesteal Chance</strong> was removed from the stone pool the same way — being a 30%-roll-gated proc, it was strictly worse in expected value than an equivalent amount of guaranteed Lifesteal, so no build ever benefited from choosing it. The lsChance proc mechanic itself still exists, just from trait/skill sources only (Bloodlust, Swordsman Skill 2, Archer Skill 3, some gear skills).</div>
+    <div class="callout"><strong>Crit Chance (gear) vs. Crit Power (<code>_rpg</code> maps).</strong> On <code>_rpg</code> maps, crit odds come entirely from a separate core-stat "Crit Power" formula: <code>10% + (attacker's Crit Power − defender's Crit Resist Power) × 2%</code>, clamped 0-100%, both Powers derived from LUK/AGI/VIT — Enchantment Stones (including a Crit Chance stone) contribute nothing to it, since stones are vanilla-only. On vanilla maps, a Crit Chance stone is instead a real, direct 0-1 probability of its own (up to 20% at Level 20), independent of that formula entirely. Cooldown Reduction, Crit Resist, and Crit Dmg Negate were removed from the stone pool entirely — those effects still exist as core-stat-derived <code>_rpg</code>-world mechanics, just never gear-boostable. <strong>Lifesteal Chance</strong> was removed from the stone pool the same way — being a 30%-roll-gated proc, it was strictly worse in expected value than an equivalent amount of guaranteed Lifesteal, so no build ever benefited from choosing it. The lsChance proc mechanic itself still exists, just from trait/skill sources only (Bloodlust, Swordsman Skill 2, Archer Skill 3, some gear skills).</div>
 
     <div class="guide-h2">3. Gear breaks on death</div>
-    <div class="guide-p">Dying anywhere <strong>except the Siege and MOBA maps</strong> breaks every gear-id item you're carrying — anywhere in your inventory, equipped or not — and resets every Deviant you own (summoned or sitting in inventory as a skull) to <strong>level 1</strong>, breaking any gear-id item equipped on that Deviant too (see Deviants §4). Siege and MOBA manage their own death rules and are exempt, and plain vanilla items are never affected. A broken piece:</div>
+    <div class="guide-p">Dying <strong>anywhere</strong> breaks every gear-id item you're carrying — anywhere in your inventory, equipped or not — and resets every Deviant you own (summoned or sitting in inventory as a skull) to <strong>level 1</strong>, breaking any gear-id item equipped on that Deviant too (see Deviants §4). Plain vanilla items are never affected. A broken piece:</div>
     <div class="step-list">
       <div class="step"><span class="num">1</span><span class="txt">Stays fully wearable/holdable — breaking never blocks equipping. You can freely take it off, put it back on, or keep using it.</span></div>
       <div class="step"><span class="num">2</span><span class="txt">Stops contributing anything RPG-side while worn: its RollableStat bonuses, its unique skill/activation, and any set bonus it was part of all go silent — only its plain vanilla stats (base armor points, base weapon damage) remain.</span></div>
@@ -2009,7 +2046,7 @@ function renderDeviantsGuide(){
   el.innerHTML = `
     <div class="view-title">Deviants</div>
     ${sectionImg("deviants_hero", "Deviant companion mob")}
-    <div class="guide-lead">A Deviant is a fully autonomous companion mob — not a mount you ride. You buy one, it lives inside a mob-head "skull" item, and summoning it spawns a real mob that follows you and fights on its own AI, entirely off its own stats. Its base stats, class, skill, element, and trait are all rolled once at purchase and never change — there's no reroll, so gearing and leveling are how you actually improve one.</div>
+    <div class="guide-lead">A Deviant is your own fighter, not a ride — a fully autonomous companion mob that follows you into battle and swings on its own AI, off its own stats. You buy one, it lives inside a mob-head "skull" item, and summoning it drops a real mob at your side. Its base stats, class, skill, element, and trait are all rolled once at purchase and never change — there's no reroll, so gearing and leveling are how you actually turn a lucky roll into a monster.</div>
 
     <div class="guide-h2" style="margin-top:0">1. Getting one</div>
     <div class="guide-p"><strong>/deviant buy</strong> — costs a flat <strong>64 Emeralds</strong>, checked against your wallet balance first, then Emerald items in your inventory. Only 4 of the 5 possible types are actually sold; Piglin exists in the code (and can still appear from other sources) but is hidden from the buy menu.</div>
@@ -2022,7 +2059,7 @@ function renderDeviantsGuide(){
       <div class="step"><span class="num">2</span><span class="txt"><strong>Shift+right-click</strong> the skull (or <strong>/deviant equip</strong> while holding it) opens the equip/manage GUI.</span></div>
       <div class="step"><span class="num">3</span><span class="txt"><strong>/deviant guide</strong> opens the in-game stat-formula reference GUI for a live look at any deviant's exact numbers.</span></div>
     </div>
-    <div class="callout"><strong>Limits.</strong> Max <strong>3</strong> deviants summoned at once per player. They can't be summoned on the MOBA map. If a deviant's entity actually <em>dies</em> in combat, it goes on a <strong>60-second</strong> re-summon cooldown — manually recalling it does not trigger this. Ownership lives entirely in the skull item, so giving, dropping, or trading it transfers the deviant.</div>
+    <div class="callout"><strong>Limits.</strong> Max <strong>3</strong> deviants summoned at once per player. If a deviant's entity actually <em>dies</em> in combat, it goes on a <strong>60-second</strong> re-summon cooldown — manually recalling it does not trigger this. Ownership lives entirely in the skull item, so giving, dropping, or trading it transfers the deviant.</div>
 
     <div class="guide-h2">3. Stats & how Level scales them</div>
     <div class="guide-p">At creation, 1–3 of the 6 core stats (Strength, Agility, Dexterity, Intelligence, Vitality, Luck) are randomly chosen and split to sum to exactly <strong>100 base points</strong> — a 1-stat roll dumps all 100 into one stat, a 3-stat roll spreads it thinner across three. Every other point of power comes from Level and gear:</div>
@@ -2030,8 +2067,8 @@ function renderDeviantsGuide(){
     <div class="guide-p">Max Level is <strong>200</strong>, same 20,000-point Abyss cap the player leveling curve uses. Max HP = 20 + 8 per level above 1 + (VIT/100)×10 + (STR/100)×5 + gear Max-Health bonus, then Fortress ×2 / Bloodlust ×0.9 / Water element ×1.1 apply on top (Swordsman Skill 3 also adds a flat +2 HP × Level). Melee Damage = (STR/100)×4 + (DEX/100)×2 [+ (INT/100)×4 if Swordsman Skill 1]; Ranged Damage = (DEX/100)×4 + (AGI/100)×2 [+ (INT/100)×4 for Archer Skill 1/2] — both also add +4 per enchant level of Sharpness/Power on the weapon, plus any gear damage stat. DEX drives Cooldown Reduction, worth up to <strong>−30 seconds</strong> off a skill's cooldown at 40+ DEX per level.</div>
 
     <div class="guide-h2">4. Leveling up</div>
-    <div class="guide-p">A summoned deviant gains the <strong>exact same Abyss amount</strong> its owner gets from a kill, any time that kill happens in an RPG or siege world (world name contains "_rpg", except the MOBA map) — using the identical escalating conversion curve the player uses (100 converted points per level). <strong>Only currently-summoned deviants earn anything</strong> — one left in your inventory as a skull gains nothing, so keep it out while you grind if you want it to level.</div>
-    <div class="guide-p" style="margin-top:-4px"><strong>Owner death resets it.</strong> Every Deviant you own — summoned or sitting in your inventory as a skull — drops back to level 1 whenever you die anywhere except the Siege and MOBA maps, the same exemption gear-break uses (see Upgrading §2). Any gear-id item equipped in that Deviant's Helmet/Chestplate/Leggings/Boots/Weapon slots breaks along with it.</div>
+    <div class="guide-p">A summoned deviant gains the <strong>exact same Abyss amount</strong> its owner gets from a kill, any time that kill happens in an RPG world (world name contains "_rpg") — using the identical escalating conversion curve the player uses (100 converted points per level). <strong>Only currently-summoned deviants earn anything</strong> — one left in your inventory as a skull gains nothing, so keep it out while you grind if you want it to level.</div>
+    <div class="guide-p" style="margin-top:-4px"><strong>Owner death resets it.</strong> Every Deviant you own — summoned or sitting in your inventory as a skull — drops back to level 1 whenever you die, the same rule gear-break uses (see Upgrading §2). Any gear-id item equipped in that Deviant's Helmet/Chestplate/Leggings/Boots/Weapon slots breaks along with it.</div>
 
     <div class="guide-h2">5. Equipment</div>
     <div class="guide-p">Open the equip GUI with <strong>/deviant equip</strong> (holding the skull) or shift+right-click the skull. Five slots — Helmet, Chestplate, Leggings, Boots, Weapon — each now shows a shaped placeholder icon and an upfront "Accepts:" line so you don't have to guess by trial and error. Any vanilla armor tier (Leather through Netherite, plus Turtle for the helmet slot) fits its matching armor slot; both legacy stat-lore gear and world-boss "Gear Level" drops work and stack their bonuses on top of the Level-derived formula above.</div>
@@ -2066,20 +2103,24 @@ function renderOverview(){
   const featureCount = ADDITIONAL_FEATURES.length;
   el.innerHTML = `
     <div class="view-title">Riftforged</div>
-    <div class="guide-lead">A Paper/Bukkit plugin that adds a full custom RPG layer on top of vanilla Minecraft — attribute stats, world-boss gear with unique skills and armor-set bonuses, Deviants (player-piloted mob companions), an economy, siege and MOBA game modes, land claims, item ascension, custom enchants, and more. This guide covers everything a player or admin needs: what's always on, what's optional, and how to configure it.</div>
+    <div class="guide-lead">Riftforged turns vanilla Minecraft into a full RPG: claim a structure and bring down a World Boss for gear with real build-defining skills and armor-set bonuses, tame a Deviant companion to fight at your side, build wealth through a working economy, claim land, push gear past its limits with item ascension, wield custom enchants, and more — all layered directly on top of vanilla, not replacing it. This guide covers everything a player or admin needs: what's always on, what's optional, and how to configure it.</div>
     ${sectionImg("overview_hero", "Riftforged overview")}
 
     <div class="guide-h2" style="margin-top:0">Core vs. optional features</div>
-    <div class="guide-p">Two systems are the plugin's flagship, <strong>always-on</strong> features — every install has them, with no on/off switch:</div>
+    <div class="guide-p">Two systems are the plugin's flagship, <strong>always-on</strong> features — every install has them, with no on/off switch, because they're the heart of the game:</div>
     <div class="step-list">
       <div class="step"><span class="num">1</span><span class="txt"><strong>Territory Events</strong> — claim a wilderness structure, survive its escalating guard waves, then bring down whichever World Boss that structure rolls. <button class="jump-link" data-goto-section="bosses">Open the Bosses guide →</button></span></div>
       <div class="step"><span class="num">2</span><span class="txt"><strong>Gear, Elytra &amp; Crafting</strong> — world-boss gear with unique skills and set bonuses, elytra skins, and the Combine Forge upgrade system. <button class="jump-link" data-goto-section="gear">Open the Gear guide →</button> <button class="jump-link" data-goto-section="upgrade">Open the Upgrading guide →</button></span></div>
     </div>
-    <div class="guide-p">Everything else — Deviants, Bank, Currency Utilities, Junk Shop, Potion/Totem Stacking, Ore Break Rewards, the self-hosted Resource Pack, Vanilla-World Gear Stats, and the Revive System — is <strong>optional</strong>: off by default on a fresh install, and toggled per-server by an admin via <code>/featuretoggle</code>. <button class="jump-link" data-goto-section="extras">Open the Extras guide →</button></div>
-    <div class="callout"><strong>${featureCount} optional systems</strong> currently exist. A brand-new server starts with all of them disabled — nothing optional turns itself on.</div>
+    <div class="guide-p">Everything else — Deviants, Bank, Currency Utilities, Junk Shop, Potion/Totem Stacking, Ore Break Rewards, the self-hosted Resource Pack, Vanilla-World Gear Stats, and the Revive System — is <strong>optional</strong>: off by default on a fresh install, and toggled per-server by an admin via <code>/featuretoggle</code>. Turn on exactly the layers your server wants. <button class="jump-link" data-goto-section="extras">Open the Extras guide →</button></div>
+    <div class="callout"><strong>${featureCount} optional systems</strong> currently exist. A brand-new server starts with all of them disabled — nothing optional turns itself on, so the experience you ship is entirely your call.</div>
 
     <div class="guide-h2">How this guide is organized</div>
+    <div class="guide-p" style="margin-top:-4px">Three tabs, top of the sidebar: <strong>Overview</strong> (you are here), <strong>Player Guide</strong>, and <strong>Admin Guide</strong>. Player Guide holds five areas of its own — pick one from the row of buttons that appears once you're inside it.</div>
     <div class="mode-grid">
+      <div class="mode-card"><h4>Overview</h4><ul>
+        <li>The elevator pitch, what's always on vs. optional, and this map of the guide itself.</li>
+      </ul></div>
       <div class="mode-card"><h4>Player Guide</h4><ul>
         <li><strong>Gear / Upgrading / Bosses</strong> — the core loot-and-progression loop.</li>
         <li><strong>Deviants</strong> — the companion-mob system.</li>
@@ -2108,7 +2149,7 @@ function renderExtrasOverview(){
   const el = document.getElementById("content");
   el.innerHTML = `
     <div class="view-title">Extras — Additional (Toggleable) Features</div>
-    <div class="guide-lead">Everything on this tab is optional: <strong>disabled by default</strong> on a fresh install, and switched on per-feature by an admin via <strong>/featuretoggle</strong> (an in-game dialog GUI, OP-only). Nothing here is required to play — Territory Events and Gear/Upgrading/Bosses are the only always-on systems.</div>
+    <div class="guide-lead">Everything on this tab is a bonus layer for your server, not a requirement: <strong>disabled by default</strong> on a fresh install, and switched on per-feature by an admin via <strong>/featuretoggle</strong> (an in-game dialog GUI, OP-only). Nothing here is required to play — Territory Events and Gear/Upgrading/Bosses are the only always-on systems.</div>
     ${sectionImg("extras_overview", "Additional features overview")}
     <div class="guide-h2" style="margin-top:0">Turning a feature on</div>
     <div class="guide-p">An OP runs <strong>/featuretoggle</strong>, picks a feature from the dialog, and flips it — takes effect immediately, no restart needed. See the Admin Guide's <button class="jump-link" data-type="admin" data-id="toggles" onclick="state.section='admin';state.view={type:'admin',id:'toggles'};render();event.stopPropagation();">Feature Toggles page →</button> for the full mechanics.</div>
@@ -2184,7 +2225,6 @@ function renderAdminGuide(id){
       <div class="guide-lead">Admin-tunable yml files, all in the plugin's data folder unless noted otherwise. <code>features.yml</code> (feature on/off state) is covered on the Feature Toggles page, not repeated here.</div>
       ${sectionImg("admin_config_files", "Config files overview")}
       ${CONFIG_FILES.map(adminConfigCard).join("")}
-      <div class="callout"><strong>siege_config.yml exists but is unwired.</strong> A full schema ships in the jar's bundled resources (siege-mode world name, world border, platform, wave spawns, queue settings) but nothing in the current codebase reads it — treat it as dead until a real Siege config system is built, not a live setting.</div>
     `;
     return;
   }
@@ -2222,7 +2262,7 @@ function renderContent(){
     else renderRitualOverview();
     return;
   }
-  if (state.section !== "gear") { renderMoreSoon(); return; }
+  if (state.section !== "gear") { return; }
 
   if (state.query.trim()) {
     const q = state.query.trim().toLowerCase();
@@ -2257,6 +2297,15 @@ function renderContent(){
     const sets = setsForBoss(state.view.id);
     let html = `<div class="view-title">${b.name}'s craftable gear</div>
       <div class="view-desc">Everything craftable using this boss's Core Item + Materials + a Socket Stone at a crafting table — see the Upgrading Gear guide for the full recipe system.</div>`;
+    if (state.view.id === "piglin_brute") {
+      html += `<div class="callout"><strong>New to Gear?</strong> Here's how to get your first piece.</div>
+        <div class="step-list">
+          <div class="step"><span class="num">1</span><span class="txt">Find or trigger a <strong>Territory Event</strong> — claim an eligible wilderness structure and fight through its guard waves. <button class="jump-link" data-goto-section="bosses">Open the Bosses guide →</button></span></div>
+          <div class="step"><span class="num">2</span><span class="txt">Bring down the <strong>World Boss</strong> that structure rolls — every player who damaged it gets its own themed-gear ingredients, plus a shared loot chest where it fell.</span></div>
+          <div class="step"><span class="num">3</span><span class="txt">Take your Core Item + Materials to a vanilla crafting table and assemble the named item you want — check <code>/gearinfo</code> for the exact recipe. <button class="jump-link" data-goto-section="upgrade">Open the Upgrading guide →</button></span></div>
+          <div class="step"><span class="num">4</span><span class="txt">Equip it. It starts at 0 sockets and Gear Level 1 — still fully functional, and ready to grow from there.</span></div>
+        </div>`;
+    }
     if (items.length) html += `<div class="grid" style="margin-bottom:22px">${items.map(i=>itemCard(i)).join("")}</div>`;
     sets.forEach(s => html += setBlock(s));
     el.innerHTML = html;
