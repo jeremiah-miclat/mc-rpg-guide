@@ -638,7 +638,7 @@ const ITEMS = [
   { name:"Mythic Blade", id:"mythic_blade", archetype:"Bruiser", slot:"Sword", boss:"warden", skill:"Arcane Surge", act:"Charge while walking (not sneaking) for 3s, then land a hit. No cooldown.", cd:"None",
     van:"20 true damage + knockback. (Gear Level 50: x2, Level 100: x3.) Guaranteed minimum 30 damage.", dev:DEV.SUB+" (Charge requirement skipped, always ready.)" },
   { name:"Toxic Long Sword", id:"toxic_longsword", archetype:"Vanguard", slot:"Sword", boss:"witch", skill:"Venom Cascade", act:"Hit the ground, left-click a block (20s cooldown)", cd:"20s",
-    van:"4 damage per tick to hostile monsters only, 15-block radius, lingers 10s. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.SUB },
+    van:"4 damage per tick to hostile monsters, 15-block radius, lingers 10s. Enemy players count as hostile too, but only while the server's real PVP setting is on. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.SUB },
   { name:"Creation Splitter", id:"creationsplitter", archetype:"Vanguard", slot:"Sword", boss:"warden", skill:"Reality Cleave", act:"Right-click, either hand (10s cooldown)", cd:"10s",
     van:"A normal hit (not affected by attack cooldown) + 16 bonus damage to everyone in a wide 6-block, 140-degree arc in front of you. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.SUB },
   { name:"Creation Weaver", id:"creation_weaver", archetype:"Bruiser", slot:"Sword", boss:"ravager", skill:"Life Weave", act:"Charge while walking (not sneaking) for 3s, then land a hit. No cooldown.", cd:"None",
@@ -696,7 +696,7 @@ const ITEMS = [
     dev:DEV.STD },
   { name:"Blue Rose", id:"ztbow_blue_rose", archetype:"Vanguard", slot:"Sword", boss:"evoker", skill:"Freezing Field",
     act:"Right-click, either hand: summons a 10-block-radius freezing field centered on you, lasting 10s (30s cooldown)", cd:"30s",
-    van:"Deals 4 damage per second and applies Slowness II to hostile monsters inside (won't refresh an already-slowed target). Non-hostile living entities instead gain Regeneration V for as long as the field remains. (Gear Level 50: 20s cooldown, Level 100: 10s cooldown.)",
+    van:"Deals 4 damage per second and applies Slowness II to hostile monsters inside (won't refresh an already-slowed target). Enemy players count as hostile too, but only while the server's real PVP setting is on. Everyone else (non-hostile living entities, or any player while PVP is off) instead gains Regeneration V for as long as the field remains — including the caster themselves while standing in their own field. (Gear Level 50: 20s cooldown, Level 100: 10s cooldown.)",
     dev:DEV.STD },
   { name:"Corrupted Greatsword", id:"ztbow_corrupted_greatsword", archetype:"Executioner", slot:"Sword", boss:"witch", skill:"Corruptor's Toll",
     act:"Any hit (no cooldown; scales off the target's current HP%)", cd:"None",
@@ -707,8 +707,8 @@ const ITEMS = [
     van:"Speed III for 1.5s on every hit. A backstab (target not facing you) additionally deals +10 bonus damage + 1s Slowness II. (Gear Level 50: +20 dmg, Level 100: +30 dmg.)",
     dev:DEV.STD },
   { name:"Dante's Devilsword", id:"ztbow_dante", archetype:"Duelist", slot:"Sword", boss:"ravager", skill:"Devil Trigger",
-    act:"Right-click opens a 30s banking window; only full swings landed inside it bank a stack (no cap), released as one burst in a 10-block sphere when it closes (20s cooldown after)", cd:"20s",
-    van:"15 damage per banked stack, hitting every hostile monster in range on window close. (Gear Level 50: x2, Level 100: x3.) Guaranteed minimum 30 damage per burst.",
+    act:"Right-click opens a 30s banking window with a visible aura on the wielder the whole time; only full swings landed inside it bank a stack (no cap), released as one burst in a 10-block sphere when it closes (20s cooldown after)", cd:"20s",
+    van:"Deals the sum of every banked hit's own damage, all at once, hitting every hostile monster in range on window close. No bonus damage is added on top. Enemy players count as hostile too, but only while the server's real PVP setting is on.",
     dev:DEV.SUB+" (Auto-opens the window off cooldown instead of right-click.)" },
   { name:"Awakened Devilsword", id:"ztbow_danteawk", archetype:"Duelist", slot:"Sword", boss:"ravager", skill:"Rebellion Surge",
     act:"Passive — every 4th consecutive hit (no cooldown)", cd:"None",
@@ -952,7 +952,7 @@ const SETS = [
       { slot:"Leggings",   itemName:"Ellegaard Leggings",   skill:"Servo Legs", archetype:"Skirmisher",        act:"Triggers when you start sprinting (8s cooldown)", cd:"8s", van:"Speed II for 3s when you start sprinting. (Gear Level 50: 5s, Level 100: 7s.)", dev:DEV.SUB },
       { slot:"Boots",      itemName:"Ellegaard Boots",      skill:"Piston Step", archetype:"Skirmisher",       act:"Triggers when you jump", van:"+0.3 block jump height. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.STD }
     ],
-    bonus:{ name:"Set: Engineer's Mark", act:"Marks a random nearby monster every 10s; damaging it grants bonus damage", van:"Marks a random nearby monster (never a player/Deviant) every 10s; damaging the marked target deals bonus damage. Replaces the old CDR bonus, which did nothing for a player with no skill cooldowns to reduce. (Gear Level 50: x2, Level 100: x3.)" } },
+    bonus:{ name:"Set: Engineer's Mark", act:"Marks a random nearby monster (or enemy player, if the server's real PVP setting is on) every 10s; damaging it grants bonus damage", van:"Marks a random nearby monster every 10s (never a Deviant); damaging the marked target deals bonus damage. An enemy player is eligible to be marked too, but only while the server's real PVP setting is on. Replaces the old CDR bonus, which did nothing for a player with no skill cooldowns to reduce. (Gear Level 50: x2, Level 100: x3.)" } },
 
   { name:"Black Ninja", key:"black_n", boss:"witch", pieces:[
       { slot:"Helmet",     itemName:"Black Ninja Helmet",     skill:"Shadow Veil", archetype:"Assassin", act:"Triggers when you start sneaking (8s cooldown)", cd:"8s", van:"Sneaking grants Resistance II for 3s. (Gear Level 50: x2, Level 100: x3.)", dev:DEV.SUB },
