@@ -1162,12 +1162,12 @@ const PLAYER_COMMANDS = [
 ];
 const ADMIN_COMMANDS = [
   { cmd: "/featuretoggle", perm: "Riftforged.featuretoggle (OP default)", does: "Opens the dialog GUI to enable/disable every optional feature listed in features.yml." },
-  { cmd: "/givegear", perm: "isOp() + GIVING_ENABLED code toggle", does: "(usage &lt;player&gt; &lt;item|set|allswords|allbows|allaxes&gt; [amount]) Gives any of the 129 world-boss gear items, a full armor set, or a bulk weapon-type batch — each rolled through the same Gear Level/RollableStat system as a real drop." },
-  { cmd: "/futuregeartest", perm: "permission-default: op (plugin.yml)", does: "Browses not-yet-released test-skin batches; clicking gives the skin for visual QA. Has its own GIVING_ENABLED code toggle." },
-  { cmd: "/swingdebug", perm: "isOp()", does: "(usage &lt;player&gt;) Toggles a chat+console breakdown of a target player's melee swing-charge/attack-cooldown timing." },
-  { cmd: "/riftscanoverworld", perm: "none in code — debug tool", does: "Forces an immediate Territory Event structure scan at the caller's location, bypassing the need to place a \"claimed\" sign." },
-  { cmd: "/deviantarena", perm: "deviant.admin (checked in code)", does: "(usage create|delete|list|info|end) Manage Deviant team-battle arenas; create places holograms/team zones at the sender's location." },
-  { cmd: "/viewitem", perm: "Riftforged.viewitem (OP default) — buggy", does: "(usage &lt;playerName&gt;) Meant to open another player's live inventory for viewing, but its in-code permission check is logically broken (effectively locked to one hardcoded name) — treat as non-functional until fixed in code." }
+  { cmd: "/givegear", perm: "isOp() + admin_commands.yml", does: "(usage &lt;player&gt; &lt;item|set|allswords|allbows|allaxes&gt; [amount]) Gives any of the 129 world-boss gear items, a full armor set, or a bulk weapon-type batch — each rolled through the same Gear Level/RollableStat system as a real drop." },
+  { cmd: "/futuregeartest", perm: "isOp() + admin_commands.yml", does: "Browses not-yet-released test-skin batches; clicking gives the skin for visual QA." },
+  { cmd: "/swingdebug", perm: "isOp() + admin_commands.yml", does: "(usage &lt;player&gt;) Toggles a chat+console breakdown of a target player's melee swing-charge/attack-cooldown timing." },
+  { cmd: "/riftscanoverworld", perm: "isOp() + admin_commands.yml", does: "Forces an immediate Territory Event structure scan at the caller's location, bypassing the need to place a \"claimed\" sign." },
+  { cmd: "/deviantarena", perm: "deviant.admin + admin_commands.yml", does: "(usage create|delete|list|info|end) Manage Deviant team-battle arenas; create places holograms/team zones at the sender's location." },
+  { cmd: "/viewitem", perm: "Riftforged.viewitem (OP default) + admin_commands.yml — buggy", does: "(usage &lt;playerName&gt;) Meant to open another player's live inventory for viewing, but its in-code permission check is logically broken (effectively locked to one hardcoded name) — treat as non-functional until fixed in code." }
 ];
 const CONFIG_FILES = [
   {
@@ -1205,6 +1205,18 @@ const CONFIG_FILES = [
     id: "spigot-caps", name: "spigot.yml (server root — not a plugin file)", also: "high-level monster/gear attribute ceilings",
     body: `<div class="guide-p">Not owned by the plugin, but written to on every startup: raises <code>settings.attribute.maxHealth.max</code> and <code>settings.attribute.attackDamage.max</code> to 100,000,000 and <code>settings.attribute.movementSpeed.max</code> to 10.0, so high-level Territory Event bosses and heavily-socketed gear don't silently clamp at vanilla's default attribute ceiling.</div>
       <div class="callout">Takes effect on the <strong>next server restart</strong> after being written — a value change won't apply mid-session.</div>`
+  },
+  {
+    id: "admin-commands", name: "admin_commands.yml", also: "Admin Command Toggles",
+    body: `<div class="guide-p">A flat <code>id: true/false</code> map, one entry per OP-gated admin command, all defaulting to <code>true</code> (enabled) — these commands already require OP (or, for <code>/deviantarena</code>, the <code>deviant.admin</code> permission), so this is an additional per-command kill switch, not a replacement for that check. A key missing from the file (e.g. after upgrading the plugin) falls back to enabled. No in-game GUI — hand-edit and restart to change one.</div>
+      <div class="tbl-wrap"><table class="doc-table"><thead><tr><th>Key</th><th>Command</th></tr></thead><tbody>
+        <tr><td><code>givegear</code></td><td><code>/givegear</code></td></tr>
+        <tr><td><code>futuregeartest</code></td><td><code>/futuregeartest</code></td></tr>
+        <tr><td><code>swingdebug</code></td><td><code>/swingdebug</code></td></tr>
+        <tr><td><code>viewitem</code></td><td><code>/viewitem</code></td></tr>
+        <tr><td><code>deviantarena</code></td><td><code>/deviantarena</code></td></tr>
+        <tr><td><code>riftscanoverworld</code></td><td><code>/riftscanoverworld</code></td></tr>
+      </tbody></table></div>`
   }
 ];
 
@@ -1666,7 +1678,7 @@ function renderNav(){
       ["toggles", "Feature Toggles"],
       ["commands", "Commands Reference"],
       ["configs", "Config Files"],
-      ["livetest", "Live vs. Test Toggles"]
+      ["admincmds", "Admin Command Toggles"]
     ];
     for (const [id, label] of pages) {
       const active = state.view.type === "admin" && state.view.id === id ? "active" : "";
@@ -2117,7 +2129,7 @@ function renderOverview(){
         <li><strong>Feature Toggles</strong> — how <code>/featuretoggle</code> and <code>features.yml</code> work.</li>
         <li><strong>Commands Reference</strong> — every command, player-facing and admin-only.</li>
         <li><strong>Config Files</strong> — every admin-tunable yml and what each key does.</li>
-        <li><strong>Live vs. Test Toggles</strong> — the give/test-command safety switches.</li>
+        <li><strong>Admin Command Toggles</strong> — the per-command enable/disable config for OP-gated commands.</li>
       </ul></div>
     </div>
     <div class="guide-p" style="margin-top:4px">Use the search bar (top right) to jump straight to a gear item, skill, or effect by name — it searches the Gear tab's data directly.</div>
@@ -2216,19 +2228,16 @@ function renderAdminGuide(id){
     return;
   }
 
-  // livetest
+  // admincmds
   el.innerHTML = `
-    <div class="view-title">Live vs. Test Toggles</div>
-    <div class="guide-lead">Some admin give/test commands have a hardcoded boolean switch in their source file — exactly one of a "live"/"test" line is left uncommented, the other stays commented out next to it as a reminder of the alternate value. This keeps give-commands off on the production server by default, without deleting the tooling needed to test on a dev server.</div>
-    ${sectionImg("admin_live_test_toggles", "Live vs test toggles")}
+    <div class="view-title">Admin Command Toggles</div>
+    <div class="guide-lead">Every OP-gated admin command (give/test/debug tooling) is <strong>permanently enabled by default</strong> and additionally gated by <strong>AdminCommandRegistry</strong>, persisted to <code>admin_commands.yml</code> in the plugin's data folder — a flat <code>id: true/false</code> map, one entry per command. This replaces the old per-class hardcoded <code>GIVING_ENABLED</code> source-code toggle (one command, one boolean, flip-and-rebuild-to-change) that <code>/givegear</code> and <code>/futuregeartest</code> used to have.</div>
+    ${sectionImg("admin_command_toggles", "Admin command toggles")}
     <div class="guide-h2" style="margin-top:0">Which commands this covers</div>
-    <div class="guide-p"><code>GIVING_ENABLED</code> in <strong>GiveGearCommand.java</strong> (<code>/givegear</code>) and <strong>FutureGearTestGui.java</strong> (<code>/futuregeartest</code>) — any future admin give/test command should follow the same pattern and get added here.</div>
-    <div class="guide-h2">The trigger phrases</div>
-    <div class="step-list">
-      <div class="step"><span class="num">1</span><span class="txt"><strong>"Live update"</strong> — the jar is about to go on the live server. Every such toggle gets flipped to its live/disabled value (<code>GIVING_ENABLED = false</code>) before the build ships.</span></div>
-      <div class="step"><span class="num">2</span><span class="txt"><strong>"Test build"</strong> — the opposite: every toggle flips to its test/enabled value (<code>GIVING_ENABLED = true</code>) so admins can use give/test commands on the test server, then the jar is rebuilt and redeployed.</span></div>
-    </div>
-    <div class="callout"><strong>Default assumption is always prod.</strong> Absent one of the two trigger phrases above, the repo is treated as being in its live-server-safe state — these toggles are never flipped on a whim.</div>
+    <div class="guide-p">See the <button class="jump-link" data-type="admin" data-id="configs" onclick="state.view={type:'admin',id:'configs'};render();event.stopPropagation();">Config Files page →</button> for the full key list and the exact command each one maps to. Any new OP-gated admin command should register itself here the same way rather than inventing its own toggle.</div>
+    <div class="guide-h2">How to change one</div>
+    <div class="guide-p">Hand-edit <code>admin_commands.yml</code> in the plugin's data folder and restart the server — there's no in-game GUI for this file (unlike <code>/featuretoggle</code> for <code>features.yml</code>). A key missing from the file falls back to enabled, so upgrading the plugin never silently disables a command that was already on.</div>
+    <div class="callout"><strong>This is on top of, not instead of, each command's own permission check.</strong> Disabling an entry here doesn't grant access to anyone who couldn't already run the command — it only lets an admin additionally turn off a command that OPs (or, for <code>/deviantarena</code>, <code>deviant.admin</code>) could otherwise use.</div>
   `;
 }
 
