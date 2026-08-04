@@ -68,8 +68,8 @@
     max-width: 56ch;
   }
 
+  .download-wrap { flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; margin-top: 4px; }
   .download-btn {
-    flex: none;
     display: inline-flex;
     align-items: center;
     gap: 7px;
@@ -82,10 +82,10 @@
     font-weight: 700;
     text-decoration: none;
     white-space: nowrap;
-    margin-top: 4px;
   }
   .download-btn:hover { filter: brightness(1.08); }
   .download-btn svg { width: 14px; height: 14px; flex: none; }
+  .version-tag { font-size: 11px; color: var(--text-dim); font-weight: 650; }
 
   nav.tabbar {
     display: flex; gap: 8px;
@@ -253,10 +253,13 @@
       <h1>Riftforged</h1>
       <div class="tagline">Somewhere in your world, a sign is waiting for someone to write "claimed" on it.</div>
     </div>
-    <a class="download-btn" href="downloads/Riftforged.jar" download>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="M6.5 11.5 12 17l5.5-5.5"/><path d="M4 21h16"/></svg>
-      Download plugin
-    </a>
+    <div class="download-wrap">
+      <a class="download-btn" href="downloads/Riftforged.jar" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="M6.5 11.5 12 17l5.5-5.5"/><path d="M4 21h16"/></svg>
+        Download plugin
+      </a>
+      <div class="version-tag">v1.0.0</div>
+    </div>
   </header>
 
   <nav class="tabbar" id="tabbar">
@@ -741,12 +744,18 @@
         <p class="doc-p">From here, it's a normal server with a Rift waiting somewhere in the world. Point your players at the <strong>Player Guide</strong> tab above for their own first steps — finding a Rift, opening it, and walking away with their first pieces of gear.</p>
       </div>
 
+      <h2 class="doc-h2">Version History</h2>
+      <div class="pillar-list">
+        <div class="pillar"><strong>v1.0.0</strong> — Initial release. Rifts, the full 129-item Gear/Elytra/Crafting system with Combine Forge and Ascension, Deviant companions, and the self-hosted resource pack are all live from day one.</div>
+      </div>
+
     </section>
 
   </main>
 
   <footer class="credit">
-    Compiled from the current state of the Riftforged plugin source and its <code>docs/</code> reference files. Reflects what's implemented today, not aspirational or planned features.
+    Compiled from the current state of the Riftforged plugin source and its <code>docs/</code> reference files. Reflects what's implemented today, not aspirational or planned features.<br>
+    Balance concerns, change requests, or feedback? Email <a href="mailto:jaymicroseph@gmail.com">jaymicroseph@gmail.com</a>.
   </footer>
 </div>
 
