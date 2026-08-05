@@ -48,6 +48,7 @@
     --text-dim: #5c655f;
     --accent: #a1791f;
     --accent-2: #7d4fc4;
+    --danger: #b3261e;
     --shadow: 0 1px 2px rgba(20,20,10,.05), 0 6px 16px rgba(20,20,10,.05);
   }
   @media (prefers-color-scheme: dark) {
@@ -60,17 +61,18 @@
       --text-dim: #9aa1a6;
       --accent: #d9a94a;
       --accent-2: #b895ec;
+      --danger: #f2665e;
       --shadow: 0 1px 2px rgba(0,0,0,.35), 0 10px 24px rgba(0,0,0,.4);
     }
   }
   :root[data-theme="dark"] {
     --bg: #12151a; --surface: #1a1e25; --surface-2: #0f1114; --border: rgba(255,255,255,.09);
-    --text: #e8e6df; --text-dim: #9aa1a6; --accent: #d9a94a; --accent-2: #b895ec;
+    --text: #e8e6df; --text-dim: #9aa1a6; --accent: #d9a94a; --accent-2: #b895ec; --danger: #f2665e;
     --shadow: 0 1px 2px rgba(0,0,0,.35), 0 10px 24px rgba(0,0,0,.4);
   }
   :root[data-theme="light"] {
     --bg: #eef1ee; --surface: #ffffff; --surface-2: #e2e7e0; --border: rgba(20,30,25,0.13);
-    --text: #1b201c; --text-dim: #5c655f; --accent: #a1791f; --accent-2: #7d4fc4;
+    --text: #1b201c; --text-dim: #5c655f; --accent: #a1791f; --accent-2: #7d4fc4; --danger: #b3261e;
     --shadow: 0 1px 2px rgba(20,20,10,.05), 0 6px 16px rgba(20,20,10,.05);
   }
 
@@ -221,6 +223,8 @@
     margin: 4px 0 20px;
   }
   .callout strong { color: var(--text); }
+  .callout.warn { border-left-color: var(--danger); }
+  .callout.warn strong { color: var(--danger); }
 
   h3.gear-cat-heading {
     font-family: Cambria, "Iowan Old Style", Georgia, serif;
@@ -398,6 +402,7 @@
           width="1200" height="631" loading="lazy"
           alt="A crafting table with a Heartstone, two different bosses' materials, and currency ore laid out">
         <p class="doc-p">Take your materials to a normal crafting table. Every one of the game's gear items has a fixed recipe built from a crafting core, materials from two different bosses, and some currency ore — meaning a full build means fighting more than one boss type. Each item comes out with its own unique skill already active, just no open sockets yet. Not sure what a recipe needs, or don't want to lay it out by hand? <code>/gearcraft</code> opens a browsable list of every craftable gear item and elytra skin — each one shows its exact ingredients, live have/need counts against your inventory, and a click crafts it instantly if you've got everything.</p>
+        <div class="callout warn"><strong>Dying breaks your gear.</strong> Every gear item you're carrying — equipped or not — shatters the moment you die, and a broken item's skill (plus any stat lines socketed into it) stops working entirely until it's fixed. It'll show a red "BROKEN" line in its tooltip when this happens. Head to the Combine Forge's Repair mode to bring it back before your next fight.</div>
       </div>
 
       <div class="guide-step">
