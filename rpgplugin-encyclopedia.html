@@ -273,6 +273,16 @@
   .gear-card p.lore-line.meta { font-size: 10.5px; opacity: .85; }
   .gear-card p.lore-line:last-child { margin-bottom: 0; }
 
+  .boss-skill-card {
+    border: 1px solid var(--border); background: var(--surface); border-radius: 10px;
+    padding: 11px; box-shadow: var(--shadow);
+  }
+  .boss-skill-card p.skill-name { margin: 0 0 3px; font-size: 12.5px; font-weight: 650; color: var(--accent-2); }
+  .boss-skill-card p.lore-line { margin: 0 0 3px; font-size: 11.5px; color: var(--text-dim); line-height: 1.45; }
+  .boss-skill-card p.lore-line.meta { font-size: 10.5px; opacity: .85; }
+  .boss-skill-card p.lore-line.dodge { color: var(--accent-2); font-weight: 650; opacity: 1; }
+  .boss-skill-card p.lore-line:last-child { margin-bottom: 0; }
+
   footer.credit {
     padding: 28px 0 10px;
     color: var(--text-dim);
@@ -298,17 +308,18 @@
       <div class="tagline">Somewhere out there, the next monster you kill might tear the world open.</div>
     </div>
     <div class="download-wrap">
-      <a class="download-btn" href="downloads/Riftforged-1.0.2.jar" download>
+      <a class="download-btn" href="downloads/Riftforged-1.0.3.jar" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="M6.5 11.5 12 17l5.5-5.5"/><path d="M4 21h16"/></svg>
         Download plugin
       </a>
-      <div class="version-tag">v1.0.2</div>
+      <div class="version-tag">v1.0.3</div>
     </div>
   </header>
 
   <nav class="tabbar" id="tabbar">
     <button class="tab-btn active" data-tab="overview">Overview</button>
     <button class="tab-btn" data-tab="guide">Player Guide</button>
+    <button class="tab-btn" data-tab="bosses">Boss Guide</button>
     <button class="tab-btn" data-tab="gear">Gear Info</button>
     <button class="tab-btn" data-tab="setup">Setup Guide</button>
   </nav>
@@ -428,6 +439,110 @@
           alt="A player standing beside their fully-geared Deviant companion, both facing outward">
         <p class="doc-p"><code>/deviant buy</code> gets you a Deviant skull for 64 emeralds — right-click it to summon or recall your companion, shift-right-click to manage it. It's not a mount; it follows you, breaks off to fight whatever you're fighting, and returns once the fight's over. Gear it up in <code>/deviant equip</code> with its own armor and weapon, exactly like gearing yourself — that's what makes it stronger, not a level bar. Want to test it against someone else's? <code>/deviantduel &lt;player&gt;</code> sets up a straight 1v1 wherever you're both standing.</p>
       </div>
+
+    </section>
+
+    <!-- ============ BOSS GUIDE ============ -->
+    <section class="tab-panel" id="tab-bosses">
+
+<h2 class="doc-h2">Boss Guide</h2>
+<p class="doc-lead">Every World Boss's kit — what each skill does, how it's telegraphed, and how to dodge or counter it.</p>
+
+<div class="callout"><strong>Shared boss behavior:</strong> All six bosses also share three background mechanics beyond the kit below — a signature traversal ability (a telegraphed leap, dash, or phase-through-terrain gap-closer, roughly every 25s), a long-range pursuit that flies straight at you if you get more than 5 blocks away, and terrain denial that clears water/lava out from under anyone trying to fight from it. None of these are attacks to dodge — they're why a boss always closes the distance and can't be kited into a lake or lava pool.</div>
+
+<div class="gear-toolbar" id="boss-toolbar">
+<button class="gear-filter-btn active" data-filter="all">All</button>
+<button class="gear-filter-btn" data-filter="piglin_brute">Piglin Brute</button>
+<button class="gear-filter-btn" data-filter="zombified_piglin">Zombified Piglin</button>
+<button class="gear-filter-btn" data-filter="ravager">Ravager</button>
+<button class="gear-filter-btn" data-filter="evoker">Evoker</button>
+<button class="gear-filter-btn" data-filter="warden">Warden</button>
+<button class="gear-filter-btn" data-filter="witch">Witch</button>
+</div>
+
+<section class="boss-category" data-category="piglin_brute">
+<h3 class="gear-cat-heading">Piglin Brute</h3>
+<p class="doc-p">A melee/lava brawler. Also periodically buffs its own speed and resistance for a few seconds while closing in — not something you can play around, just a sign it's about to hit harder for a moment.</p>
+<div class="gear-grid">
+<div class="boss-skill-card"><p class="skill-name">Magma Cleave <span class="lore-line meta">(18s cooldown)</span></p><p class="lore-line">Fires a locked-in flame/lava line 20 blocks in a fixed direction — melee damage, knockback, and 2s of fire.</p><p class="lore-line dodge">Telegraph: 1.2s growing flame/lava line while the boss stands frozen. Dodge: step off the line before it fires.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Ground Slam Shockwave <span class="lore-line meta">(45s cooldown)</span></p><p class="lore-line">A 5-block-radius AoE slam — melee damage and strong knockback to anyone still inside.</p><p class="lore-line dodge">Telegraph: 2s growing dust ring around the boss. Dodge: leave the ring before it resolves.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Molten Rage <span class="lore-line meta">(100s cooldown)</span></p><p class="lore-line">A 6s channel that marks 3 nearby players/Deviants with a lava-crack tile; anyone still on their tile when it ends takes damage, 5s fire, and the boss gains a 20s Strength II buff.</p><p class="lore-line dodge">Telegraph: channel % on the action bar, plus a personal warning under each marked tile. Counter: move off your tile before it resolves — or deal 15% of the boss's max HP during the channel to interrupt it outright.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Molten Manacle <span class="lore-line meta">(80s cooldown)</span></p><p class="lore-line">Shackles everyone within 100 blocks; after a windup, anchors and hits each target 4 times with lava eruptions plus fire.</p><p class="lore-line dodge">Telegraph: "You are shackled!" warning with a 1.5s windup. Counter: players can escape by getting more than 10 blocks away during the windup — Deviants can't.</p></div>
+</div>
+</section>
+
+<section class="boss-category" data-category="zombified_piglin">
+<h3 class="gear-cat-heading">Zombified Piglin</h3>
+<p class="doc-p">A swarm/chaos fighter that leans on real decoy mobs instead of a solo AoE fight. Also periodically buffs its own speed and fire resistance while closing in.</p>
+<div class="gear-grid">
+<div class="boss-skill-card"><p class="skill-name">Golden Horde <span class="lore-line meta">(55s cooldown)</span></p><p class="lore-line">Spawns 4 mobile clones that chain-detonate — killing one primes it for a 0.4s fuse before it explodes, which can chain-prime nearby clones, and any survivor auto-detonates after 10s.</p><p class="lore-line dodge">Counter: spread your kills out so one detonation can't chain into the next.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Soul Brand <span class="lore-line meta">(20s cooldown)</span></p><p class="lore-line">Brands a random nearby player with a 5s tether; if it holds, it detonates for damage and knockback.</p><p class="lore-line dodge">Telegraph: a visible gold tether line from boss to target. Dodge: get more than 8 blocks away or break line of sight before it fires.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Chaos Rush <span class="lore-line meta">(90s cooldown)</span></p><p class="lore-line">Three blinks (~0.7s apart) to points near the target, each leaving a scorch patch that lingers for 3s — the final blink's patch hits immediately.</p><p class="lore-line dodge">Dodge: watch where each blink lands and stay out of the fire rings, especially the last one.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Feeding Frenzy <span class="lore-line meta">(85s cooldown)</span></p><p class="lore-line">Marks everyone in range and surrounds each target with 3 decoy Revelers during a 1.5s windup; if it holds, anchors and hits the target 4 times with slows.</p><p class="lore-line dodge">Counter: one of the 3 decoys is a hidden "anchor" — killing it before the windup ends breaks the grapple for that target.</p></div>
+</div>
+</section>
+
+<section class="boss-category" data-category="ravager">
+<h3 class="gear-cat-heading">Ravager</h3>
+<p class="doc-p">A trample/charge/quake fighter — earthy particles and roars instead of Piglin Brute's fire theme. Also periodically buffs its own speed and strength while closing in.</p>
+<div class="gear-grid">
+<div class="boss-skill-card"><p class="skill-name">Bull Rush <span class="lore-line meta">(15s cooldown)</span></p><p class="lore-line">A 12-block stepped charge after a windup — the first entity it clips takes damage, knockback, and Nausea II.</p><p class="lore-line dodge">Telegraph: 0.9s of pawing the ground with dust particles. Dodge: side-step the charge line.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Quaking Stomp <span class="lore-line meta">(38s cooldown)</span></p><p class="lore-line">A 6-block-radius AoE slam — damage, strong knockback, Slowness III, and Darkness — that automatically chains into Quake Fireballs.</p><p class="lore-line dodge">Telegraph: 2s growing dust ring. Dodge: leave the ring before impact.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Quake Fireballs <span class="lore-line meta">(auto-chained off Quaking Stomp)</span></p><p class="lore-line">5 lobbed fireballs arc toward players within 20 blocks and explode on impact, igniting the ground.</p><p class="lore-line dodge">Dodge: track the flame/smoke trails and move off the spot each one is arcing toward.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Warhorn Bellow <span class="lore-line meta">(75s cooldown)</span></p><p class="lore-line">A 5s freeze during which the boss reflects damage, then launches a boulder at every player/Deviant within 20 blocks — damage, Slowness III, and knockback.</p><p class="lore-line dodge">Counter: the 5s freeze is a punish window — burst it down while it can't act. Dodge the boulders afterward by breaking line of sight or moving.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Tectonic Impale <span class="lore-line meta">(78s cooldown)</span></p><p class="lore-line">Marks everyone within 100 blocks with a 1s growing crack underfoot; unbroken marks get anchored and hit 3 times with Slowness IV.</p><p class="lore-line dodge">Telegraph: "the ground cracks beneath you — JUMP!" Dodge: jumping right as the crack resolves fully avoids it for players — Deviants can't.</p></div>
+</div>
+</section>
+
+<section class="boss-category" data-category="evoker">
+<h3 class="gear-cat-heading">Evoker</h3>
+<p class="doc-p">A mage/caster — its normal vanilla spellcasting (vexes, fangs, curing) is fully disabled in favor of this kit. Also periodically buffs its own speed and absorption while closing in.</p>
+<div class="gear-grid">
+<div class="boss-skill-card"><p class="skill-name">Arcane Bolt <span class="lore-line meta">(10s cooldown)</span></p><p class="lore-line">Fires a locked-in particle line 22 blocks in a fixed direction — damage plus 2s Weakness II on the first hit.</p><p class="lore-line dodge">Telegraph: 1s growing particle line while the boss stands frozen. Dodge: step off the line before it fires.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Arcane Cataclysm <span class="lore-line meta">(20s cooldown)</span></p><p class="lore-line">A 12-block-radius AoE burst — damage and strong knockback to anyone still inside.</p><p class="lore-line dodge">Telegraph: 2s growing purple ring. Dodge: leave the ring before it resolves.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Spectral Conscription <span class="lore-line meta">(20s cooldown)</span></p><p class="lore-line">Telegraphs 4 spawn points in a line, then summons 4 real Vindicators there (they despawn after 6s) as extra adds.</p><p class="lore-line dodge">Not dodgeable, but the 1.5s telegraph gives you a heads-up that adds are about to land — use it to reposition.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Glacial Ascension <span class="lore-line meta">(60s cooldown)</span></p><p class="lore-line">Marks everyone within 100 blocks (requires line of sight); an unbroken mark gets hoisted into the air and hit by 5 icicles while suspended.</p><p class="lore-line dodge">Telegraph: a 5s mark, cancelled by breaking line of sight or leaving range. Counter: hide behind terrain until the mark window passes.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Ritual of Unmaking <span class="lore-line meta">(20s cooldown)</span></p><p class="lore-line">A 6s channel that marks 3 nearby players/Deviants with a rune; anyone still on it when it ends takes damage, Darkness, and the boss gains a 20s Strength II buff.</p><p class="lore-line dodge">Telegraph: channel % on the action bar, plus a personal warning under each rune. Counter: move off your rune before it resolves — or deal 15% of the boss's max HP during the channel to interrupt it.</p></div>
+</div>
+</section>
+
+<section class="boss-category" data-category="warden">
+<h3 class="gear-cat-heading">Warden</h3>
+<p class="doc-p">A sonic/vibration fighter. Also periodically buffs its own speed and haste while closing in. Its normal ranged Sonic Boom attack still fires and is dodged the usual vanilla way — line of sight and distance.</p>
+<div class="gear-grid">
+<div class="boss-skill-card"><p class="skill-name">Charge Scream <span class="lore-line meta">(60s cooldown)</span></p><p class="lore-line">A 5s charge-up that ends in a scream — halves the current HP of every player within 4 blocks and heals the Warden by the total HP drained.</p><p class="lore-line dodge">Telegraph: a full 5s "charging... X%" action-bar warning plus growing sculk particles. Dodge: get outside 4 blocks before it releases.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Resonant Grasp <span class="lore-line meta">(90s cooldown)</span></p><p class="lore-line">Marks everyone within 100 blocks — works through walls, no line of sight needed. An unbroken mark gets anchored and hit 3 times with Slowness IV and Mining Fatigue III.</p><p class="lore-line dodge">Telegraph: "You are marked! Go still or it will seize you!" over a 4s window. Counter: unlike every other seize skill, the way out is standing still or sneaking, not running — players can break it that way, Deviants can't.</p></div>
+</div>
+</section>
+
+<section class="boss-category" data-category="witch">
+<h3 class="gear-cat-heading">Witch</h3>
+<p class="doc-p">A mage/caster. Ordinary potion throws are still its vanilla AI (damage-capped to one hit per 5s), not a scripted skill below. Also periodically buffs its own speed with a brief levitation burst while repositioning.</p>
+<div class="gear-grid">
+<div class="boss-skill-card"><p class="skill-name">Baleful Hex <span class="lore-line meta">(60s cooldown)</span></p><p class="lore-line">Marks everyone in range (requires line of sight); an unbroken mark gets anchored and hit 4 times with Slowness IV and Nausea II.</p><p class="lore-line dodge">Telegraph: "You are hexed! Break line of sight or it will seize you!" over a 4s window. Counter: hide behind terrain until the mark passes.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Lingering Miasma <span class="lore-line meta">(20s cooldown)</span></p><p class="lore-line">Lobs a vial that leaves a lingering poison cloud (6s, 3.5-block radius) ticking damage on anyone standing in it.</p><p class="lore-line dodge">Dodge: watch the arc, don't stand in the purple cloud after it lands.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Potion Shower <span class="lore-line meta">(20s cooldown)</span></p><p class="lore-line">3 waves of 5 potions landing near the Witch's own position — damage plus Poison II, mainly punishing anyone fighting her in melee.</p><p class="lore-line dodge">Counter: back off from melee range while this is going off.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Noxious Backlash <span class="lore-line meta">(10s cooldown, below 50% HP)</span></p><p class="lore-line">An instant, no-telegraph shove — pushes everyone within 5.5 blocks away and applies Slowness II.</p><p class="lore-line dodge">Counter: this is a punish for crowding a low-HP Witch in melee — back off once she's under half health.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Restorative Draught <span class="lore-line meta">(20s cooldown, below 60% HP)</span></p><p class="lore-line">Heals the Witch for 5% of her max HP.</p><p class="lore-line dodge">Not dodgeable, but its 1s drinking telegraph is a signal a heal is about to land — good bait for a burst window if you can interrupt or outpace it.</p></div>
+</div>
+</section>
+
+<script>
+(function() {
+  const toolbar = document.getElementById('boss-toolbar');
+  if (!toolbar) return;
+  toolbar.addEventListener('click', e => {
+    const btn = e.target.closest('.gear-filter-btn');
+    if (!btn) return;
+    toolbar.querySelectorAll('.gear-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.boss-category').forEach(sec => {
+      sec.style.display = (filter === 'all' || sec.dataset.category === filter) ? '' : 'none';
+    });
+  });
+})();
+</script>
 
     </section>
 
@@ -843,7 +958,7 @@
   });
 
   const initial = location.hash.replace('#', '');
-  if (['overview', 'guide', 'gear', 'setup'].includes(initial)) {
+  if (['overview', 'guide', 'bosses', 'gear', 'setup'].includes(initial)) {
     tabbar.querySelector('[data-tab="' + initial + '"]').click();
   }
 </script>
