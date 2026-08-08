@@ -29,7 +29,7 @@
   "operatingSystem": "Minecraft Java Edition (Paper/Bukkit Server)",
   "description": "A Minecraft Java Edition MMORPG plugin (Paper/Bukkit) adding a full custom RPG layer: server-wide Rift boss events, world-boss gear with unique skills and set bonuses, Deviant companion pets, item ascension, and an elytra skin system.",
   "url": "https://mc-rpg-guide.vercel.app/rpgplugin-encyclopedia.html",
-  "softwareVersion": "1.0.0",
+  "softwareVersion": "1.0.5",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -194,6 +194,21 @@
   }
   .pillar strong { color: var(--text); }
 
+  /* Version History only — the general pillar-list (Overview's "what makes this different")
+     stays a plain static block; this one grows every release, so it scrolls in place instead of
+     pushing the footer further down forever. */
+  .version-history-list {
+    max-height: 380px;
+    overflow-y: auto;
+    padding-right: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-2) transparent;
+  }
+  .version-history-list::-webkit-scrollbar { width: 8px; }
+  .version-history-list::-webkit-scrollbar-track { background: transparent; }
+  .version-history-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 8px; }
+  .version-history-list::-webkit-scrollbar-thumb:hover { background: var(--accent-2); }
+
   .guide-step { margin-bottom: 44px; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
   .guide-step:last-child { border-bottom: none; }
   .guide-step-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
@@ -308,11 +323,11 @@
       <div class="tagline">Somewhere out there, the next monster you kill might tear the world open.</div>
     </div>
     <div class="download-wrap">
-      <a class="download-btn" href="downloads/Riftforged-1.0.4.jar" download>
+      <a class="download-btn" href="downloads/Riftforged-1.0.5.jar" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="M6.5 11.5 12 17l5.5-5.5"/><path d="M4 21h16"/></svg>
         Download plugin
       </a>
-      <div class="version-tag">v1.0.4</div>
+      <div class="version-tag">v1.0.5</div>
     </div>
   </header>
 
@@ -914,7 +929,8 @@
       </div>
 
       <h2 class="doc-h2">Version History</h2>
-      <div class="pillar-list">
+      <div class="pillar-list version-history-list">
+        <div class="pillar"><strong>v1.0.5</strong> (2026-08-09) — Rift loot chests now drop the full reward pool (enchanted books, splash potions, golden apples/carrots, ores, armor trim templates, and more) instead of a small placeholder set, and totems/potions found there now stack properly instead of taking up a slot each. Fixed a bug where a rift that was actually won (boss killed) could get silently recorded as a failure if everyone left during the victory window before being pulled back to the real world. Fixed a gap where a player who reached an active rift by teleporting directly to someone already inside — rather than walking through the portal themselves — wasn't tracked properly, which could strand them or end the rift under them while they were still fighting. Also fixed a rift being left stuck in an "in-progress" state if the server restarted while one was open.</div>
         <div class="pillar"><strong>v1.0.4</strong> (2026-08-08) — Rift reliability pass: fixed a server freeze that could occasionally happen when a rift's arena reset ran into far-away terrain, fixed a rare case where a rift could get stuck open forever after a solo player died inside it, fixed other players sometimes not being able to walk into an already-open rift portal, fixed a rift's leftover mobs and copied blocks sometimes surviving a server restart on certain hosting setups (checked more thoroughly now, regardless of hosting layout), fixed a second, unrelated server freeze that could happen every time a rift's arena was rebuilt, fixed a third server freeze that could happen while copying a large or far-away structure's blocks into the rift, quieted repetitive console log spam from routine kills that didn't happen to be near a rift structure, and confirmed armor/weapon durability never degrades while fighting inside a rift.</div>
         <div class="pillar"><strong>v1.0.3</strong> (2026-08-08) — New /hidegears and /hideelytragears commands: toggle whether other players see your worn gear armor or World Boss elytra skin (vanilla armor/elytra is unaffected either way). Flight particles and trails still show regardless of the toggle.</div>
         <div class="pillar"><strong>v1.0.2</strong> (2026-08-07) — Rifts no longer need a sign: killing a monster near an eligible structure now has a chance to tear one open on the spot, portal and all. Fixed a bug where a Deviant could occasionally target or be attacked by its own master.</div>
