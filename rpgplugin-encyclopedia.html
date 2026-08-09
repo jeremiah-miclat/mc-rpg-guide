@@ -323,11 +323,11 @@
       <div class="tagline">Somewhere out there, the next monster you kill might tear the world open.</div>
     </div>
     <div class="download-wrap">
-      <a class="download-btn" href="downloads/Riftforged-1.0.6.jar" download>
+      <a class="download-btn" href="downloads/Riftforged-1.0.7.jar" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="M6.5 11.5 12 17l5.5-5.5"/><path d="M4 21h16"/></svg>
         Download plugin
       </a>
-      <div class="version-tag">v1.0.6</div>
+      <div class="version-tag">v1.0.7</div>
     </div>
   </header>
 
@@ -461,7 +461,7 @@
     <section class="tab-panel" id="tab-bosses">
 
 <h2 class="doc-h2">Boss Guide</h2>
-<p class="doc-lead">Every World Boss's kit — what each skill does, how it's telegraphed, and how to dodge or counter it.</p>
+<p class="doc-lead">Every World Boss's kit — what each skill does, how it's telegraphed, and how to dodge or counter it. Every boss also has a second, alternate "variant" kit that can spawn in its place — same boss, same stats, a completely different set of skills — so check both sections below for whichever type you're up against.</p>
 
 <div class="gear-toolbar" id="boss-toolbar">
 <button class="gear-filter-btn active" data-filter="all">All</button>
@@ -484,6 +484,17 @@
 </div>
 </section>
 
+<section class="boss-category" data-category="piglin_brute">
+<h3 class="gear-cat-heading">Piglin Brute — Bloodgorger (Variant Kit)</h3>
+<p class="doc-p">An alternate kit that can spawn in place of the standard kit above — same stats, same Piglin Brute, a completely different fight: an executioner/berserker theme instead of the lava-hazard kit's. Also periodically buffs its own Strength and Speed the lower its own HP drops — not something you can play around, just a sign it's fighting more dangerously while low.</p>
+<div class="gear-grid">
+<div class="boss-skill-card"><p class="skill-name">Executioner's Oath <span class="lore-line meta">(100s cooldown)</span></p><p class="lore-line">Marks the lowest-HP nearby player/Deviant and channels for 4s; if the mark is still in range when it resolves, they take an unblockable heavy hit (roughly 1.8x normal melee) and the boss gains a 10s Strength II buff.</p><p class="lore-line dodge">Telegraph: crimson crit particles over the marked target for the full 4s channel. Dodge: get outside 30 blocks of the boss before the channel ends.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Chain Shackles <span class="lore-line meta">(75s cooldown)</span></p><p class="lore-line">Hooks up to 3 players/Deviants within 40 blocks and yanks them into a tight cluster near the boss after a 1s windup; anyone still clustered after a short pause takes an AoE burst.</p><p class="lore-line dodge">Telegraph: crit particles on marked targets during the windup. Counter: sprint away from the cluster point in the brief pause before the burst detonates.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Warstomp Eruption <span class="lore-line meta">(42s cooldown)</span></p><p class="lore-line">A 5-block-radius AoE slam — damage plus 5s Weakness II to anyone still inside, instead of the base kit's knockback.</p><p class="lore-line dodge">Telegraph: 2s growing dust ring around the boss. Dodge: leave the ring before it resolves.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Piercing Javelin <span class="lore-line meta">(16s cooldown)</span></p><p class="lore-line">Fires a locked-in spear line 20 blocks in a fixed direction that pierces through every entity in its path — damage plus 2s Slowness II each.</p><p class="lore-line dodge">Telegraph: 1s growing line while the boss stands frozen. Dodge: step off the line before it fires.</p></div>
+</div>
+</section>
+
 <section class="boss-category" data-category="zombified_piglin">
 <h3 class="gear-cat-heading">Zombified Piglin</h3>
 <p class="doc-p">A swarm/chaos fighter that leans on real decoy mobs instead of a solo AoE fight. Also periodically buffs its own speed and fire resistance while closing in.</p>
@@ -492,6 +503,17 @@
 <div class="boss-skill-card"><p class="skill-name">Soul Brand <span class="lore-line meta">(20s cooldown)</span></p><p class="lore-line">Brands a random nearby player with a 5s tether; if it holds, it detonates for damage and knockback.</p><p class="lore-line dodge">Telegraph: a visible gold tether line from boss to target. Dodge: get more than 8 blocks away or break line of sight before it fires.</p></div>
 <div class="boss-skill-card"><p class="skill-name">Chaos Rush <span class="lore-line meta">(90s cooldown)</span></p><p class="lore-line">Three blinks (~0.7s apart) to points near the target, each leaving a scorch patch that lingers for 3s — the final blink's patch hits immediately.</p><p class="lore-line dodge">Dodge: watch where each blink lands and stay out of the fire rings, especially the last one.</p></div>
 <div class="boss-skill-card"><p class="skill-name">Feeding Frenzy <span class="lore-line meta">(85s cooldown)</span></p><p class="lore-line">Marks everyone in range and surrounds each target with 3 decoy Revelers during a 1.5s windup; if it holds, anchors and hits the target 4 times with slows.</p><p class="lore-line dodge">Counter: one of the 3 decoys is a hidden "anchor" — killing it before the windup ends breaks the grapple for that target.</p></div>
+</div>
+</section>
+
+<section class="boss-category" data-category="zombified_piglin">
+<h3 class="gear-cat-heading">Zombified Piglin — Plaguemaw (Variant Kit)</h3>
+<p class="doc-p">An alternate kit that can spawn in place of the standard kit above — a decay/plague theme instead of the base kit's chaos/gold-swarm one. Also pulses a short Wither aura on anyone standing within melee range — a passive zone-control threat, in contrast to the base kit's speed-focused buff.</p>
+<div class="gear-grid">
+<div class="boss-skill-card"><p class="skill-name">Grave Contract <span class="lore-line meta">(90s cooldown)</span></p><p class="lore-line">A 4s channel that curses up to 3 nearby players/Deviants; unbroken curses detonate for heavy damage plus 3s Wither II when the channel ends.</p><p class="lore-line dodge">Telegraph: soul particles gathering over each cursed target for the full channel. Dodge: get outside 30 blocks of the boss before it resolves.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Chain of Greed <span class="lore-line meta">(55s cooldown)</span></p><p class="lore-line">Golden chains bind up to 3 players/Deviants within 40 blocks and pull them into a cluster near the boss after a 1s windup, followed by an AoE burst.</p><p class="lore-line dodge">Counter: sprint away from the cluster point in the brief pause before the burst detonates.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Rotting Legion <span class="lore-line meta">(20s cooldown)</span></p><p class="lore-line">Raises 3 weak, non-persistent zombie adds that burst into a poison cloud when killed — anything still standing after 8s quietly rots away instead.</p><p class="lore-line dodge">Counter: kill the adds at range so their poison burst doesn't catch you.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Plague Volley <span class="lore-line meta">(18s cooldown)</span></p><p class="lore-line">A 1s telegraph, then a spread of rotten gold ingots that shatter into lingering poison clouds on impact.</p><p class="lore-line dodge">Dodge: watch where each impact ring is telegraphed and stay out of the clouds after they land.</p></div>
 </div>
 </section>
 
@@ -507,6 +529,17 @@
 </div>
 </section>
 
+<section class="boss-category" data-category="ravager">
+<h3 class="gear-cat-heading">Ravager — Thornback (Variant Kit)</h3>
+<p class="doc-p">An alternate kit that can spawn in place of the standard kit above — a nature/entangle theme instead of the base kit's earth/quake one. Also gains stacking Resistance the longer it stays roughly still, resetting the moment it moves — worth knowing since baiting it to reposition strips the buff.</p>
+<div class="gear-grid">
+<div class="boss-skill-card"><p class="skill-name">Bramble Fury <span class="lore-line meta">(78s cooldown)</span></p><p class="lore-line">A 4.5s channel that roots the ground under up to 3 nearby players/Deviants; anyone still standing there when it ends takes heavy damage plus 3s Slowness IV.</p><p class="lore-line dodge">Telegraph: a ring of thorns growing at each marked player's feet. Dodge: move off your marked spot before the channel ends.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Thorned Snare <span class="lore-line meta">(45s cooldown)</span></p><p class="lore-line">Roots up to 3 players/Deviants within 40 blocks in place for 1.5s, then bursts around each of them.</p><p class="lore-line dodge">Not escapable once rooted — unlike most of this boss's other seize skills, there's no player-only counter here, so focus damage on the boss instead.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Splintering Charge <span class="lore-line meta">(20s cooldown)</span></p><p class="lore-line">A 16-block stepped charge after a telegraph that damages everyone it clips and leaves thorn patches behind that slow anyone who stands in them for the next 4s.</p><p class="lore-line dodge">Telegraph: 1.2s of pawing the ground. Dodge: side-step the charge line, then stay off the leftover thorn patches.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Spore Burst <span class="lore-line meta">(15s cooldown)</span></p><p class="lore-line">A 1s telegraph followed by a 10-block cone of spore pods — damage plus Poison to everyone caught in the cone.</p><p class="lore-line dodge">Dodge: step outside the cone's arc before it fires.</p></div>
+</div>
+</section>
+
 <section class="boss-category" data-category="evoker">
 <h3 class="gear-cat-heading">Evoker</h3>
 <p class="doc-p">A mage/caster — its normal vanilla spellcasting (vexes, fangs, curing) is fully disabled in favor of this kit. Also periodically buffs its own speed and absorption while closing in.</p>
@@ -519,12 +552,34 @@
 </div>
 </section>
 
+<section class="boss-category" data-category="evoker">
+<h3 class="gear-cat-heading">Evoker — Voidcaller (Variant Kit)</h3>
+<p class="doc-p">An alternate kit that can spawn in place of the standard kit above — a shadow/teleport theme instead of the base kit's ice/arcane one. Also periodically turns briefly invisible with a burst of speed while repositioning — a deliberate contrast to the base kit, which avoids invisibility on purpose so its telegraphs stay visible.</p>
+<div class="gear-grid">
+<div class="boss-skill-card"><p class="skill-name">Rite of Unraveling <span class="lore-line meta">(100s cooldown)</span></p><p class="lore-line">A 5s channel that opens shrinking void zones under up to 3 nearby players/Deviants; anyone still standing in a zone once it fully collapses takes heavy damage.</p><p class="lore-line dodge">Telegraph: a shrinking particle ring at each marked player's feet. Dodge: step out of your zone before it fully closes.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Umbral Tethers <span class="lore-line meta">(70s cooldown)</span></p><p class="lore-line">Silently tethers up to 3 players/Deviants with line of sight within 22 blocks, draining their HP every half-second for 4s and healing the Evoker for half of what's drained.</p><p class="lore-line dodge">Counter: break line of sight or get outside 22 blocks to sever the tether early.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Collapsing Rift <span class="lore-line meta">(40s cooldown)</span></p><p class="lore-line">Opens a rift overhead after a telegraph, then implodes — pulls everyone within 8 blocks toward its center and deals damage.</p><p class="lore-line dodge">Telegraph: a swirling purple portal forming above the boss for about 2s. Dodge: get outside 8 blocks before it collapses.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Void Lance <span class="lore-line meta">(14s cooldown)</span></p><p class="lore-line">Blinks directly behind its current target, then fires a piercing dark bolt in a line from its new position — hits everyone it passes through.</p><p class="lore-line dodge">Telegraph: the teleport itself is the tell, with only a brief beat before the bolt fires. Dodge: move out of the new firing line immediately.</p></div>
+</div>
+</section>
+
 <section class="boss-category" data-category="warden">
 <h3 class="gear-cat-heading">Warden</h3>
 <p class="doc-p">A sonic/vibration fighter. Also periodically buffs its own speed and haste while closing in. Its normal ranged Sonic Boom attack still fires and is dodged the usual vanilla way — line of sight and distance.</p>
 <div class="gear-grid">
 <div class="boss-skill-card"><p class="skill-name">Charge Scream <span class="lore-line meta">(60s cooldown)</span></p><p class="lore-line">A 5s charge-up that ends in a scream — halves the current HP of every player within 4 blocks and heals the Warden by the total HP drained.</p><p class="lore-line dodge">Telegraph: a full 5s "charging... X%" action-bar warning plus growing sculk particles. Dodge: get outside 4 blocks before it releases.</p></div>
 <div class="boss-skill-card"><p class="skill-name">Resonant Grasp <span class="lore-line meta">(90s cooldown)</span></p><p class="lore-line">Marks everyone within 100 blocks — works through walls, no line of sight needed. An unbroken mark gets anchored and hit 3 times with Slowness IV and Mining Fatigue III.</p><p class="lore-line dodge">Telegraph: "You are marked! Go still or it will seize you!" over a 4s window. Counter: unlike every other seize skill, the way out is standing still or sneaking, not running — players can break it that way, Deviants can't.</p></div>
+</div>
+</section>
+
+<section class="boss-category" data-category="warden">
+<h3 class="gear-cat-heading">Warden — Hollowshade (Variant Kit)</h3>
+<p class="doc-p">An alternate kit that can spawn in place of the standard kit above — a close-quarters theme instead of the base kit's sound/pursuit one. Also gains Speed II and Haste II while any player/Deviant is within melee range, so it hits and reacts faster the longer you stay in its face.</p>
+<div class="gear-grid">
+<div class="boss-skill-card"><p class="skill-name">Deafening Collapse <span class="lore-line meta">(90s cooldown)</span></p><p class="lore-line">A 3.5s channel that ends in a full-radius shockwave — damage plus knockback to everyone within 8 blocks, instead of the base kit's single-target grasp.</p><p class="lore-line dodge">Telegraph: growing sculk particles around the boss for the full channel. Dodge: get outside 8 blocks before it resolves.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Umbral Snare <span class="lore-line meta">(50s cooldown)</span></p><p class="lore-line">Reaches out to up to 3 players/Deviants within 26 blocks and clouds their senses with Blindness plus Slowness III for 3.5s.</p><p class="lore-line dodge">Not escapable once it lands — the debuff has to be waited out, so keep your distance beforehand.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Tremor Pulse <span class="lore-line meta">(35s cooldown)</span></p><p class="lore-line">3 expanding damage rings stomped out in quick succession, growing out to 9 blocks — damage to anyone caught as each new ring passes over them.</p><p class="lore-line dodge">Dodge: move ahead of or well outside the rings as each one telegraphs outward.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Piercing Shriek <span class="lore-line meta">(16s cooldown)</span></p><p class="lore-line">Fires a locked-in sonic-beam line 20 blocks in a fixed direction that pierces through everyone in its path.</p><p class="lore-line dodge">Telegraph: 1.1s growing beam while the boss stands frozen. Dodge: step off the line before it fires.</p></div>
 </div>
 </section>
 
@@ -537,6 +592,17 @@
 <div class="boss-skill-card"><p class="skill-name">Potion Shower <span class="lore-line meta">(20s cooldown)</span></p><p class="lore-line">3 waves of 5 potions landing near the Witch's own position — damage plus Poison II, mainly punishing anyone fighting her in melee.</p><p class="lore-line dodge">Counter: back off from melee range while this is going off.</p></div>
 <div class="boss-skill-card"><p class="skill-name">Noxious Backlash <span class="lore-line meta">(10s cooldown, below 50% HP)</span></p><p class="lore-line">An instant, no-telegraph shove — pushes everyone within 5.5 blocks away and applies Slowness II.</p><p class="lore-line dodge">Counter: this is a punish for crowding a low-HP Witch in melee — back off once she's under half health.</p></div>
 <div class="boss-skill-card"><p class="skill-name">Restorative Draught <span class="lore-line meta">(20s cooldown, below 60% HP)</span></p><p class="lore-line">Heals the Witch for 5% of her max HP.</p><p class="lore-line dodge">Not dodgeable, but its 1s drinking telegraph is a signal a heal is about to land — good bait for a burst window if you can interrupt or outpace it.</p></div>
+</div>
+</section>
+
+<section class="boss-category" data-category="witch">
+<h3 class="gear-cat-heading">Witch — Cursemother (Variant Kit)</h3>
+<p class="doc-p">An alternate kit that can spawn in place of the standard kit above — a curse/control theme instead of the base kit's potion-throwing one. Also gains stacking Resistance while any target is currently bound by Wither Bind below — punishing groups that let a bind sit unbroken.</p>
+<div class="gear-grid">
+<div class="boss-skill-card"><p class="skill-name">Coven's Reckoning <span class="lore-line meta">(60s cooldown)</span></p><p class="lore-line">A 3.5s channel on its current target; if they're still in range when it resolves, they take a heavy hit plus 7s of Weakness III and Slowness II.</p><p class="lore-line dodge">Telegraph: swirling hex particles on the target for the full channel. Dodge: get outside 26 blocks of the Witch before it resolves.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Wither Bind <span class="lore-line meta">(40s cooldown)</span></p><p class="lore-line">Roots up to 3 players/Deviants within 26 blocks in place for 3s and weakens their outgoing damage for the duration — while bound, they're also what fuels Blood Sacrifice below.</p><p class="lore-line dodge">Not escapable once rooted — burst the Witch down instead, or focus killing her before the bind matters.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Blood Sacrifice <span class="lore-line meta">(22s cooldown)</span></p><p class="lore-line">Drains HP from any currently-bound target(s) and heals the Witch for most of what's drained.</p><p class="lore-line dodge">Counter: this only has something to drain while Wither Bind is active — breaking line of sight or killing the Witch before a bind lands denies it entirely.</p></div>
+<div class="boss-skill-card"><p class="skill-name">Cursed Bramble Volley <span class="lore-line meta">(18s cooldown)</span></p><p class="lore-line">A 1s telegraph, then a 12-block cone of hex-thorns — damage plus 5s of stacking Poison II.</p><p class="lore-line dodge">Dodge: step outside the cone's arc before it fires.</p></div>
 </div>
 </section>
 
@@ -921,6 +987,7 @@
       <div class="guide-step">
         <div class="guide-step-head"><div class="num">6</div><h2>The resource pack, handled for you</h2></div>
         <p class="doc-p">Riftforged's custom gear/elytra textures ship as a resource pack that serves itself to players automatically on join — there's nothing for you to host or link yourself. Players just accept the prompt Minecraft shows them when they connect.</p>
+        <p class="doc-p">Already running your own resource pack? A client can only be sent one resource-pack request at a time, so leaving Riftforged's auto-send on <em>at the same time</em> as your own can conflict — whichever one wins, players may end up with the wrong pack, no pack, or a broken prompt. Set <code>serve-enabled: false</code> in <code>plugins/Riftforged/resourcepack.yml</code> and restart to turn off Riftforged's own HTTP server and its send-on-join — it'll still extract its pack to <code>plugins/Riftforged/resourcepack/pack.zip</code> on startup either way, so you can fold those textures into your own combined pack and serve the result yourself.</p>
       </div>
 
       <div class="guide-step">
@@ -930,6 +997,7 @@
 
       <h2 class="doc-h2">Version History</h2>
       <div class="pillar-list version-history-list">
+        <div class="pillar"><strong>v1.0.7</strong> (2026-08-09) — Every World Boss now has a second, alternate 5-skill "variant" kit that can spawn in its place — same boss, same stats, a completely different fight (see the Boss Guide tab above for all 6). Resource pack serving can now be turned off in <code>resourcepack.yml</code> (new <code>serve-enabled</code> setting) for server owners who want to host their own merged pack instead — that file's settings are also documented with real comments now.</div>
         <div class="pillar"><strong>v1.0.6</strong> (2026-08-09) — Fixed vanilla stats not always resetting properly after death. Losing or reallocating Vitality points (including the automatic reset on death) could leave your health bar showing more hearts than it should until you next took damage. Dying while mid-charge on Yamato's Perfect Cut skill could also leave you immune to knockback after respawning. Both are now cleaned up immediately on death/respawn.</div>
         <div class="pillar"><strong>v1.0.5</strong> (2026-08-09) — Rift loot chests now drop the full reward pool (enchanted books, splash potions, golden apples/carrots, ores, armor trim templates, and more) instead of a small placeholder set, and totems/potions found there now stack properly instead of taking up a slot each. Fixed a bug where a rift that was actually won (boss killed) could get silently recorded as a failure if everyone left during the victory window before being pulled back to the real world. Fixed a gap where a player who reached an active rift by teleporting directly to someone already inside — rather than walking through the portal themselves — wasn't tracked properly, which could strand them or end the rift under them while they were still fighting. Also fixed a rift being left stuck in an "in-progress" state if the server restarted while one was open.</div>
         <div class="pillar"><strong>v1.0.4</strong> (2026-08-08) — Rift reliability pass: fixed a server freeze that could occasionally happen when a rift's arena reset ran into far-away terrain, fixed a rare case where a rift could get stuck open forever after a solo player died inside it, fixed other players sometimes not being able to walk into an already-open rift portal, fixed a rift's leftover mobs and copied blocks sometimes surviving a server restart on certain hosting setups (checked more thoroughly now, regardless of hosting layout), fixed a second, unrelated server freeze that could happen every time a rift's arena was rebuilt, fixed a third server freeze that could happen while copying a large or far-away structure's blocks into the rift, quieted repetitive console log spam from routine kills that didn't happen to be near a rift structure, and confirmed armor/weapon durability never degrades while fighting inside a rift.</div>
