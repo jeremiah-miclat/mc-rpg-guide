@@ -970,6 +970,7 @@
       <div class="guide-step">
         <div class="guide-step-head"><div class="num">3</div><h2>What gets created on first run</h2></div>
         <p class="doc-p">On that first startup, Riftforged writes its own config files into <code>plugins/Riftforged/</code> — most notably <code>features.yml</code> (every optional gameplay feature, off by default) and <code>admin_commands.yml</code> (a per-command allowlist of OP player names for debug/admin tooling; every command is always active, but nobody can run one until their name is added — empty by default). You can hand-edit either file and restart to change the defaults, but you won't need to touch them just to start playing.</p>
+        <p class="doc-p">Already running your own scoreboard plugin? Riftforged shows gear cooldowns to players in a small sidebar, which can conflict with a scoreboard your server already displays. Set <code>enabled: false</code> under <code>gear-cooldown-sidebar</code> in <code>plugins/Riftforged/gear_sidebar_config.yml</code> and restart to turn Riftforged's gear cooldown sidebar off entirely — it defaults to on.</p>
       </div>
 
       <div class="guide-step">
