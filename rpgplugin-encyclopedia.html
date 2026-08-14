@@ -298,6 +298,38 @@
   .boss-skill-card p.lore-line.dodge { color: var(--accent-2); font-weight: 650; opacity: 1; }
   .boss-skill-card p.lore-line:last-child { margin-bottom: 0; }
 
+  .mat-search-row { display: flex; gap: 8px; margin: 0 0 22px; }
+  .mat-search-row input[type="search"] {
+    flex: 1; background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    border-radius: 8px; padding: 9px 12px; font-size: 13px; font-family: inherit;
+  }
+  .mat-search-row input[type="search"]::placeholder { color: var(--text-dim); }
+  .mat-search-row input[type="search"]:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .mat-boss-group { margin-bottom: 6px; }
+  .material-block {
+    border: 1px solid var(--border); border-left: 3px solid var(--mc, var(--accent));
+    background: var(--surface); border-radius: 10px; box-shadow: var(--shadow);
+    padding: 12px 14px 14px; margin-bottom: 12px;
+  }
+  .material-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 9px; }
+  .material-name {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-weight: 700; font-size: 13px; color: var(--text);
+  }
+  .material-count {
+    font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+    background: var(--mc, var(--accent)); color: #1c1608; white-space: nowrap;
+  }
+  .mat-items { display: flex; flex-wrap: wrap; gap: 6px; }
+  .mat-item {
+    font-size: 12px; background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 4px 9px; color: var(--text);
+  }
+  .mat-item.tool { background: transparent; border-color: var(--accent-2); color: var(--accent-2); }
+  .mat-item.hidden-search { display: none; }
+  .material-block.hidden-search { display: none; }
+
   footer.credit {
     padding: 28px 0 10px;
     color: var(--text-dim);
@@ -336,6 +368,7 @@
     <button class="tab-btn" data-tab="guide">Player Guide</button>
     <button class="tab-btn" data-tab="bosses">Boss Guide</button>
     <button class="tab-btn" data-tab="gear">Gear Info</button>
+    <button class="tab-btn" data-tab="materials">Materials</button>
     <button class="tab-btn" data-tab="setup">Setup Guide</button>
   </nav>
 
@@ -952,6 +985,78 @@
 
     </section>
 
+    <!-- ============ MATERIALS ============ -->
+    <section class="tab-panel" id="tab-materials">
+
+      <h2 class="doc-h2">Material Ledger</h2>
+      <p class="doc-lead">Every world-boss crafting material, and every gear item whose recipe actually draws on it. A gear item's recipe always needs 2 materials from 2 <em>different</em> bosses — not necessarily its own — plus 1&ndash;3 currency ore and a Heartstone core.</p>
+
+      <div class="mat-search-row">
+        <input type="search" id="mat-search" placeholder="Filter by gear item name&hellip;" autocomplete="off">
+      </div>
+
+      <div class="callout"><strong>Reading this list:</strong> a plain chip is required by a full gear recipe; a chip with a colored outline is required by a Telekinesis tool recipe instead. Counts run 12&ndash;23 items per material, since <code>GearRecipeRegistry</code> cycles its cross-boss material picker through every material in a boss's pool rather than fixing on one.</div>
+
+      <h4 class="gear-boss-heading">Piglin Brute</h4>
+      <div class="mat-boss-group" style="--mc:#c17f2b">
+      <div class="material-block"><div class="material-head"><span class="material-name">Molten Piglin Tusk</span><span class="material-count">16 items</span></div><div class="mat-items"><span class="mat-item">Dragon Slaying Blade</span><span class="mat-item tool">Kalam0n's Hoe</span><span class="mat-item">Royal Slash</span><span class="mat-item">Daedric</span><span class="mat-item">Bloodthirst</span><span class="mat-item">Yamato</span><span class="mat-item">Blue Ninja Boots</span><span class="mat-item">Assassination</span><span class="mat-item">Grimdark Diamond Chestplate</span><span class="mat-item">Grimdark Diamond Leggings</span><span class="mat-item">Ellegaard Helmet</span><span class="mat-item">Ellegaard Chestplate</span><span class="mat-item">Dark Blade</span><span class="mat-item">Toxic Long Sword</span><span class="mat-item">Hero Sword</span><span class="mat-item">Holy Moonlight Sword</span></div></div>
+      <div class="material-block"><div class="material-head"><span class="material-name">Cindermaw Scale</span><span class="material-count">15 items</span></div><div class="mat-items"><span class="mat-item">Dragonsbane Boots</span><span class="mat-item">Champion Petra Helmet</span><span class="mat-item tool">Kalam0n's Pickaxe</span><span class="mat-item tool">Kalam0n's Shovel</span><span class="mat-item">Fox Leggings</span><span class="mat-item">Fox Boots</span><span class="mat-item">Whisperwind</span><span class="mat-item">Adamantium Helmet</span><span class="mat-item">Thorned Blade</span><span class="mat-item">Bloody Death</span><span class="mat-item">Blue Rose</span><span class="mat-item">Grim</span><span class="mat-item">Bloodvein</span><span class="mat-item">Black Ninja Leggings</span><span class="mat-item">Black Ninja Boots</span></div></div>
+      <div class="material-block"><div class="material-head"><span class="material-name">Bloodforged Gold Shard</span><span class="material-count">12 items</span></div><div class="mat-items"><span class="mat-item tool">Kalam0n's Axe</span><span class="mat-item">Grimdark Dark Helmet</span><span class="mat-item">Grimdark Dark Chestplate</span><span class="mat-item">Green Ninja Chestplate</span><span class="mat-item">Green Ninja Leggings</span><span class="mat-item">Thunderbringer</span><span class="mat-item">Red Ninja Helmet</span><span class="mat-item">Star's Edge</span><span class="mat-item">Wick Piercer</span><span class="mat-item">Arcanethyst</span><span class="mat-item">Demigod's Unholy Blade</span><span class="mat-item">Corrupted Greatsword</span></div></div>
+      </div>
+      <h4 class="gear-boss-heading">Zombified Piglin</h4>
+      <div class="mat-boss-group" style="--mc:#a8492b">
+      <div class="material-block"><div class="material-head"><span class="material-name">Goldrot Marrow</span><span class="material-count">20 items</span></div><div class="mat-items"><span class="mat-item">Dragon Slaying Blade</span><span class="mat-item">Composite Bow</span><span class="mat-item">Fox Boots</span><span class="mat-item">Grimdark Gold Helmet</span><span class="mat-item">Yamato</span><span class="mat-item">Yamato Thunder Sword</span><span class="mat-item">Green Ninja Leggings</span><span class="mat-item">Green Ninja Boots</span><span class="mat-item">Bloody Death</span><span class="mat-item">Edge of the Astral Plane</span><span class="mat-item">Grimdark Diamond Leggings</span><span class="mat-item">Grimdark Diamond Boots</span><span class="mat-item">Wick Piercer</span><span class="mat-item">Halo Helmet</span><span class="mat-item">Bloodvein</span><span class="mat-item">Demonic Greatsword</span><span class="mat-item">Toxic Long Sword</span><span class="mat-item">Thundering Pulse</span><span class="mat-item">Corrupted Greatsword</span><span class="mat-item">Death Bringer</span></div></div>
+      <div class="material-block"><div class="material-head"><span class="material-name">Withered Gold Dust</span><span class="material-count">23 items</span></div><div class="mat-items"><span class="mat-item">Champion Petra Helmet</span><span class="mat-item">Champion Petra Chestplate</span><span class="mat-item">Daedric</span><span class="mat-item">Magi Scythe</span><span class="mat-item">Grimdark Dark Chestplate</span><span class="mat-item">Grimdark Dark Leggings</span><span class="mat-item tool">Spade</span><span class="mat-item">Adamantium Helmet</span><span class="mat-item">Adamantium Chestplate</span><span class="mat-item">Assassination</span><span class="mat-item">Creation Weaver</span><span class="mat-item">Red Ninja Helmet</span><span class="mat-item">Red Ninja Chestplate</span><span class="mat-item">Grim</span><span class="mat-item">Angelic Greatsword</span><span class="mat-item">Ellegaard Chestplate</span><span class="mat-item">Ellegaard Leggings</span><span class="mat-item">Demigod's Unholy Blade</span><span class="mat-item">Fallen God Spear</span><span class="mat-item">Black Ninja Boots</span><span class="mat-item">White Ninja Helmet</span><span class="mat-item">Holy Moonlight Sword</span><span class="mat-item">Soul Render</span></div></div>
+      </div>
+      <h4 class="gear-boss-heading">Ravager</h4>
+      <div class="mat-boss-group" style="--mc:#5c7a2e">
+      <div class="material-block"><div class="material-head"><span class="material-name">Bonecrusher Hide</span><span class="material-count">16 items</span></div><div class="mat-items"><span class="mat-item">Composite Bow</span><span class="mat-item">Dragonsbane Helmet</span><span class="mat-item">Magi Scythe</span><span class="mat-item">Watcher Claymore</span><span class="mat-item">Yamato Thunder Sword</span><span class="mat-item">Brimstone Claymore</span><span class="mat-item">Creation Weaver</span><span class="mat-item">Dante's Devilsword</span><span class="mat-item">Grimdark Diamond Boots</span><span class="mat-item">Cyber Katana</span><span class="mat-item">Ellegaard Leggings</span><span class="mat-item">Ellegaard Boots</span><span class="mat-item">Thundering Pulse</span><span class="mat-item">Riesling Crossbow</span><span class="mat-item">Soul Render</span><span class="mat-item">Waxweaver</span></div></div>
+      <div class="material-block"><div class="material-head"><span class="material-name">Splintered Horn</span><span class="material-count">14 items</span></div><div class="mat-items"><span class="mat-item">Champion Petra Chestplate</span><span class="mat-item">Champion Petra Leggings</span><span class="mat-item">Grimdark Gold Helmet</span><span class="mat-item">Grimdark Gold Chestplate</span><span class="mat-item">Adamantium Chestplate</span><span class="mat-item">Adamantium Leggings</span><span class="mat-item">Edge of the Astral Plane</span><span class="mat-item">Stormbringer</span><span class="mat-item">Angelic Greatsword</span><span class="mat-item">Angelic Sword</span><span class="mat-item">Demonic Greatsword</span><span class="mat-item">Demonic Sword</span><span class="mat-item">White Ninja Helmet</span><span class="mat-item">White Ninja Chestplate</span></div></div>
+      <div class="material-block"><div class="material-head"><span class="material-name">Warpath Sinew</span><span class="material-count">13 items</span></div><div class="mat-items"><span class="mat-item">Dagger</span><span class="mat-item">Grimdark Dark Leggings</span><span class="mat-item">Grimdark Dark Boots</span><span class="mat-item">Green Ninja Boots</span><span class="mat-item">Blue Ninja Helmet</span><span class="mat-item">Red Ninja Chestplate</span><span class="mat-item">Red Ninja Leggings</span><span class="mat-item">Halo Helmet</span><span class="mat-item">Halo Chestplate</span><span class="mat-item">Fallen God Spear</span><span class="mat-item">Ice Whisper</span><span class="mat-item">Death Bringer</span><span class="mat-item">Murasama</span></div></div>
+      </div>
+      <h4 class="gear-boss-heading">Evoker</h4>
+      <div class="mat-boss-group" style="--mc:#6a4fa0">
+      <div class="material-block"><div class="material-head"><span class="material-name">Hexweaver Totem Shard</span><span class="material-count">23 items</span></div><div class="mat-items"><span class="mat-item">Dragonsbane Helmet</span><span class="mat-item">Dragonsbane Chestplate</span><span class="mat-item">Dagger</span><span class="mat-item">Corrupted Sword</span><span class="mat-item">Grimdark Gold Chestplate</span><span class="mat-item">Grimdark Gold Leggings</span><span class="mat-item">Brimstone Claymore</span><span class="mat-item">Ember Blade</span><span class="mat-item">Blue Ninja Helmet</span><span class="mat-item">Blue Ninja Chestplate</span><span class="mat-item">Stormbringer</span><span class="mat-item">Storm's Edge</span><span class="mat-item">Cyber Katana</span><span class="mat-item">Flamatic Katana</span><span class="mat-item tool">Soft Pick</span><span class="mat-item">Halo Chestplate</span><span class="mat-item">Halo Leggings</span><span class="mat-item">Demonic Sword</span><span class="mat-item">Lumberjack</span><span class="mat-item">Riesling Crossbow</span><span class="mat-item">Black Ninja Helmet</span><span class="mat-item">Murasama</span><span class="mat-item">Awakened Lichblade</span></div></div>
+      <div class="material-block"><div class="material-head"><span class="material-name">Illusory Ichor</span><span class="material-count">21 items</span></div><div class="mat-items"><span class="mat-item">Champion Petra Leggings</span><span class="mat-item">Champion Petra Boots</span><span class="mat-item">Watcher Claymore</span><span class="mat-item">Fox Helmet</span><span class="mat-item">Grimdark Dark Boots</span><span class="mat-item">Netherite Crossbow</span><span class="mat-item">Adamantium Leggings</span><span class="mat-item">Adamantium Boots</span><span class="mat-item">Dante's Devilsword</span><span class="mat-item">Awakened Devilsword</span><span class="mat-item">Red Ninja Leggings</span><span class="mat-item">Red Ninja Boots</span><span class="mat-item">Angelic Sword</span><span class="mat-item">Infinity</span><span class="mat-item">Ellegaard Boots</span><span class="mat-item">Mythic Blade</span><span class="mat-item">Ice Whisper</span><span class="mat-item">Legendary Sword</span><span class="mat-item">White Ninja Chestplate</span><span class="mat-item">White Ninja Leggings</span><span class="mat-item">Waxweaver</span></div></div>
+      </div>
+      <h4 class="gear-boss-heading">Warden</h4>
+      <div class="mat-boss-group" style="--mc:#2f8f86">
+      <div class="material-block"><div class="material-head"><span class="material-name">Direwail Sculk Node</span><span class="material-count">13 items</span></div><div class="mat-items"><span class="mat-item">Dragonsbane Chestplate</span><span class="mat-item">Dragonsbane Leggings</span><span class="mat-item">Fox Helmet</span><span class="mat-item">Fox Chestplate</span><span class="mat-item">Ember Blade</span><span class="mat-item">Soul Stealer</span><span class="mat-item">Awakened Devilsword</span><span class="mat-item">Wolf's Gravestone</span><span class="mat-item">Flamatic Katana</span><span class="mat-item">Mythic Blade</span><span class="mat-item">Creation Splitter</span><span class="mat-item">Black Ninja Helmet</span><span class="mat-item">Black Ninja Chestplate</span></div></div>
+      <div class="material-block"><div class="material-head"><span class="material-name">Resonant Echo Shard</span><span class="material-count">14 items</span></div><div class="mat-items"><span class="mat-item">Champion Petra Boots</span><span class="mat-item">Grimdark Gold Leggings</span><span class="mat-item">Grimdark Gold Boots</span><span class="mat-item">Adamantium Boots</span><span class="mat-item">Green Ninja Helmet</span><span class="mat-item">Storm's Edge</span><span class="mat-item">Thunderbrand</span><span class="mat-item">Infinity</span><span class="mat-item">Excalibur</span><span class="mat-item tool">Hoe</span><span class="mat-item">Lumberjack</span><span class="mat-item">Frostmorne</span><span class="mat-item">White Ninja Leggings</span><span class="mat-item">White Ninja Boots</span></div></div>
+      <div class="material-block"><div class="material-head"><span class="material-name">Deep Dark Marrow</span><span class="material-count">13 items</span></div><div class="mat-items"><span class="mat-item">Corrupted Sword</span><span class="mat-item">Golden Splitter</span><span class="mat-item">Netherite Crossbow</span><span class="mat-item">Blue Ninja Chestplate</span><span class="mat-item">Blue Ninja Leggings</span><span class="mat-item">Red Ninja Boots</span><span class="mat-item">Grimdark Diamond Helmet</span><span class="mat-item">Halo Leggings</span><span class="mat-item">Halo Boots</span><span class="mat-item">Legendary Sword</span><span class="mat-item">True Creation Splitter</span><span class="mat-item">Awakened Lichblade</span><span class="mat-item">Demigod's Unholy Halberd</span></div></div>
+      </div>
+      <h4 class="gear-boss-heading">Witch</h4>
+      <div class="mat-boss-group" style="--mc:#a03f8c">
+      <div class="material-block"><div class="material-head"><span class="material-name">Hexbrewer's Bile</span><span class="material-count">22 items</span></div><div class="mat-items"><span class="mat-item">Dragonsbane Leggings</span><span class="mat-item">Dragonsbane Boots</span><span class="mat-item">Golden Splitter</span><span class="mat-item">Royal Slash</span><span class="mat-item">Grimdark Gold Boots</span><span class="mat-item">Grimdark Dark Helmet</span><span class="mat-item">Soul Stealer</span><span class="mat-item">Whisperwind</span><span class="mat-item">Blue Ninja Leggings</span><span class="mat-item">Blue Ninja Boots</span><span class="mat-item">Thunderbrand</span><span class="mat-item">Thunderbringer</span><span class="mat-item">Blue Rose</span><span class="mat-item">Halo Boots</span><span class="mat-item">Ellegaard Helmet</span><span class="mat-item">Frostmorne</span><span class="mat-item">Arcanethyst</span><span class="mat-item">Black Ninja Chestplate</span><span class="mat-item">Black Ninja Leggings</span><span class="mat-item tool">Lucky Pick</span><span class="mat-item">Demigod's Unholy Halberd</span><span class="mat-item">Hero Sword</span></div></div>
+      <div class="material-block"><div class="material-head"><span class="material-name">Cauldron-Bound Essence</span><span class="material-count">15 items</span></div><div class="mat-items"><span class="mat-item">Fox Chestplate</span><span class="mat-item">Fox Leggings</span><span class="mat-item">Bloodthirst</span><span class="mat-item">Green Ninja Helmet</span><span class="mat-item">Green Ninja Chestplate</span><span class="mat-item">Wolf's Gravestone</span><span class="mat-item">Thorned Blade</span><span class="mat-item">Grimdark Diamond Helmet</span><span class="mat-item">Grimdark Diamond Chestplate</span><span class="mat-item">Excalibur</span><span class="mat-item">Star's Edge</span><span class="mat-item">Creation Splitter</span><span class="mat-item">True Creation Splitter</span><span class="mat-item">Dark Blade</span><span class="mat-item">White Ninja Boots</span></div></div>
+      </div>
+
+      <script>
+      (function() {
+        const input = document.getElementById('mat-search');
+        if (!input) return;
+        input.addEventListener('input', () => {
+          const q = input.value.trim().toLowerCase();
+          document.querySelectorAll('#tab-materials .material-block').forEach(block => {
+            if (!q) {
+              block.classList.remove('hidden-search');
+              block.querySelectorAll('.mat-item').forEach(el => el.classList.remove('hidden-search'));
+              return;
+            }
+            let any = false;
+            block.querySelectorAll('.mat-item').forEach(el => {
+              const match = el.textContent.toLowerCase().includes(q);
+              el.classList.toggle('hidden-search', !match);
+              if (match) any = true;
+            });
+            block.classList.toggle('hidden-search', !any);
+          });
+        });
+      })();
+      </script>
+
+    </section>
+
     <!-- ============ SETUP GUIDE ============ -->
     <section class="tab-panel" id="tab-setup">
 
@@ -1046,7 +1151,7 @@
   });
 
   const initial = location.hash.replace('#', '');
-  if (['overview', 'guide', 'bosses', 'gear', 'setup'].includes(initial)) {
+  if (['overview', 'guide', 'bosses', 'gear', 'materials', 'setup'].includes(initial)) {
     tabbar.querySelector('[data-tab="' + initial + '"]').click();
   }
 </script>
