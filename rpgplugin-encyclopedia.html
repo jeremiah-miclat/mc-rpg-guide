@@ -355,11 +355,11 @@
       <div class="tagline">Somewhere out there, the next monster you kill might tear the world open.</div>
     </div>
     <div class="download-wrap">
-      <a class="download-btn" href="downloads/Riftforged-1.0.9.jar" download>
+      <a class="download-btn" href="downloads/Riftforged-1.0.10.jar" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="M6.5 11.5 12 17l5.5-5.5"/><path d="M4 21h16"/></svg>
         Download plugin
       </a>
-      <div class="version-tag">v1.0.9</div>
+      <div class="version-tag">v1.0.10</div>
     </div>
   </header>
 
@@ -1103,6 +1103,7 @@
 
       <h2 class="doc-h2">Version History</h2>
       <div class="pillar-list version-history-list">
+        <div class="pillar"><strong>v1.0.10</strong> (2026-08-19) — Rifts now open through a deliberate action instead of a random chance: build a closed frame out of the configured material near an eligible structure, then right-click it with Flint and Steel to open a rift. Walking into an already-open frame still works exactly as before. Fixed ruined portals (and their biome variants) genuinely sending you to the real Nether when they happen to sit inside an eligible structure — that portal now correctly leads into an active or joinable rift instead. Fixed entering an active rift through a different, distant structure's frame than the one currently active sometimes dropping you outside the playable area and immediately kicking you back to the real world. Rifts that open but that nobody ever steps into now correctly time out and fail after 5 minutes instead of sitting open forever.</div>
         <div class="pillar"><strong>v1.0.9</strong> (2026-08-16) — Gear-skill readiness feedback (the weapon-slot sidebar next to your hotbar, plus every related action-bar/chat message — Devil Trigger's countdown, Sunder's stack readout, and the rest) has been removed; particles and sound are now the only signal that a gear skill is charged or off cooldown. Fixed Composite Bow, Thundering Pulse, Assassination Bow, and Daedric: their charged-shot detonation used to be gated by a plain cooldown, so a rushed shot could trigger the same AoE as a patient one. All four now require genuinely holding the draw for the full charge time before releasing — let go early and it's just a normal shot — with no cooldown at all anymore, since the hold itself paces it; drawing any of these (plus Netherite Crossbow and Riesling Crossbow) now shows tip particles while charging and a burst when it's ready. Fixed rift/Territory Event skeleton archers dealing flat, level-independent arrow damage instead of scaling with the encounter like their melee counterparts do.</div>
         <div class="pillar"><strong>v1.0.8</strong> (2026-08-14) — Rift loot chests now put on a real celebration when they appear: fireworks, totem sparkles, and level-up chimes keep going for a while and can be seen and heard from much further away, instead of a single quiet burst. Potions found in loot chests are now drinkable, not throwable splash potions. <code>/gearcraft</code>'s menu gained a third "Ready to Craft" view that filters the gear list down to items whose boss materials you already have on hand. Fixed a bug where a Totem of Undying held in your hand wasn't always saving you from a fatal hit. Watcher Claymore, Awakened Lichblade, and Arcanethyst all got skill fixes to match their intended behavior (see the Gear Info tab). Enchantment Stones now have their own unique icon per stat instead of sharing plain vanilla item textures. Also a batch of internal Rift/Territory Event fixes and balance tweaks (guard-kill pacing, portal ambience, cooldown messaging, and more).</div>
         <div class="pillar"><strong>v1.0.7</strong> (2026-08-09) — Every World Boss now has a second, alternate 5-skill "variant" kit that can spawn in its place — same boss, same stats, a completely different fight (see the Boss Guide tab above for all 6). Resource pack serving can now be turned off in <code>resourcepack.yml</code> (new <code>serve-enabled</code> setting) for server owners who want to host their own merged pack instead — that file's settings are also documented with real comments now.</div>
