@@ -1108,7 +1108,16 @@
       </div>
 
       <div class="guide-step">
-        <div class="guide-step-head"><div class="num">8</div><h2>You're live</h2></div>
+        <div class="guide-step-head"><div class="num">8</div><h2>Or: the ForcePack plugin</h2></div>
+        <p class="doc-p">For the most control — blocking movement and damage until the pack finishes loading, auto-kicking players who decline or fail the download, resending the prompt if someone dodges it — a third-party plugin called <strong>ForcePack</strong> is a solid option, and what this server actually runs in production. It's a separate download, not something Riftforged bundles.</p>
+        <p class="doc-p">In <code>plugins/ForcePack/config.yml</code>, under <code>Server &gt; packs &gt; all</code>, add Riftforged's pack to the <code>urls</code> and <code>hashes</code> lists:</p>
+        <p class="doc-p"><code>urls: ["https://github.com/mosiahranier-netizen/rf-resource-pack/releases/download/v1/seizon-rp.zip"]</code><br>
+        <code>hashes: ["ED5DEDCC775EB52541DFAA770613B6BE89B2CFF4"]</code> (with <code>generate-hash: false</code>, so this exact hash is used as-is)</p>
+        <p class="doc-p">A few other settings worth knowing about, matching what this server runs: <code>prevent-movement: true</code> and <code>prevent-damage: true</code> keep players safely frozen in place while the pack downloads; under <code>Actions</code>, <code>DECLINED</code>/<code>FAILED_DOWNLOAD</code>/<code>FAILED_RELOAD</code>/<code>DISCARDED</code> set to <code>kick: true</code> remove anyone who doesn't end up with a working pack, while <code>ACCEPTED</code>/<code>DOWNLOADED</code>/<code>SUCCESSFULLY_LOADED</code> stay <code>kick: false</code>; and <code>web-server.enabled</code> can stay <code>false</code> since the pack is already hosted on GitHub rather than through ForcePack's own embedded server. As with the other two methods above, set <code>serve-enabled: false</code> in <code>plugins/Riftforged/resourcepack.yml</code> so ForcePack is the only thing sending a resource pack — a client can only be sent one at a time.</p>
+      </div>
+
+      <div class="guide-step">
+        <div class="guide-step-head"><div class="num">9</div><h2>You're live</h2></div>
         <p class="doc-p">From here, it's a normal server with a Rift waiting somewhere in the world. Point your players at the <strong>Player Guide</strong> tab above for their own first steps — finding a Rift, opening it, and walking away with their first pieces of gear.</p>
       </div>
 
