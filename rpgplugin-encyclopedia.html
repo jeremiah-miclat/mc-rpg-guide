@@ -1083,7 +1083,7 @@
         <p class="doc-p">The admin-only tools — <code>/featuretoggle</code>, debug/give commands, and anything else gated to staff — all require server operator status. Make sure your own account is OP before you go looking for them.</p>
       </div>
 
-      <div class="callout"><strong>Core vs. optional:</strong> Rifts, the full Gear/Elytra/Crafting system, and the self-hosted Resource Pack are always on — there's no toggle for them and no setup step to enable them. Everything else — the Deviant companion system, Potion/Totem Stacking, the Revive System, and Damage Indicators (the floating damage/heal number popups shown on hits — handy to leave off if your server already runs its own) — ships off by default.</div>
+      <div class="callout"><strong>Core vs. optional:</strong> Rifts and the full Gear/Elytra/Crafting system are always on — there's no toggle for them and no setup step to enable them. The self-hosted Resource Pack is core too (no toggle either), but its auto-serving is off by default so a fresh install never conflicts with a pack you already run — see step 6 below to turn it on. Everything else — the Deviant companion system, Potion/Totem Stacking, the Revive System, and Damage Indicators (the floating damage/heal number popups shown on hits — handy to leave off if your server already runs its own) — ships off by default.</div>
 
       <div class="guide-step">
         <div class="guide-step-head"><div class="num">5</div><h2>Turn on optional features</h2></div>
@@ -1091,9 +1091,10 @@
       </div>
 
       <div class="guide-step">
-        <div class="guide-step-head"><div class="num">6</div><h2>The resource pack, handled for you</h2></div>
-        <p class="doc-p">Riftforged's custom gear/elytra textures ship as a resource pack that serves itself to players automatically on join — there's nothing for you to host or link yourself. Players just accept the prompt Minecraft shows them when they connect.</p>
-        <p class="doc-p">Already running your own resource pack? A client can only be sent one resource-pack request at a time, so leaving Riftforged's auto-send on <em>at the same time</em> as your own can conflict — whichever one wins, players may end up with the wrong pack, no pack, or a broken prompt. Set <code>serve-enabled: false</code> in <code>plugins/Riftforged/resourcepack.yml</code> and restart to turn off Riftforged's own HTTP server and its send-on-join — it'll still extract its pack to <code>plugins/Riftforged/resourcepack/pack.zip</code> on startup either way, so you can fold those textures into your own combined pack and serve the result yourself.</p>
+        <div class="guide-step-head"><div class="num">6</div><h2>Turn on (or host) the resource pack</h2></div>
+        <p class="doc-p">Riftforged's custom gear/elytra textures ship as a resource pack, but it doesn't send itself to players out of the box. On every startup the plugin extracts a ready copy to <code>plugins/Riftforged/resourcepack/pack.zip</code> on your server's own files and just leaves it sitting there until you decide what to do with it — this way a fresh install never conflicts with a resource pack you might already be running.</p>
+        <p class="doc-p">Want Riftforged to host and send it for you? Set <code>serve-enabled: true</code> in <code>plugins/Riftforged/resourcepack.yml</code> and restart — it'll start its own small built-in HTTP server and prompt every player to download the pack on join. Already running your own resource pack (via <code>server.properties</code>' resource-pack setting or another plugin)? Leave <code>serve-enabled</code> at its default <code>false</code> and instead grab <code>plugins/Riftforged/resourcepack/pack.zip</code> from the server's files to fold Riftforged's textures into your own combined pack. A client can only be sent one resource-pack request at a time, so only flip <code>serve-enabled</code> on if you're not also pushing your own pack some other way — whichever one wins, players may end up with the wrong pack, no pack, or a broken prompt.</p>
+        <p class="doc-p">Haven't set <code>public-url</code> either? Even with <code>serve-enabled: true</code>, an unconfigured server still hands players a working pack automatically — Riftforged falls back to a pinned copy it hosts itself (SHA-1 <code>ed5dedcc775eb52541dfaa770613b6be89b2cff4</code>) instead of a broken link.</p>
       </div>
 
       <div class="guide-step">
