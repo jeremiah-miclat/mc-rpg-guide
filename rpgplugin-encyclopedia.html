@@ -1098,7 +1098,17 @@
       </div>
 
       <div class="guide-step">
-        <div class="guide-step-head"><div class="num">7</div><h2>You're live</h2></div>
+        <div class="guide-step-head"><div class="num">7</div><h2>Or: force the pack through Minecraft's own settings</h2></div>
+        <p class="doc-p">Some hosts (and some admins) prefer letting Minecraft itself handle the resource pack instead of a plugin — this works too, and needs no plugin config at all. In your server's <code>server.properties</code>, set:</p>
+        <p class="doc-p"><code>resource-pack=https://github.com/mosiahranier-netizen/rf-resource-pack/releases/download/v1/seizon-rp.zip</code><br>
+        <code>resource-pack-sha1=ed5dedcc775eb52541dfaa770613b6be89b2cff4</code><br>
+        <code>require-resource-pack=true</code> (forces players to accept it — set <code>false</code> to let them decline)<br>
+        <code>resource-pack-prompt=</code> (optional, your own custom prompt text)</p>
+        <p class="doc-p">Restart, and vanilla Minecraft handles the download and prompt on its own — no port to forward, no HTTP server running. If you go this route, set <code>serve-enabled: false</code> in <code>plugins/Riftforged/resourcepack.yml</code> (its default) so the plugin doesn't also try to send its own resource pack on top of the vanilla one — a client can only be sent one resource-pack request at a time.</p>
+      </div>
+
+      <div class="guide-step">
+        <div class="guide-step-head"><div class="num">8</div><h2>You're live</h2></div>
         <p class="doc-p">From here, it's a normal server with a Rift waiting somewhere in the world. Point your players at the <strong>Player Guide</strong> tab above for their own first steps — finding a Rift, opening it, and walking away with their first pieces of gear.</p>
       </div>
 
