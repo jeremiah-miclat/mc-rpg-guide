@@ -109,6 +109,7 @@
   }
 
   .download-wrap { flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; margin-top: 4px; }
+  .download-row { display: flex; align-items: stretch; gap: 8px; }
   .download-btn {
     display: inline-flex;
     align-items: center;
@@ -125,6 +126,18 @@
   }
   .download-btn:hover { filter: brightness(1.08); }
   .download-btn svg { width: 14px; height: 14px; flex: none; }
+  .version-select {
+    padding: 0 10px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 12.5px;
+    font-weight: 650;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .version-select:hover { border-color: var(--accent); }
   .version-tag { font-size: 11px; color: var(--text-dim); font-weight: 650; }
 
   nav.tabbar {
@@ -355,12 +368,30 @@
       <div class="tagline">Somewhere out there, the next monster you kill might tear the world open.</div>
     </div>
     <div class="download-wrap">
-      <a class="download-btn" href="downloads/Riftforged-1.0.10.jar" download>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="M6.5 11.5 12 17l5.5-5.5"/><path d="M4 21h16"/></svg>
-        Download plugin
-      </a>
-      <div class="version-tag">v1.0.10</div>
+      <div class="download-row">
+        <a class="download-btn" id="downloadBtn" href="downloads/Riftforged-1.0.10.jar" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="M6.5 11.5 12 17l5.5-5.5"/><path d="M4 21h16"/></svg>
+          Download plugin
+        </a>
+        <select class="version-select" id="versionSelect" aria-label="Minecraft version">
+          <option value="downloads/Riftforged-1.0.10.jar" data-tag="v1.0.10 · Minecraft 26.1" selected>Minecraft 26.1</option>
+          <option value="downloads/Riftforged-1.0.10-mc26.2.jar" data-tag="v1.0.10 · Minecraft 26.2">Minecraft 26.2</option>
+        </select>
+      </div>
+      <div class="version-tag" id="versionTag">v1.0.10 · Minecraft 26.1</div>
     </div>
+    <script>
+      (function () {
+        var sel = document.getElementById('versionSelect');
+        var btn = document.getElementById('downloadBtn');
+        var tag = document.getElementById('versionTag');
+        sel.addEventListener('change', function () {
+          var opt = sel.options[sel.selectedIndex];
+          btn.setAttribute('href', opt.value);
+          tag.textContent = opt.getAttribute('data-tag');
+        });
+      })();
+    </script>
   </header>
 
   <nav class="tabbar" id="tabbar">
